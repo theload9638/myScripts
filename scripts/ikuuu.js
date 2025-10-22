@@ -13,9 +13,10 @@ if(/^https?:\/\/ikuuu\.de\/user\/profile/.test(url)){
             obj.push(emailKey);
             $prefs.setValueForKey(JSON.stringify(obj),key);
         }else{
-            const arr = JSON.parse(obj);
+            const arr = Object.assign([],JSON.parse(obj));
             console.log('当前cookie数量',arr?.length);
-            if(Array.isArray(arr) && !arr.includes(emailKey)){
+            console.log(arr);
+            if(!arr.includes(emailKey)){
                 arr.push(emailKey);
                 $prefs.setValueForKey(JSON.stringify(arr), key);
             }
