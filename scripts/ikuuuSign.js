@@ -23,7 +23,7 @@ if (vals !== undefined) {
         };
 
         $task.fetch(req).then(res=>{
-            console.log(`${emailKey}签到成功：${decodeURIComponent(res.body.msg)}`);
+            console.log(`${emailKey}签到成功：${res.body.msg}`);
             $done();
         },err=>{
             console.log(`签到失败：${err.error}`);
