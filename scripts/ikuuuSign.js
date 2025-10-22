@@ -4,7 +4,7 @@ const url = 'https://ikuuu.de/user/checkin';
 const vals = $prefs.valueForKey(key);
 if (vals !== undefined) {
     const arr = vals.split('&');
-    console.log(`签到用户数量：${arr['length']}`);
+    console.log(`ikuuu签到用户数量：${arr['length']}`);
     const ps = [];
     for (item of arr) {
         const p = new Promise((ok, rej) => {
@@ -25,9 +25,8 @@ if (vals !== undefined) {
                 }
             };
             $task.fetch(req).then(res => {
-                const body = res.body;
-                console.log(typeof body==='string');
-                ok(`${emailKey}签到成功：${JSON.parse(res.body).msg}`);
+                const body = JSON.parse(res.body);
+                ok(`${emailKey}签到成功：${body.msg}`);
             }, err => {
                 rej(`${emailKey}签到失败：${err.error}`)
             });
