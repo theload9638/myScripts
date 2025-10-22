@@ -16,7 +16,7 @@ if(/^https?:\/\/ikuuu\.de\/user\/profile/.test(url)){
             console.log(obj);
             console.log(typeof obj ==='string');
             const c = (obj.split('&'));
-            console.log(Array.isArray(c));
+            console.log(Array.isArray(c)); 
             // if(!arr.includes(emailKey)){
             //     obj = obj + '&' + emailKey;
             //     if($prefs.removeValueForKey(key)){
