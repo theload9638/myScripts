@@ -25,6 +25,7 @@ if (vals !== undefined) {
                 }
             };
             $task.fetch(req).then(res => {
+                console.log(res.body,typeof res.body==='string');
                 ok(`${emailKey}签到成功：${res.body.msg}`);
             }, err => {
                 rej(`${emailKey}签到失败：${err.error}`)
