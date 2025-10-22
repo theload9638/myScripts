@@ -13,13 +13,13 @@ if(/^https?:\/\/ikuuu\.de\/user\/profile/.test(url)){
         }else{
             const arr = obj.split('&');
             console.log('当前cookie数量 =',arr?.length);
-            console.log(arr);
-            if(!arr.includes(emailKey)){
-                obj = obj + '&' + emailKey;
-                if($prefs.removeValueForKey(key)){
-                    $prefs.setValueForKey(obj, key);
-                }
-            }
+            console.log(arr,typeof arr);
+            // if(!arr.includes(emailKey)){
+            //     obj = obj + '&' + emailKey;
+            //     if($prefs.removeValueForKey(key)){
+            //         $prefs.setValueForKey(obj, key);
+            //     }
+            // }
         }
 
     }else{
