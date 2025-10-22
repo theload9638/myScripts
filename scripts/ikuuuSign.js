@@ -4,6 +4,7 @@ const url = 'https://ikuuu.de/user/checkin';
 const vals = $prefs.valueForKey(key);
 if (vals !== undefined) {
     const arr = vals.split('&');
+    console.log(`签到用户数量：${arr['length']}`);
     for (emailKey of arr) {
         const ck = $prefs.valueForKey(emailKey);
         const req = {
@@ -22,7 +23,7 @@ if (vals !== undefined) {
         };
 
         $task.fetch(req).then(res=>{
-            console.log(`${emailKey}签到成功：${res.body}`);
+            console.log(`${emailKey}签到成功：${decodeURIComponent(res.body.msg)}`);
             $done();
         },err=>{
             console.log(`签到失败：${err.error}`);
