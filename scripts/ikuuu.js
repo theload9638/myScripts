@@ -9,16 +9,14 @@ if(/^https?:\/\/ikuuu\.de\/user\/profile/.test(url)){
         $notify('获取Cookie成功', '',`key=${emailKey}`);
         const obj = $prefs.valueForKey(key);
         if(obj===undefined){
-            obj = [];
-            obj.push(emailKey);
-            $prefs.setValueForKey(JSON.stringify(obj),key);
+            $prefs.setValueForKey(emailKey,key);
         }else{
-            const arr = Object.assign([],JSON.parse(obj));
+            const arr = obj.split('&');
             console.log('当前cookie数量',arr?.length);
             console.log(arr);
             if(!arr.includes(emailKey)){
-                arr.push(emailKey);
-                $prefs.setValueForKey(JSON.stringify(arr), key);
+                obj = obj + '&' + emailKey;
+                $prefs.setValueForKey(obj, key);
             }
         }
 
