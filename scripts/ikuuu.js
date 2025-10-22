@@ -1,9 +1,11 @@
 const url = $request.url;
 const headers = $request.headers;
 
-if(/^https?:\/\/ikuuu\.de\/user/.test(url)){
+if(/^https?:\/\/ikuuu\.de\/user\/profile/.test(url)){
     const e = headers['Cookie'];
-    console.log(e);
+    const emailKey = e.split(';')[0];
+    console.log(emailKey);
+    $notify('获取Cookie成功', `key=${emailKey}`, 'hhh')
 }
 $done({});
 
