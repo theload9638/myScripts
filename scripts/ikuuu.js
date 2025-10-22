@@ -11,9 +11,12 @@ if(/^https?:\/\/ikuuu\.de\/user\/profile/.test(url)){
         if(obj===undefined){
             $prefs.setValueForKey(emailKey,key);
         }else{
-            const arr = obj.split('&');
-            console.log('当前cookie数量 =',arr?.length);
-            console.log(arr,typeof arr);
+            // const arr = obj.split('&');
+            // console.log('当前cookie数量 =',arr?.length);
+            console.log(obj);
+            console.log(typeof obj === String);
+            const c = (obj.split('&'));
+            console.log(typeof c === Array);
             // if(!arr.includes(emailKey)){
             //     obj = obj + '&' + emailKey;
             //     if($prefs.removeValueForKey(key)){
