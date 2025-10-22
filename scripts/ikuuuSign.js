@@ -34,7 +34,9 @@ if (vals !== undefined) {
         ps.push(p);
     }
     Promise.all(ps).then(res=>{
-        console.log(res);
+        res.forEach(i=>{
+            console.log(i);
+        });
         $done();
     }).catch(rej=>{
         console.log(rej);
