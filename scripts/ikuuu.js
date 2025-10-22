@@ -2,31 +2,24 @@ const url = $request.url;
 const headers = $request.headers;
 const key = 'ikuuu';
 
-if(/^https?:\/\/ikuuu\.de\/user\/profile/.test(url)){
+if (/^https?:\/\/ikuuu\.de\/user\/profile/.test(url)) {
     const e = headers['Cookie'];
-    const emailKey = (e.split(';')[0]).split('=')[1].replace('%40','@');
-    if($prefs.setValueForKey(e, emailKey)){
-        $notify('获取Cookie成功', '',`key=${emailKey}`);
-        const obj = $prefs.valueForKey(key);
-        if(obj===undefined){
-            $prefs.setValueForKey(emailKey,key);
-        }else{
-            // const arr = obj.split('&');
-            // console.log('当前cookie数量 =',arr?.length);
-            console.log(obj);
-            console.log(typeof obj ==='string');
-            const c = (obj.split('&'));
-            console.log(Array.isArray(c)); 
-            // if(!arr.includes(emailKey)){
-            //     obj = obj + '&' + emailKey;
-            //     if($prefs.removeValueForKey(key)){
-            //         $prefs.setValueForKey(obj, key);
-            //     }
-            // }
+    const emailKey = (e.split(';')[0]).split('=')[1].replace('%40', '@');
+    if ($prefs.setValueForKey(e, emailKey)) {
+        $notify('获取Cookie成功', '', `key=${emailKey}`);
+        let obj = $prefs.valueForKey(key);
+        if (obj === undefined) {
+            $prefs.setValueForKey(emailKey, key);
+        } else {
+            const arr = obj.split('&');
+            console.log('当前cookie数量 =', arr?.length);
+            if (!arr.includes(emailKey)) {
+                obj = obj + '&' + emailKey;
+                $prefs.setValueForKey(obj, key);
+            }
         }
-
-    }else{
-        $notify('获取Cookie失败', 'error','请检查脚本');
+    } else {
+        $notify('获取Cookie失败', 'error', '请检查脚本');
     }
 }
 $done({});
