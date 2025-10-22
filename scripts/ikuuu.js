@@ -13,6 +13,7 @@ if (/^https?:\/\/ikuuu\.de\/user\/profile/.test(url)) {
         } else {
             const arr = obj.split('&');
             console.log(`当前cookie数量 =${arr['length']}`);
+            console.log(obj);
             if (!arr.includes(emailKey)) {
                 obj = obj + '&' + emailKey;
                 $prefs.setValueForKey(obj, key);
