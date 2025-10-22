@@ -14,9 +14,9 @@ if(/^https?:\/\/ikuuu\.de\/user\/profile/.test(url)){
             // const arr = obj.split('&');
             // console.log('当前cookie数量 =',arr?.length);
             console.log(obj);
-            console.log(typeof obj === String);
+            console.log(typeof obj ==='string');
             const c = (obj.split('&'));
-            console.log(typeof c === Array);
+            console.log(Array.isArray(c));
             // if(!arr.includes(emailKey)){
             //     obj = obj + '&' + emailKey;
             //     if($prefs.removeValueForKey(key)){
