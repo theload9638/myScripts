@@ -7,10 +7,11 @@
 'script-request-header' 
    1.//拦截本次发送的请求,可以使用js脚本
    2.//可以使用$request
-'script-response-header' 
+'script-response-body' 
    1.//拦截本次发送的请求后获取的响应
-   2.//可以使用$response,$request
-
+   2.//可以使用$response,$request 和 js脚本
+'response-body'
+   1.//拦截本次发送的请求后获取的响应
 
 ```
 
@@ -34,7 +35,9 @@
    - statusCode //状态码,例如 'HTTP/1.1 200 OK'
    - headers
    - body
-6.'$done({path: , headers : ,status: });' //释放脚本,终止本次执行
+6.'$done({path: , headers : ,status: });' 
+   - //释放脚本,终止本次执行
+   - //$done({}) 代表无改变
 
 
 ```
