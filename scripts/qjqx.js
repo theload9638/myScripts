@@ -15,8 +15,9 @@ if(body.data['h5-home-weixin-ads']){
     body.data['h5-home-weixin-ads']={};
 }
 //单车首页弹窗
-// body.data['bike-homepage-popup'] = {};
-
+if(body.data['bike-homepage-popup']){
+    body.data['bike-homepage-popup']={};
+}
 //电单车的领券微信 和一些可能的广告弹窗
 // body.data['qj-wxapplet-home-hm-daily-banner'] = {};
 // body.data['qj-wxapplet-home-htw-large-banner'].isAd = 0;
