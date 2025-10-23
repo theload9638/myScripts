@@ -19,10 +19,18 @@ if(body.data['bike-homepage-popup']){
     body.data['bike-homepage-popup']={};
 }
 //电单车的领券微信 和一些可能的广告弹窗
-// body.data['qj-wxapplet-home-hm-daily-banner'] = {};
-// body.data['qj-wxapplet-home-htw-large-banner'].isAd = 0;
-// body.data['qj-wxapplet-home-hm-large-banner'].isAd=0;
-// body.data['qj-wxapplet-home-htw-daily-banner'].isAd=0;
+if(body.data['qj-wxapplet-home-hm-daily-banner']){
+    body.data['qj-wxapplet-home-hm-daily-banner']={};
+}
+if(body.data['qj-wxapplet-home-htw-large-banner']){
+    body.data['qj-wxapplet-home-htw-large-banner']={};
+}
+if(body.data['qj-wxapplet-home-hm-large-banner']){
+    body.data['qj-wxapplet-home-hm-large-banner']={};
+}
+if(body.data['qj-wxapplet-home-htw-daily-banner']){
+    body.data['qj-wxapplet-home-htw-daily-banner']={};
+}
 $done({ body: JSON.stringify(body) });
 
 
