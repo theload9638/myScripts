@@ -6,9 +6,10 @@ let body = JSON.parse($response.body);
 if(body.data['qj-wxapplet-home-activity-center-hm-banner']){
     body.data['qj-wxapplet-home-activity-center-hm-banner'] = {};
 }
-// body.data['qj-wxapplet-home-activity-center-hm-banner'] = {};
 //单车底部的卡片
-// body.data['qj-wxapplet-home-activity-center-htw-banner'] = {};
+if(body.data['qj-wxapplet-home-activity-center-htw-banner']){
+    body.data['qj-wxapplet-home-activity-center-htw-banner'] = {};
+}
 //单车首页弹窗
 // body.data['bike-homepage-popup'] = {};
 //广告
