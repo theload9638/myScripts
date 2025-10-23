@@ -1,4 +1,4 @@
-//wxapplet ddcx - qjqx
+//applet ddcx - qjqx
 //cms\.htw\.delivery\.batch
 
 let body = JSON.parse($response.body);
@@ -31,6 +31,11 @@ if(body.data['qj-wxapplet-home-hm-large-banner']){
 if(body.data['qj-wxapplet-home-htw-daily-banner']){
     body.data['qj-wxapplet-home-htw-daily-banner']={};
 }
+
+if(body.data['bike-homepage-ad-banner']){
+    body.data['bike-homepage-ad-banner']={};
+}
+
 $done({ body: JSON.stringify(body) });
 
 
