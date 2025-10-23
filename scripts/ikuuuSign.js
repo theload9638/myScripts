@@ -4,7 +4,6 @@ const url = 'https://ikuuu.de/user/checkin';
 const vals = $prefs.valueForKey(key);
 if (vals !== undefined) {
     const arr = vals.split('&');
-    console.log(`ikuuu签到用户数量：${arr['length']}`);
     const ps = [];
     for (item of arr) {
         const p = new Promise((ok, rej) => {
@@ -34,9 +33,7 @@ if (vals !== undefined) {
         ps.push(p);
     }
     Promise.all(ps).then(res=>{
-        res.forEach(i=>{
-            console.log(i);
-        });
+        console.log(res.reduce((a,b)=>a+'\n'+b),'')
         $done();
     }).catch(rej=>{
         console.log(rej);
