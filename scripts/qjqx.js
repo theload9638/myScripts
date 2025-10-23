@@ -1,8 +1,6 @@
 //wxapplet ddcx - qjqx
 //cms\.htw\.delivery\.batch
 
-console.log(($request.url).split('?')[1].substr(4));
-
 let body = JSON.parse($response.body);
 //电单车底部卡片
 if(body.data['qj-wxapplet-home-activity-center-hm-banner']){
