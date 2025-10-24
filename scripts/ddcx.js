@@ -6,4 +6,4 @@ obj.data.instances['center_widget_list']={
     xcomp:'',
     xtpl:''
 };
-$done({body:JSON.stringify(obj)});
+$done(JSON.stringify(obj));
