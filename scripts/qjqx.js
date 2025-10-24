@@ -36,7 +36,7 @@ if(body.data['bike-homepage-ad-banner']){
     body.data['bike-homepage-ad-banner']={};
 }
 
-$done({ body: JSON.stringify(body) });
+$done(JSON.stringify(body));
 
 
 
