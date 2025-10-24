@@ -11,8 +11,11 @@
    1.//拦截本次发送的请求后获取的响应
    2.//可以使用$response,$request 和 js脚本
 'response-body'
-   1.//拦截本次发送的请求后获取的响应
-
+   1.//拦截本次发送的请求后获取的响应体
+'script-echo-response'
+   1.//可使用$request.url,$done({status: ,headers:opts,body: opts });    
+'script-response-header'
+   1.//拦截本次发送的请求后获取的响应头   
 ```
 
 ## 2.脚本环境
@@ -35,7 +38,7 @@
    - statusCode //状态码,例如 'HTTP/1.1 200 OK'
    - headers
    - body
-6.'$done({path: , headers : ,status: });' 
+6.'$done({path: , headers : ,status: ,body: });' 
    - //释放脚本,终止本次执行
    - //$done({}) 代表无改变
 
