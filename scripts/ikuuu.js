@@ -2,8 +2,10 @@ const url = $request.url;
 const headers = $request.headers;
 const key = 'ikuuu';
 
+console.log(url);
 if (/^https?:\/\/ikuuu\.de\/user\/profile/.test(url)) {
     const e = headers['Cookie'];
+    console.log(e);
     const emailKey = (e.split(';')[0]).split('=')[1].replace('%40', '@');
     if ($prefs.setValueForKey(e, emailKey)) {
         $notify('获取Cookie成功', '', `key=${emailKey}`);
