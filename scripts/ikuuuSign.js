@@ -33,7 +33,7 @@ if (vals !== undefined) {
         ps.push(p);
     }
     Promise.all(ps).then(res=>{
-        console.log(res.reduce((a,b)=>a+'\n'+b),'')
+        console.log(res.reduce((a,b)=>a+'\n'+b,''))
         $done();
     }).catch(rej=>{
         console.log(rej);
