@@ -77,7 +77,9 @@ function loginUp(email,passwd) {
             email: email,
             passwd: passwd,
             code: undefined
-        }
+        },
+        "credentials": "include",
+        "mode": "cors"
     };
     return post(req,{email});
 }
