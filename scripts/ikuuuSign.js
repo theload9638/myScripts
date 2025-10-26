@@ -4,15 +4,17 @@ if (vals !== undefined) {
     const arr = JSON.parse(vals);
     const ps1 = [];
     for(let i of arr){
-        console.log(i);
-        // ps1.push(loginUp({
-        //     email:i.split('&')[0],
-        //     passwd:i.split('&')[1]
-        // }));
+        ps1.push(loginUp({
+            email:i.split('&')[0],
+            passwd:i.split('&')[1]
+        }));
     }
-    // Promise.all(ps1).then(res=>{
-    //     console.log('完成');
-    // });
+    Promise.all(ps1).then(res=>{
+        console.log('完成');
+    }).finally(()=>{
+        console.log('结束');
+        $done();
+    });
     // const arr = vals.split('&');
     // const ps = [];
     // for (item of arr) {
