@@ -1,38 +1,40 @@
 const key = 'ikuuu';
 const vals = $prefs.valueForKey(key);
 if (vals !== undefined) {
-    const arr = JSON.parse(vals);
-    const ps1 = [];
-    for(let i of arr){
-        ps1.push(loginUp({
-            email:i.split('&')[0],
-            passwd:i.split('&')[1]
-        }));
+    const arr = vals.split('&');
+    const ps = [];
+    for (item of arr) {
+        let emailKey = item;
+        const ck = $prefs.valueForKey(emailKey);
+        ps.push(signUp(emailKey,ck));
     }
-    Promise.all(ps1).then(res=>{
-        console.log('完成');
-    }).finally(()=>{
-        console.log('结束');
+    Promise.all(ps).then(res => {
+        for (let j of res) {
+            let body = JSON.parse(j.body);
+            console.log(`${j.opts?.name}签到成功: ${body.msg}`);
+        }
+    }).catch(rej => {
+        console.log(`${rej.opts?.name}签到失败: ${rej.error}`);
+    }).finally(() => {
         $done();
-    });
-    // const arr = vals.split('&');
-    // const ps = [];
-    // for (item of arr) {
-    //     let emailKey = item;
-    //     const ck = $prefs.valueForKey(emailKey);
-    //     ps.push(signUp(emailKey,ck));
-    // }
-    // Promise.all(ps).then(res => {
-    //     console.log(res.reduce((a, b) => a + '\n' + b, ''))
-    //     $done();
-    // }).catch(rej => {
-    //     console.log(rej);
-    //     $done();
-    // });
-
+    })
 } else {
     console.log('ikuuu签到失败,没有提供用户凭证');
     $done();
+}
+
+function post(req, opts=null,timeout = 5000) {
+    return Promise.race([new Promise((a, b) => {
+        setTimeout(() => {
+            b('请求超时');
+        }, timeout);
+    }), new Promise((res, rej) => {
+        $task.fetch(req).then(response => {
+            res({ ...response ,opts:opts});
+        }, reason => {
+            rej({opts,error:reason.error});
+        });
+    })])
 }
 
 function loginUp(obj) {
@@ -56,19 +58,9 @@ function loginUp(obj) {
             code: undefined
         }
     };
-    return new Promise((res, rej) => {
-        $task.fetch(req).then(response => {
-            console.log(`Cookie：${response.headers['Cookie']}`);
-            for(let obj of Object.entries(response.body)){
-                console.log(`${obj[0]}：${obj[1]}`);
-            }
-            res();
-        }, reason => {
-            rej(reason);
-        });
-    })
+    return post(req,{email:obj.email});
 }
-function signUp(emailKey, ck) {
+function signUp(emailKey,ck) {
     const req = {
         url: 'https://ikuuu.de/user/checkin',
         method: 'POST',
@@ -83,14 +75,7 @@ function signUp(emailKey, ck) {
             'X-Requested-With': 'XMLHttpRequest'
         }
     };
-    return new Promise((res, rej) => {
-        $task.fetch(req).then(res => {
-            const body = JSON.parse(res.body);
-            ok(`${emailKey}签到成功：${body.msg}`);
-        }, err => {
-            rej(`${emailKey}签到失败：${err.error}`)
-        });
-    });
+    return post(req,{name:emailKey});
 }
 
 
