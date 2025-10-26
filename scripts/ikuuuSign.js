@@ -7,7 +7,9 @@ if (vals !== undefined) {
         loginUp(key,obj[key]).then(res=>{
             console.log('完成');
             // let hds = res.headers;
-            Object.keys(res).forEach(console.log);
+            for(let i of Object.keys(res)){
+                console.log(i);
+            }
 
         }).catch(err=>{
             console.log(err);
