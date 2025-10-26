@@ -6,10 +6,8 @@ if (vals !== undefined) {
     for(let key of Object.keys(obj)){
         loginUp(key,obj[key]).then(res=>{
             console.log('完成');
-            console.log(res.body)
-            
-            let hds = res.headers;
-            Object.keys(hds).forEach(console.log);
+            // let hds = res.headers;
+            Object.keys(res).forEach(console.log);
 
         }).catch(err=>{
             console.log(err);
