@@ -78,8 +78,10 @@ function loginUp(email,passwd) {
             passwd: passwd,
             code: undefined
         },
-        "credentials": "include",
-        "mode": "cors"
+        opts:{
+            credentials: "include",
+            mode: "cors"
+        }
     };
     return post(req,{email});
 }
