@@ -5,7 +5,11 @@ if (vals !== undefined) {
     const ps1 = [];
     for(let key of Object.keys(obj)){
         loginUp(key,obj[key]).then(res=>{
-            console.log(res.headers['set-cookie']);
+            console.log('完成');
+            console.log(res.body)
+            let hds = res.headers;
+            Object.keys(hds).forEach(console.log);
+
         }).catch(err=>{
             console.log(err);
         }).finally(()=>{
