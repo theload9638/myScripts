@@ -1,38 +1,37 @@
 const key = 'ikuuu';
 const vals = $prefs.valueForKey(key);
 if (vals !== undefined) {
-    const obj = JSON.parse(vals);
-    const ps1 = [];
-    for(let key of Object.keys(obj)){
-        loginUp(key,obj[key]).then(res=>{
-            console.log('完成');
-            Object.getOwnPropertyNames(res.headers).forEach(console.log);
+    // const obj = JSON.parse(vals);
+    // const ps1 = [];
+    // for(let key of Object.keys(obj)){
+    //     loginUp(key,obj[key]).then(res=>{
+    //         console.log('完成');
+    //         Object.getOwnPropertyNames(res.headers).forEach(console.log);
 
-        }).catch(err=>{
-            console.log(err);
-        }).finally(()=>{
-            $done();
-        })
-        break;
-    }
-
-    // const arr = vals.split('&');
-    // const ps = [];
-    // for (item of arr) {
-    //     let emailKey = item;
-    //     const ck = $prefs.valueForKey(emailKey);
-    //     ps.push(signUp(emailKey,ck));
+    //     }).catch(err=>{
+    //         console.log(err);
+    //     }).finally(()=>{
+    //         $done();
+    //     })
+    //     break;
     // }
-    // Promise.all(ps).then(res => {
-    //     for (let j of res) {
-    //         let body = JSON.parse(j.body);
-    //         console.log(`${j.opts?.name}签到成功: ${body.msg}`);
-    //     }
-    // }).catch(rej => {
-    //     console.log(`${rej.opts?.name}签到失败: ${rej.error}`);
-    // }).finally(() => {
-    //     $done();
-    // })
+    const arr = vals.split('&');
+    const ps = [];
+    for (item of arr) {
+        let emailKey = item;
+        const ck = $prefs.valueForKey(emailKey);
+        ps.push(signUp(emailKey,ck));
+    }
+    Promise.all(ps).then(res => {
+        for (let j of res) {
+            let body = JSON.parse(j.body);
+            console.log(`${j.opts?.name}签到成功: ${body.msg}`);
+        }
+    }).catch(rej => {
+        console.log(`${rej.opts?.name}签到失败: ${rej.error}`);
+    }).finally(() => {
+        $done();
+    })
 } else {
     console.log('ikuuu签到失败,没有提供用户凭证');
     $done();
@@ -79,8 +78,6 @@ function loginUp(email,passwd) {
             code: undefined
         },
         opts:{
-            credentials: "include",
-            mode: "cors",
             redirection:false
         }
     };
