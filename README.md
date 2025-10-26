@@ -38,6 +38,7 @@
    - statusCode //状态码,例如 'HTTP/1.1 200 OK'
    - headers
    - body
+   - bodyBytes
 6.`$done({
      path: String,
      headers : Object,
