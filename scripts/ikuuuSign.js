@@ -58,8 +58,10 @@ function loginUp(obj) {
     };
     return new Promise((res, rej) => {
         $task.fetch(req).then(response => {
-            console.log(response.headers);
-            res(response);
+            console.log(typeof response.headers==='string');
+            
+            
+            res();
         }, reason => {
             rej(reason);
         });
