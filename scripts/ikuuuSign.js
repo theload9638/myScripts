@@ -80,7 +80,8 @@ function loginUp(email,passwd) {
         },
         opts:{
             credentials: "include",
-            mode: "cors"
+            mode: "cors",
+            redirection:false
         }
     };
     return post(req,{email});
