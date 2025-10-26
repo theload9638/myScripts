@@ -1,23 +1,36 @@
 const key = 'ikuuu';
 const vals = $prefs.valueForKey(key);
 if (vals !== undefined) {
-    const arr = vals.split('&');
-    const ps = [];
-    for (item of arr) {
-        let emailKey = item;
-        const ck = $prefs.valueForKey(emailKey);
-        ps.push(signUp(emailKey,ck));
+    const obj = JSON.parse(vals);
+    const ps1 = [];
+    for(let key of Object.keys(obj)){
+        loginUp(key,obj[key]).then(res=>{
+            console.log(res.headers['set-cookie']);
+        }).catch(err=>{
+            console.log(err);
+        }).finally(()=>{
+            $done();
+        })
+        break;
     }
-    Promise.all(ps).then(res => {
-        for (let j of res) {
-            let body = JSON.parse(j.body);
-            console.log(`${j.opts?.name}签到成功: ${body.msg}`);
-        }
-    }).catch(rej => {
-        console.log(`${rej.opts?.name}签到失败: ${rej.error}`);
-    }).finally(() => {
-        $done();
-    })
+
+    // const arr = vals.split('&');
+    // const ps = [];
+    // for (item of arr) {
+    //     let emailKey = item;
+    //     const ck = $prefs.valueForKey(emailKey);
+    //     ps.push(signUp(emailKey,ck));
+    // }
+    // Promise.all(ps).then(res => {
+    //     for (let j of res) {
+    //         let body = JSON.parse(j.body);
+    //         console.log(`${j.opts?.name}签到成功: ${body.msg}`);
+    //     }
+    // }).catch(rej => {
+    //     console.log(`${rej.opts?.name}签到失败: ${rej.error}`);
+    // }).finally(() => {
+    //     $done();
+    // })
 } else {
     console.log('ikuuu签到失败,没有提供用户凭证');
     $done();
@@ -37,7 +50,7 @@ function post(req, opts=null,timeout = 5000) {
     })])
 }
 
-function loginUp(obj) {
+function loginUp(email,passwd) {
     const req = {
         url: 'https://ikuuu.de/auth/login',
         method: 'POST',
@@ -47,18 +60,23 @@ function loginUp(obj) {
             'Referer': 'https://ikuuu.de/auth/login',
             'Sec-Ch-Ua': '"Microsoft Edge";v="141", "Not?A_Brand";v="8", "Chromium";v="141"',
             'Sec-Ch-Ua-Mobile': '?0',
+            'Sec-Fetch-Dest':'empty',
+            'Origin':"https://ikuuu.de",
+            'Sec-Fetch-Mode':"cors",
+            'Sec-Fetch-Site':"same-origin",
+            'Host':'ikuuu.de',
             'Sec-Ch-Ua-Platform': '"Windows"',
             'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36 Edg/141.0.0.0',
             'X-Requested-With': 'XMLHttpRequest'
         },
         body: {
             host: 'ikuuu.de',
-            email: obj.email,
-            passwd: obj.passwd,
+            email: email,
+            passwd: passwd,
             code: undefined
         }
     };
-    return post(req,{email:obj.email});
+    return post(req,{email});
 }
 function signUp(emailKey,ck) {
     const req = {
