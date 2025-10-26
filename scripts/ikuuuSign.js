@@ -69,7 +69,8 @@ function loginUp(email,passwd) {
             'Host':'ikuuu.de',
             'Sec-Ch-Ua-Platform': '"Windows"',
             'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36 Edg/141.0.0.0',
-            'X-Requested-With': 'XMLHttpRequest'
+            'X-Requested-With': 'XMLHttpRequest',
+            'Connection':'keep-alive'
         },
         body: {
             host: 'ikuuu.de',
