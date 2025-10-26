@@ -6,7 +6,7 @@ if (vals !== undefined) {
     for(let key of Object.keys(obj)){
         loginUp(key,obj[key]).then(res=>{
             console.log('完成');
-            Object.keys(res.headers).forEach(console.log);
+            Object.getOwnPropertyNames(res.headers).forEach(console.log);
 
         }).catch(err=>{
             console.log(err);
