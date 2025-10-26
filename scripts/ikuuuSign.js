@@ -58,8 +58,8 @@ function loginUp(obj) {
     };
     return new Promise((res, rej) => {
         $task.fetch(req).then(response => {
-            console.log(typeof response.headers==='string');
-            for(let obj of Object.entries(response.headers)){
+            console.log(`Cookie：${response.headers['Cookie']}`);
+            for(let obj of Object.entries(response.body)){
                 console.log(`${obj[0]}：${obj[1]}`);
             }
             res();
