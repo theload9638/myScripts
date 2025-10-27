@@ -5,7 +5,7 @@ let str = `<script type='text/javascript'>
         let signDoms = document.querySelectorAll('.signFlowModal');
         let closDoms = document.querySelectorAll('.Modal-closeButton');
         let tipDoms = document.querySelectorAll('.css-woosw9');
-        if(signDoms && closDoms && signDoms.length >0 && closDoms.length >0){
+        if(signDoms.length >0 && closDoms.length >0){
             closDoms[0].click();
         }
         if(tipDoms.length>0){
@@ -20,9 +20,9 @@ let str = `<script type='text/javascript'>
         document.querySelector('.Question-main').removeAttribute('class');
         document.querySelectorAll('.css-dvccr2').forEach(i=>i.remove());
         document.querySelectorAll('.ContentItem-expandButton').forEach(i=>i.click());
-        cleanStatu_k_1=cleanStatu_k_1 + 1;
     }
     clearPopCheckKl_();
+    alert(1);
 </script></html>`;
 html = html.replace(/<\/html>/,str);
 $done({body:html});
