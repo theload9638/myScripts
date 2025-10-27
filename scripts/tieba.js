@@ -24,7 +24,12 @@ if(url.includes('/user/profile')){
     delete obj['data']['banner'];
 
     $done({body: JSON.stringify(obj)});
-}
+}else if(url.includes('/forum/shopGoodsFeed')){
+    let obj = JSON.parse($response.body);
+    delete obj['data']['banner_info'];
+
+    $done({body: JSON.stringify(obj)});
+}   
 else{
     $done({})
 }
