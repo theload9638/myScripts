@@ -1,4 +1,5 @@
 let html = $response.body;
+console.log($request.url);
 let str = `<script type='text/javascript' nonce>
     setInterval(()=>{
         let signDoms = document.querySelectorAll('.signFlowModal');
