@@ -7,10 +7,17 @@ if(url.includes('/user/profile')){
     delete obj['duxiaoman_entry'];
     delete obj['recom_naws_list'];
     delete obj['bubble_info'];
+    delete obj['vip_banner'];
     obj['zone_info']=obj['zone_info'].
     filter(item=>!types.includes(item.type));
     
     $done({body:JSON.stringify(obj)});
+}else if(url.includes('/sidebar/home')){
+    let obj = JSON.parse($response.body);
+    delete obj['vip_banner'];
+    delete obj['game_center'];
+
+    $done({body: JSON.stringify(obj)});
 }else{
     $done({})
 }
