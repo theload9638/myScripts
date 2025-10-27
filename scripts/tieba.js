@@ -12,7 +12,7 @@ if(url.includes('/user/profile')){
         if(item.type!=='common_func'){
             return item;
         }
-        item['common_func']['common_func_other']=[];
+        delete item['common_func']['common_func_other'];
         return item;
     })
     
