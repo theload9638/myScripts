@@ -1,6 +1,5 @@
 let html = $response.body;
-console.log($request.url);
-let str = `<script type='text/javascript' nonce>
+let str = `<script ${html.match(/nonce="\w*"/g)[0]}>
     setInterval(()=>{
         let signDoms = document.querySelectorAll('.signFlowModal');
         let closDoms = document.querySelectorAll('.Modal-closeButton');
@@ -20,7 +19,9 @@ let str = `<script type='text/javascript' nonce>
         document.querySelectorAll('.css-dvccr2').forEach(i=>i.remove());
         document.querySelectorAll('.ContentItem-expandButton').forEach(i=>i.click());
     },600);
-</script></html>`;
+</script>
+</html>
+`;
 html = html.replace(/<\/html>/,str);
-$done({body:html});
+$done( { body: html } );
 
