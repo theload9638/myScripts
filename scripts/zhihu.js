@@ -1,8 +1,21 @@
-
-let body = $response.body;
-console.log(typeof body === 'string')
-console.log(body);
-
-body = body.replace('<script crossorigin="" src="https://static.zhihu.com/heifetz/chunks/main-question-routes.164f38600b688da61abe.js"></script>','');
-$done({body:body});
+let html = $response.body;
+let str = `<script defer>
+    let zhChecker1_2 = undefined;
+    function clearPopCheckKl_(){
+        let signDoms = document.querySelectorAll('.signFlowModal');
+        let closDoms = document.querySelectorAll('.Modal-closeButton');
+        let tipDoms = document.querySelectorAll('.css-woosw9');
+        if(signDoms && closDoms && signDoms.length >0 && closDoms.length >0){
+            closDoms[0].click();
+            clearInterval(zhChecker1_2);
+        }
+        if(tipDoms.length>0){
+            tipDoms[0].remove();
+        }
+        zhChecker1_2=null;
+    }
+    zhChecker1_2=setInterval(clearPopCheckKl_,200);
+</script></html>`;
+html = html.replace('</html>',str);
+$done({body:html});
 
