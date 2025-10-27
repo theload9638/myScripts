@@ -14,8 +14,16 @@ if(url.includes('/user/profile')){
     $done({body:JSON.stringify(obj)});
 }else if(url.includes('/sidebar/home')){
     let obj = JSON.parse($response.body);
+    let others = ['度小满钱包','装扮中心','贴贝商城','印记中心','短故事','书架'];
     delete obj['vip_banner'];
     delete obj['game_center'];
+    delete obj['tools']['yunying_tools_list'];
+    obj['tools']['show_tools_list']=obj['tools']['show_tools_list'].
+    filter(item=>item['class_name']==='社区工具').
+    map(item=>{
+        return item['tools_list'].filter(tool=>!others.includes(tool['title']));
+    });
+    obj['tools']['all_tools_list']=obj['tools']['all_tools_list'].filter(item=>!others.includes(item['title']));
 
     $done({body: JSON.stringify(obj)});
 }else{
