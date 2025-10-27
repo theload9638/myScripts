@@ -19,7 +19,13 @@ if(url.includes('/user/profile')){
     delete obj['tools'];
 
     $done({body: JSON.stringify(obj)});
-}else{
+}else if(url.includes('/livefeed/feed')){
+    let obj = JSON.parse($response.body);
+    delete obj['data']['banner'];
+
+    $done({body: JSON.stringify(obj)});
+}
+else{
     $done({})
 }
 
