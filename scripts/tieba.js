@@ -1,20 +1,14 @@
 const url = $request.url;
 if(url.includes('/user/profile')){
     let obj = JSON.parse($response.body);
-    let types = ['game','banner','commerce'];
+    let types = ['game','banner','commerce','common_func'];
     delete obj['finance_tab'];
     delete obj['namoaixud_entry'];
     delete obj['duxiaoman_entry'];
     delete obj['recom_naws_list'];
+    delete obj['bubble_info'];
     obj['zone_info']=obj['zone_info'].
-    filter(item=>!types.includes(item.type)).
-    map(item=>{
-        if(item.type!=='common_func'){
-            return item;
-        }
-        delete item['common_func']['common_func_other'];
-        return item;
-    })
+    filter(item=>!types.includes(item.type));
     
     $done({body:JSON.stringify(obj)});
 }else{
