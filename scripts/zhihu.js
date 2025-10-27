@@ -1,5 +1,5 @@
 let html = $response.body;
-let str = `<script defer>
+let str = `<script type='text/javascript'>
     let zhChecker1_2 = undefined;
     let cleanStatu_k_1 = 0;
     function clearPopCheckKl_(){
@@ -26,6 +26,6 @@ let str = `<script defer>
     }
     zhChecker1_2=setInterval(clearPopCheckKl_,200);
 </script></html>`;
-html = html.replace('</html>',str);
+html = html.replace(/<\/html>/,str);
 $done({body:html});
 
