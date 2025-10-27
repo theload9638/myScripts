@@ -4,6 +4,8 @@ if(url.includes('/user/profile')){
     delete obj['finance_tab'];
     delete obj['namoaixud_entry'];
     delete obj['duxiaoman_entry'];
+    obj['zone_info']=[];
+
     $done({body:JSON.stringify(obj)});
 }else{
     $done({})
