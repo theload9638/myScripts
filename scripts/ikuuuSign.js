@@ -6,19 +6,19 @@ if (vals !== undefined) {
         const p1 = [];
         Object.entries(obj).forEach(arr => {
             p1.push(loginUp(arr[0], arr[1]));
-        })
-        Promise.all(p1).then(res => {
-            res.forEach(item => {
-                console.log(Object.keys(item.headers));
-                console.log(item.headers['Set-Cookie']);
-                
+        });
+        try{
+            const r1 = await Promise.all(p1);
+            r1.forEach(i=>{
+                console.log(Object.keys(i.headers));
             });
+            
+
+        }catch(e){
+            console.log(e);
+        }finally{
             $done({});
-        }).catch(err => {
-            console.log(`登录失败：${err}`);
-        }).finally(()=>{
-            $done({});
-        })
+        }
     })();
     // const arr = vals.split('&');
     // const ps = [];
@@ -42,16 +42,22 @@ if (vals !== undefined) {
     $done();
 }
 
-function post(req, opts = null, timeout = 5000) {
+function post(config={}) {
+    if(!config.timeout){
+        config.timeout = 5000;
+    }
+    if(!config.type){
+        config.type = 'api';
+    }
     return Promise.race([new Promise((a, b) => {
         setTimeout(() => {
-            b('请求超时');
-        }, timeout);
+            b(`${config.type}请求超时`);
+        }, config.timeout);
     }), new Promise((res, rej) => {
-        $task.fetch(req).then(response => {
-            res({ ...response, opts: opts });
+        $task.fetch(config.req).then(response => {
+            res({ ...response, opts: config.opts });
         }, reason => {
-            rej({ opts, error: reason.error });
+            rej({ opts:config.opts, error: reason.error });
         });
     })])
 }
@@ -92,7 +98,12 @@ function loginUp(email, passwd) {
             return a + '&' + b.join('=');
         }, '').substr(1);
     })();
-    return post(req, { email });
+    return post({
+        req:req, 
+        opts:{ email },
+        timeout:6000,
+        type:'登录'
+    });
 }
 function signUp(emailKey, ck) {
     const req = {
@@ -109,7 +120,11 @@ function signUp(emailKey, ck) {
             'X-Requested-With': 'XMLHttpRequest'
         }
     };
-    return post(req, { name: emailKey });
+    return post({
+        req:req, 
+        opts:{ name: emailKey },
+        type:'签到'
+    });
 }
 
 
