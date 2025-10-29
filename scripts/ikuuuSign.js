@@ -7,47 +7,46 @@ if (vals !== undefined) {
         Object.entries(obj).forEach(arr => {
             p1.push(loginUp(arr[0], arr[1]));
         });
-        try{
-            console.log('执行');
+        try {
             const r1 = await Promise.all(p1);
-            r1.forEach(i=>{
-                console.log(Object.keys(i.headers));
+            let p2 = [];
+            r1.forEach(i => {
+                if (i.headers['Set-Cookie']) {
+                    p2.push({
+                        email: i.opts.name,
+                        ck: i.headers['Set-Cookie'].replace(/path=\/(,)?\s?/gi, '').replace('/expires=[^;]+?;\s?', '').trim()
+                    });
+                }
             });
-            
-        }catch(e){
+            if (p2.length > 0) {
+                Promise.all(p2.map(i=>signUp(i.email,i.ck))).then(res => {
+                    for (let j of res) {
+                        let body = JSON.parse(j.body);
+                        console.log(`${j.opts?.name}签到成功: ${body.msg}`);
+                    }
+                });
+            } else {
+                console.log('未截获Cookie');
+                $done({});
+            }
+        } catch (e) {
             console.log(e);
-        }finally{
+        } finally {
             $done({});
         }
     })();
-    // const arr = vals.split('&');
-    // const ps = [];
-    // for (item of arr) {
-    //     let emailKey = item;
-    //     const ck = $prefs.valueForKey(emailKey);
-    //     ps.push(signUp(emailKey,ck));
-    // }
-    // Promise.all(ps).then(res => {
-    //     for (let j of res) {
-    //         let body = JSON.parse(j.body);
-    //         console.log(`${j.opts?.name}签到成功: ${body.msg}`);
-    //     }
-    // }).catch(rej => {
-    //     console.log(`${rej.opts?.name}签到失败: ${rej.error}`);
-    // }).finally(() => {
-    //     $done();
-    // })
+
 } else {
     console.log('ikuuu签到失败,没有提供用户凭证');
     $done();
 }
 
 function post(config) {
-    let {req,opts,timeout,type} = config;
-    if(!timeout){
+    let { req, opts, timeout, type } = config;
+    if (!timeout) {
         timeout = 5000;
     }
-    if(!type){
+    if (!type) {
         type = 'api';
     }
     return Promise.race([new Promise((a, b) => {
@@ -89,10 +88,10 @@ function loginUp(email, passwd) {
         }
     };
     return post({
-        req:req, 
-        opts:{ email },
-        timeout:6000,
-        type:'登录'
+        req: req,
+        opts: { email },
+        timeout: 6000,
+        type: '登录'
     });
 }
 function signUp(emailKey, ck) {
@@ -111,9 +110,9 @@ function signUp(emailKey, ck) {
         }
     };
     return post({
-        req:req, 
-        opts:{ name: emailKey },
-        type:'签到'
+        req: req,
+        opts: { name: emailKey },
+        type: '签到'
     });
 }
 
