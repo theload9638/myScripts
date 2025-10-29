@@ -8,11 +8,12 @@ if (vals !== undefined) {
             p1.push(loginUp(arr[0], arr[1]));
         });
         try{
+            console.log('执行');
             const r1 = await Promise.all(p1);
             r1.forEach(i=>{
                 console.log(Object.keys(i.headers));
             });
-            
+            $done({});
 
         }catch(e){
             console.log(e);
