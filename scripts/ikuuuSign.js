@@ -11,6 +11,7 @@ if (vals !== undefined) {
             const r1 = await Promise.all(p1);
             let p2 = [];
             r1.forEach(i => {
+                console.log(Object.keys(i.headers));
                 if (i.headers['Set-Cookie']) {
                     p2.push({
                         email: i.opts.name,
@@ -27,12 +28,12 @@ if (vals !== undefined) {
                 });
             } else {
                 console.log('未截获Cookie');
-                $done({});
+                $done();
             }
         } catch (e) {
             console.log(e);
         } finally {
-            $done({});
+            $done();
         }
     })();
 
@@ -84,7 +85,9 @@ function loginUp(email, passwd) {
         },
         body: `host=ikuuu.de&email=${email}&passwd=${passwd}&code=`,
         opts: {
-            redirection: false
+            redirection: false,
+            mode:'cors',
+            credentials:'include'
         }
     };
     return post({
