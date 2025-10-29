@@ -83,7 +83,13 @@ function loginUp(email, passwd) {
             'X-Requested-With': 'XMLHttpRequest',
             'Connection': 'keep-alive'
         },
-        body: `host=ikuuu.de&email=${email}&passwd=${passwd}&code=`,
+        // body: `host=ikuuu.de&email=${email}&passwd=${passwd}&code=`,
+        body: {
+            host:'ikuuu.de',
+            email,
+            passwd,
+            code:''
+        },
         opts: {
             redirection: false,
             mode:'cors',
