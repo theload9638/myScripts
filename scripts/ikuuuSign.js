@@ -11,7 +11,8 @@ if (vals !== undefined) {
         })
         Promise.all(p1).then(res => {
             res.forEach(item => {
-                console.log(Object.keys(item.headers['set-cookie']));
+                console.log(item.headers['set-cookie']);
+                
             });
             $done({});
         }).catch(err => {
