@@ -82,22 +82,12 @@ function loginUp(email, passwd) {
             'X-Requested-With': 'XMLHttpRequest',
             'Connection': 'keep-alive'
         },
-        body: {
-            host: 'ikuuu.de',
-            email: email,
-            passwd: passwd,
-            code: undefined
-        },
+        body: `host=${ikuuu.de}&email=${email}&passwd=${passwd}&code=`,
         opts: {
             redirection: false,
             credentials: 'include'
         }
     };
-    req.body = (() => {
-        return Object.entries(req.body).reduce((a, b) => {
-            return a + '&' + b.join('=');
-        }, '').substr(1);
-    })();
     return post({
         req:req, 
         opts:{ email },
