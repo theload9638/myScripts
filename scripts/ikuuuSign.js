@@ -10,8 +10,9 @@ if (vals !== undefined) {
         })
         Promise.all(p1).then(res => {
             res.forEach(item => {
-                console.log(Object.keys(item.headers));
+                console.log(Object.keys(item.headers['set-cookie']));
             });
+            $done({});
         }).catch(err => {
             console.log(`登录失败：${err}`);
         })
