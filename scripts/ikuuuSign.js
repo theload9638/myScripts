@@ -4,6 +4,7 @@ if (vals !== undefined) {
 
     (async () => {
         const obj = JSON.parse(vals);
+        console.log(vals);
         const p1 = [];
         Object.entries(obj).forEach(arr => {
             p1.push(loginUp(arr[0], arr[1]));
@@ -15,6 +16,8 @@ if (vals !== undefined) {
             $done({});
         }).catch(err => {
             console.log(`登录失败：${err}`);
+        }).finally(()=>{
+            $done({});
         })
     })();
     // const arr = vals.split('&');
