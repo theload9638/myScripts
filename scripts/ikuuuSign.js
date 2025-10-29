@@ -43,21 +43,22 @@ if (vals !== undefined) {
 }
 
 function post(config={}) {
-    if(!config.timeout){
-        config.timeout = 5000;
+    let {req,opts,timeout,type} = config;
+    if(!timeout){
+        timeout = 5000;
     }
-    if(!config.type){
-        config.type = 'api';
+    if(!type){
+        type = 'api';
     }
     return Promise.race([new Promise((a, b) => {
         setTimeout(() => {
-            b(`${config.type}请求超时`);
-        }, config.timeout);
+            b(`${type}请求超时`);
+        }, timeout);
     }), new Promise((res, rej) => {
-        $task.fetch(config.req).then(response => {
-            res({ ...response, opts: config.opts });
+        $task.fetch(req).then(response => {
+            res({ ...response, opts });
         }, reason => {
-            rej({ opts:config.opts, error: reason.error });
+            rej({ opts, error: reason.error });
         });
     })])
 }
