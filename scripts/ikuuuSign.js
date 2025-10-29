@@ -13,8 +13,7 @@ if (vals !== undefined) {
             r1.forEach(i=>{
                 console.log(Object.keys(i.headers));
             });
-            $done({});
-
+            
         }catch(e){
             console.log(e);
         }finally{
@@ -43,7 +42,7 @@ if (vals !== undefined) {
     $done();
 }
 
-function post(config={}) {
+function post(config) {
     let {req,opts,timeout,type} = config;
     if(!timeout){
         timeout = 5000;
@@ -84,7 +83,7 @@ function loginUp(email, passwd) {
             'X-Requested-With': 'XMLHttpRequest',
             'Connection': 'keep-alive'
         },
-        body: `host=${ikuuu.de}&email=${email}&passwd=${passwd}&code=`,
+        body: `host=ikuuu.de&email=${email}&passwd=${passwd}&code=`,
         opts: {
             redirection: false
         }
