@@ -84,8 +84,7 @@ function loginUp(email, passwd) {
         },
         body: `host=${ikuuu.de}&email=${email}&passwd=${passwd}&code=`,
         opts: {
-            redirection: false,
-            credentials: 'include'
+            redirection: false
         }
     };
     return post({
