@@ -1,17 +1,16 @@
 const key = 'ikuuu';
 const vals = $prefs.valueForKey(key);
 if (vals !== undefined) {
-
     (async () => {
         const obj = JSON.parse(vals);
-        console.log(vals);
         const p1 = [];
         Object.entries(obj).forEach(arr => {
             p1.push(loginUp(arr[0], arr[1]));
         })
         Promise.all(p1).then(res => {
             res.forEach(item => {
-                console.log(item.headers['set-cookie']);
+                console.log(Object.keys(item.headers));
+                console.log(item.headers['Set-Cookie']);
                 
             });
             $done({});
