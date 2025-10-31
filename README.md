@@ -7,12 +7,15 @@
 'script-request-header' 
    1.//拦截本次发送的请求,可以使用js脚本
    2.//可以使用$request
+'request-header'
+   1.//拦截本次发送的请求
+   2. [正则匹配网站] url request-header (\r\n)User-Agent:.+(\r\n) request-header $1User-Agent: xxx$2
 'script-response-body' 
    1.//拦截本次发送的请求后获取的响应
    2.//可以使用$response,$request 和 js脚本
 'response-body'
    1.//拦截本次发送的请求后获取的响应体
-   2.^https?://example\.com/resource url response-body "info":\[.+\],"others" response-body "info":[],"others"
+   2.[正则匹配网站] url response-body "属性名":\[.+\],"..." response-body "属性名":[],"..."
 'script-echo-response'
    1.//可使用$request.url,$done({status: ,headers:opts,body: opts });    
 'script-response-header'
