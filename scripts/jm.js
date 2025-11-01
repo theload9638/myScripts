@@ -14,6 +14,14 @@ if(url.includes('/ad_template')){
     let body = JSON.parse($response.body);
     body['zones']=[];
     $done({body: JSON.stringify(body)});
+}else if(url.includes('/chapter_view_template')){
+    let html = $response.body;
+    html = html.replace(/resizeAd\(\)\s*;/g,'');
+    html = html.replace(/<div\s*(?:class=\"ad-body\"([^>]*?))style=\".*?\"\s*>/g,'<div class="ad-body" $1 style="height:0px;">');
+    html = html.replace(/<a.*?(?:target=\"_blank\").*?>[\s\S]*?<\/a>/g,'');
+    html = html.replace(/(<script[^<]*?src=\".*?ad-provider\.js\"\s*>[\s\S]*?)(<div class=\"group-notice\")>/g,'$2');
+    html = html.replace(/<div\s*class=\"ad-body\"[^>]*?>/g,'');
+    $done({body:JSON.stringify(html)});
 }else{
     $done({});
 }
