@@ -19,7 +19,6 @@ if(url.includes('/ad_template')){
     html = html.replace(/resizeAd\(\)\s*;/g,'');
     html = html.replace(/<div\s*(?:class=\"ad-body\"([^>]*?))style=\".*?\"\s*>/g,'<div class="ad-body" $1 style="height:0px;">');
     html = html.replace(/<a.*?(?:target=\"_blank\").*?>[\s\S]*?<\/a>/g,'');
-    html = html.replace(/<ins[^>]*?><\/ins>/g,'');
     html = html.replace(/<div\s*class=\"group-notice\">/g,'<div>');
     html = html.replace('/AD/g','');
     $done({body:JSON.stringify(html)});
