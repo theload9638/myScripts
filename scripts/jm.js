@@ -8,6 +8,7 @@ if(url.includes('/ad_template')){
     html = html.replace(/<script>.*?(?=ad_encode).*?<\/script>/gs,'');
     html = html.replace(/<a.*?>.*?<\/a>/gs,'');
     html = html.replace(/resizeAd\(\)\s*;/g,'');
+    html = html.replace(/AD/g,'');
     $done({body:html});
 }else{
     $done({});
