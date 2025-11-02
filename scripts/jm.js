@@ -13,6 +13,8 @@ if(url.includes('/ad_template')){
 }else if(url.includes('/v1/api.php')){
     let body = JSON.parse($response.body);
     body['zones']=[];
+    body['renderers']['native_ad']['content']='';
+    body['renderers']['banner']['content']='';
     $done({body: JSON.stringify(body)});
 }else if(url.includes('/chapter_view_template')){
     let html = $response.body;
