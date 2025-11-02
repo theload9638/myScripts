@@ -93,3 +93,16 @@
 
 # [http_backend]
 
+# [task_local]
+
+```js
+'脚本集合'：xxx.json
+{
+    "name": "kl任务合集",
+    "task": [
+        "0 9 * * * 脚本路径, tag=脚本名称, enabled=true"
+    ],
+    "description": "task-script by kl"
+}
+```
+
