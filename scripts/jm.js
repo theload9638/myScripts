@@ -10,11 +10,6 @@ if(url.includes('/ad_template')){
     html = html.replace(/resizeAd\(\)\s*;/g,'');
     html = html.replace(/AD/g,'');
     $done({body:html});
-}else if(url.includes('/v1/api.php')){
-    let body = JSON.parse($response.body);
-    body['zones']=[];
-    body['renderers']={};
-    $done({body: JSON.stringify(body)});
 }else if(url.includes('/chapter_view_template')){
     let html = $response.body;
     html = html.replace(/resizeAd\(\)\s*;/g,'');
