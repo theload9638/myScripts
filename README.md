@@ -16,6 +16,16 @@
 'response-body'
    1.//拦截本次发送的请求后获取的响应体
    2.[正则匹配网站] url response-body "属性名":\[.+\],"..." response-body "属性名":[],"..."
+'jsonjq-response-body'
+   1.//拦截本次发送的请求后获取的响应体,使用jsonjq语法
+   /**
+    * 语法：[url] url jsonjq-response-body 'jsonjq语法'
+    * - .代表顶层对象 或 属性连接符
+    * - ,代表操作多个表达式
+    * - |代表管道操作符,用于将前结果传递给后面的输入,可多次使用
+    * - length表达式(不能包含其他语法),代表对象属性个数/数组长度/字符串长度
+    * - del(属性表达式) 用于删除属性
+    */
 'script-echo-response'
    1.//可使用$request.url,$done({status: ,headers:opts,body: opts });    
 'script-response-header'
