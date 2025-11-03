@@ -12,25 +12,7 @@ if(url.includes('/user/profile')){
     filter(item=>!types.includes(item.type));
     
     $done({body:JSON.stringify(obj)});
-}else if(url.includes('/sidebar/home')){
-    let obj = JSON.parse($response.body);
-    delete obj['vip_banner'];
-    delete obj['game_center'];
-    delete obj['tools'];
-
-    $done({body: JSON.stringify(obj)});
-}else if(url.includes('/livefeed/feed')){
-    let obj = JSON.parse($response.body);
-    delete obj['data']['banner'];
-
-    $done({body: JSON.stringify(obj)});
-}else if(url.includes('/forum/shopGoodsFeed')){
-    let obj = JSON.parse($response.body);
-    delete obj['data']['banner_info'];
-
-    $done({body: JSON.stringify(obj)});
-}   
-else{
+}else{
     $done({})
 }
 
