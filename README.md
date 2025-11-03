@@ -9,13 +9,13 @@
    2.//可以使用$request
 'request-header'
    1.//拦截本次发送的请求
-   2. [正则匹配网站] url request-header (\r\n)User-Agent:.+(\r\n) request-header $1User-Agent: xxx$2
+   2. [urlMatch] url request-header (\r\n)User-Agent:.+(\r\n) request-header $1User-Agent: xxx$2
 'script-response-body' 
    1.//拦截本次发送的请求后获取的响应
    2.//可以使用$response,$request 和 js脚本
 'response-body'
    1.//拦截本次发送的请求后获取的响应体
-   2.[正则匹配网站] url response-body "属性名":\[.+\],"..." response-body "属性名":[],"..."
+   2.[urlMatch] url response-body "属性名":\[.+\],"..." response-body "属性名":[],"..."
 'jsonjq-response-body'
    1.//拦截本次发送的请求后获取的响应体,使用jsonjq语法
    /**
@@ -32,8 +32,9 @@
     * - 对象属性+{'属性名':'基本值'} 给对象添加属性
     * - has("属性名") 判断是否有某属性
     */
+'echo-response'
 'script-echo-response'
-   1.//可使用$request.url,$done({status: ,headers:opts,body: opts });    
+   1.//可使用$request.url,$done({status: ,headers:opts,body: opts });
 'script-response-header'
    1.//拦截本次发送的请求后获取的响应头   
 ```
