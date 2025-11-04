@@ -21,32 +21,6 @@ if(url.includes('/v3/user/getaccountpage')){
     let v1 =['游戏','游戏中心f','周边商城','卡牌广场','热门角色'];
     bd['Data']['Items'] = bd['Data']['Items'].filter(i=>!v1.includes(i['ShowName']));
     $done({body:JSON.stringify(bd)});
-}else if(url.includes('/v1/booksquare/getsquarepagepiece')){
-    let bd = JSON.parse($response.body);
-    bd['Data']['Items'] = bd['Data']['Items'].map(i=>{
-        if(i['Type']===1 && i['Data']['CommonExt']['ColumnName']==='banner'){
-            i['Data']['List']=[];
-        }else if(i['Type']===3){
-            i['Data']['MultiList']=i['Data']['MultiList'].map(j=>{
-                if(j['CommonExt'] && j['CommonExt']['ColumnName']==='broadcast'){
-                    j['List']=[];
-                }
-                return j;
-            })
-        }
-        return i;
-    });
-    $done({body:JSON.stringify(bd)});
-}else if(url.includes('/v1/audiosquare/page')){
-    let bd = JSON.parse($response.body);
-    bd['Data']['Items'] = bd['Data']['Items'].map(i=>{
-        if(i['ColumnName']==='banner'){
-            i['Data']['Items']=[];
-            return i;
-        }
-        return i;
-    });
-    $done({body:JSON.stringify(bd)});
 }
 else{
     $done({});
