@@ -24,10 +24,8 @@ if(url.includes('/v3/user/getaccountpage')){
 }else if(url.includes('/v1/booksquare/getsquarepagepiece')){
     let bd = JSON.parse($response.body);
     bd['Data']['Items'] = bd['Data']['Items'].map(i=>{
-        if(i['CommonExt'] || i['Type']===1){
-            if(i['CommonExt']['ColumnName']==='banner'){
-                i['Data']['List']=[];
-            }
+        if(i['Type']===1 && i['Data']['CommonExt']['ColumnName']==='banner'){
+            i['Data']['List']=[];
         }else if(i['Type']===3){
             i['Data']['MultiList']=i['Data']['MultiList'].map(j=>{
                 if(j['CommonExt'] && j['CommonExt']['ColumnName']==='broadcast'){
