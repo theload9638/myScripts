@@ -33,7 +33,7 @@ if(url.includes('/resource/show/tab/v2')){
     let bd = JSON.parse($response.body);
     let v1 = ['banner','cm_v2']
     bd['data']['items']=bd['data']['items'].filter(i=>{
-        return !v1.includes(i['card_type']) || i['card_goto'].indexOf('ad')===-1;
+        return !v1.includes(i['card_type']) || i['card_goto'].indexOf('ad')===-1 || !i.hasOwnProperty('ad_info');
     });
     $done({body:JSON.stringify(bd)});
 }else if(url.includes('/v2/splash/list')){
