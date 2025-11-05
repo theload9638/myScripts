@@ -7,7 +7,6 @@ if(url.includes('/resource/show/tab/v2')){
     bd['data']['top']=bd['data']['top'].filter(i=>i.name==='消息');
     let v2 = ['首页','关注','我的'];
     bd['data']['bottom']=bd['data']['bottom'].filter(i=>v2.includes(i.name));
-
     $done({body:JSON.stringify(bd)});
 }else if(url.includes('/v2/account/mine')){
     let bd = JSON.parse($response.body);
@@ -24,6 +23,27 @@ if(url.includes('/resource/show/tab/v2')){
     bd['data']['live_tip']={};
     delete bd['data']['mall_home'];
     bd['data']['enable_bili_link']=false;
+    bd['data']['modular_vip_section']['subtitle']={};
+    $done({body:JSON.stringify(bd)});
+}else if(url.includes('/v2/search/square')){
+    let bd = JSON.parse($response.body);
+    bd['data'] = bd['data'].filter(i=>i.type!=='recommend');
+    $done({body:JSON.stringify(bd)});
+}else if(url.includes('/v2/feed/index')){
+    let bd = JSON.parse($response.body);
+    let v1 = ['banner_v8']
+    db['data']['items']=bd['data']['items'].filter(i=>{
+        return !v1.includes(i.type);
+    });
+    $done({body:JSON.stringify(bd)});
+}else if(url.includes('/v2/splash/list')){
+    let bd = JSON.parse($response.body);
+    bd['data']['show']=[];
+    bd.data?.list.forEach(i=>{
+        i.duration=0;
+        i.begin_time=1762444799;
+        i.end_time=1762444799;
+    });
     $done({body:JSON.stringify(bd)});
 }
 else{

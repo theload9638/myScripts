@@ -7,6 +7,7 @@ if(url.includes('/v3/user/getaccountpage')){
     body['Data']['BenefitButtonList']=body['Data']['BenefitButtonList'].filter(i=>!v1.includes(i['Name']));
     body['Data']['FunctionButtonList']=body['Data']['FunctionButtonList'].filter(i=>v2.includes(i['Name']));
     body['Data']['BottomButtonList']=body['Data']['BottomButtonList'].filter(i=>i['Name'].includes('帮助'));
+    body['Data']['Member']['SubTitle']='';
     $done({body:JSON.stringify(body)});
 }else if(url.includes('/v1/client/getconf')){
     let bd = JSON.parse($response.body);
