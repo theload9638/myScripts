@@ -48,6 +48,19 @@ if(url.includes('/resource/show/tab/v2')){
     let bd = JSON.parse($response.body);
     bd['data']['card_list'] = bd['data']['card_list'].filter(i=>i['card_type'].indexOf('banner')===-1);
     $done({body:JSON.stringify(bd)});
+}else if(url.includes('/account/myinfo')){
+    let bd = JSON.parse($response.body);
+    bd.data.vip = {
+        ...bd.data.vip,
+        "due_date":4102761600000,
+        "vip_pay_type":1,
+        "super_vip":{
+            "is_super_vip":true
+        },
+        "status":1,
+        "type":2
+    }
+    $done({body:JSON.stringify(bd)});
 }
 else{
     $done({});
