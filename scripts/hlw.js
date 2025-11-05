@@ -11,6 +11,7 @@ if (html && /^https?:\/\/heiliao\.com(?!\/(index|static))/.test(url)) {
     if(url.includes('/archives')){
         html = html.replace(/<style>/g,'<style> .article-ads-btn,.post-content,#comments{display:none !important;}');
     }
+    $done({ body: html });
 }
 else{
     $done({});
