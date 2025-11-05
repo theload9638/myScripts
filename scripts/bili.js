@@ -25,10 +25,6 @@ if(url.includes('/resource/show/tab/v2')){
     bd['data']['enable_bili_link']=false;
     bd['data']['modular_vip_section']['subtitle']={};
     $done({body:JSON.stringify(bd)});
-}else if(url.includes('/v2/search/square')){
-    let bd = JSON.parse($response.body);
-    bd['data'] = bd['data'].filter(i=>i.type!=='recommend');
-    $done({body:JSON.stringify(bd)});
 }else if(url.includes('/v2/feed/index')){
     let bd = JSON.parse($response.body);
     bd['data']['items']=bd['data']['items'].filter(i=>{
@@ -43,10 +39,6 @@ if(url.includes('/resource/show/tab/v2')){
         i.begin_time=1762444799;
         i.end_time=1762444799;
     });
-    $done({body:JSON.stringify(bd)});
-}else if(url.includes('/app-interface/v2/index/feed')){
-    let bd = JSON.parse($response.body);
-    bd['data']['card_list'] = bd['data']['card_list'].filter(i=>i['card_type'].indexOf('banner')===-1);
     $done({body:JSON.stringify(bd)});
 }else if(url.includes('/account/myinfo')){
     let bd = JSON.parse($response.body);
