@@ -32,9 +32,7 @@ if(url.includes('/resource/show/tab/v2')){
 }else if(url.includes('/v2/feed/index')){
     let bd = JSON.parse($response.body);
     bd['data']['items']=bd['data']['items'].filter(i=>{
-        return !i['card_type'].includes('banner') 
-        || i['card_goto'].indexOf('ad')===-1 
-        || !i.hasOwnProperty('ad_info');
+        return !i.hasOwnProperty('banner_item') && !i.hasOwnProperty('ad_info');
     });
     $done({body:JSON.stringify(bd)});
 }else if(url.includes('/v2/splash/list')){
