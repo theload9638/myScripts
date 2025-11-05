@@ -32,7 +32,7 @@ if(url.includes('/resource/show/tab/v2')){
 }else if(url.includes('/v2/feed/index')){
     let bd = JSON.parse($response.body);
     let v1 = ['banner_v8']
-    db['data']['items']=bd['data']['items'].filter(i=>{
+    bd['data']['items']=bd['data']['items'].filter(i=>{
         return !v1.includes(i.type);
     });
     $done({body:JSON.stringify(bd)});
