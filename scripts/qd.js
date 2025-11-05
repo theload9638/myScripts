@@ -15,6 +15,9 @@ if(url.includes('/v3/user/getaccountpage')){
     delete bd['Data']['BookShelfBottomIcons'];
     bd['Data']['AdVideoPositionConfig']=[];
     bd['Data']['ClientLocalNotify2']=[];
+    bd['Data']['EnableSearchUser']='1';
+    bd['Data']['IsFreeReadingUser']=true;
+    bd['Data']['SplashScreenRoundCount']=0;
     $done({body:JSON.stringify(bd)});
 }else if(url.includes('/v1/user/getsimplediscover')){
     let bd = JSON.parse($response.body);
