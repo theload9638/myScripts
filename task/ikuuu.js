@@ -20,6 +20,8 @@ if (vals !== undefined) {
                     return pre +'\n'+ nex;
                 });
                 console.log(msg);
+                console.log(JSON.stringify(msg));
+                console.log('执行成功!');
             });
         } catch (e) {
             console.log(e);
