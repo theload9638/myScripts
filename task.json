@@ -1,5 +1,5 @@
 {
     "name": "kl任务合集",
-    "task": ["0 9 * * * https://raw.githubusercontent.com/theload9638/myScripts/main/scripts/task/ikuuu.js, tag=ikuuu流量签到, enabled=true"],
+    "task": ["0 9 * * * https://raw.githubusercontent.com/theload9638/myScripts/main/task/ikuuu.js, tag=ikuuu流量签到, enabled=true"],
     "description": "task-script by kl"
 }
