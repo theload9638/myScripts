@@ -81,17 +81,18 @@
       opts:{
          'filter':'脚本字符串,内含唯一变量body,需使用return返回的结果<16kb',//响应过滤,响应体>512kb时可使用,对网络扩展的内存占用更少
          'policy':'direct',//带有特定策略执行请求,例如服务器地理位置检查
-         'redirection': true, //默认重定向为true
+         'redirection': false, //默认重定向为true
       }
 
      }) //请求
 8.'$environment' //环境对象,任务和重写脚本中可使用
    - sourcePath //原始路径
    - params //
+   - version //版本
 9.'$configuration'
    - Promise sendMessage({
       action:'',
-        -'dns_get_placeholder_ip/dns_update_cache/dns_clear_cache' //获取ip映射/更新dns缓存/清楚缓存
+        -'dns_get_placeholder_ip/dns_update_cache/dns_clear_cache' //获取ip映射/更新dns缓存/清除缓存
         -'get_traffic_statistics' //流量统计
         -'url_latency_benchmark' //url延迟测试
           //content: ["Node-001","Node-002","Node-003","Node-004"]

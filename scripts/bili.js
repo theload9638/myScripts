@@ -31,15 +31,6 @@ if(url.includes('/resource/show/tab/v2')){
         return !i.hasOwnProperty('banner_item') && !i.hasOwnProperty('ad_info');
     });
     $done({body:JSON.stringify(bd)});
-}else if(url.includes('/v2/splash/list')){
-    let bd = JSON.parse($response.body);
-    bd['data']['show']=[];
-    bd.data?.list.forEach(i=>{
-        i.duration=0;
-        i.begin_time=1762444799;
-        i.end_time=1762444799;
-    });
-    $done({body:JSON.stringify(bd)});
 }else if(url.includes('/account/myinfo')){
     let bd = JSON.parse($response.body);
     bd.data.vip = {

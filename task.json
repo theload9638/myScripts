@@ -1,5 +1,8 @@
 {
     "name": "kl任务合集",
-    "task": ["0 9 * * * https://raw.githubusercontent.com/theload9638/myScripts/main/task/ikuuu.js, tag=ikuuu流量签到, enabled=true"],
+    "task": [
+        "0 9 * * * https://raw.githubusercontent.com/theload9638/myScripts/main/task/ikuuu.js, tag=ikuuu流量签到, enabled=false",
+        "0 0/6 * * * https://raw.githubusercontent.com/theload9638/myScripts/main/task/dns_clear.js, tag=dns缓存清除, enabled=false"
+        ],
     "description": "task-script by kl"
 }
