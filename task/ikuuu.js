@@ -22,7 +22,7 @@ if (vals !== undefined) {
                 console.log(msg);
             });
         } catch (e) {
-            console.log(`error：${typeof e==='string'?e:JSON.stringify(e)}`);
+            console.log((typeof e === 'string')?e:`error：${e.error}\nopts：${e.opts?JSON.stringify(e.opts):null}`);
         } finally {
             $done();
         }
