@@ -2,40 +2,20 @@
 //cms\.htw\.delivery\.batch
 
 let body = JSON.parse($response.body);
-//电单车底部卡片
-if(body.data['qj-wxapplet-home-activity-center-hm-banner']){
-    body.data['qj-wxapplet-home-activity-center-hm-banner'] = {};
+let ads = [
+    'qj-wxapplet-home-activity-center-hm-banner',
+    'qj-wxapplet-home-activity-center-htw-banner',
+    'h5-home-weixin-ads',
+    'bike-homepage-popup',
+    'qj-wxapplet-home-hm-daily-banner',
+    'qj-wxapplet-home-htw-large-banner',
+    'qj-wxapplet-home-hm-large-banner',
+    'qj-wxapplet-home-htw-daily-banner',
+    'bike-homepage-ad-banner'
+];
+if(body.data){
+    ads.forEach(k=>delete body.data[k]);
 }
-//单车底部的卡片
-if(body.data['qj-wxapplet-home-activity-center-htw-banner']){
-    body.data['qj-wxapplet-home-activity-center-htw-banner'] = {};
-}
-//广告
-if(body.data['h5-home-weixin-ads']){
-    body.data['h5-home-weixin-ads']={};
-}
-//单车首页弹窗
-if(body.data['bike-homepage-popup']){
-    body.data['bike-homepage-popup']={};
-}
-//电单车的领券微信 和一些可能的广告弹窗
-if(body.data['qj-wxapplet-home-hm-daily-banner']){
-    body.data['qj-wxapplet-home-hm-daily-banner']={};
-}
-if(body.data['qj-wxapplet-home-htw-large-banner']){
-    body.data['qj-wxapplet-home-htw-large-banner']={};
-}
-if(body.data['qj-wxapplet-home-hm-large-banner']){
-    body.data['qj-wxapplet-home-hm-large-banner']={};
-}
-if(body.data['qj-wxapplet-home-htw-daily-banner']){
-    body.data['qj-wxapplet-home-htw-daily-banner']={};
-}
-
-if(body.data['bike-homepage-ad-banner']){
-    body.data['bike-homepage-ad-banner']={};
-}
-
 $done({ body: JSON.stringify(body) });
 
 
