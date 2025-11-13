@@ -9,7 +9,7 @@ if (flag && url) {
     if (/^https:\/\/www\.52pojie\.cn\/home\.php/.test(url)) {
         let ck = $request.headers['Cookie'];
         if (ck) {
-            $prefs.setValueForKey(key, ck);
+            $prefs.setValueForKey(ck, key);
             $notify('52pojie获取ck成功','','');
             console.log('52pj-coookie 获取成功！');
         }
