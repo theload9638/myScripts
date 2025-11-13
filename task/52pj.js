@@ -7,10 +7,10 @@ if (flag) {
 }
 if (flag && url) {
     if (/^https:\/\/www\.52pojie\.cn\/home\.php/.test(url)) {
-        Object.keys($request.headers).forEach(console.log);
         let ck = $request.headers['Cookie'];
         if (ck) {
             $prefs.setValueForKey(key, ck);
+            $notify('52pojie获取ck成功','','');
             console.log('52pj-coookie 获取成功！');
         }
     }
@@ -18,7 +18,7 @@ if (flag && url) {
 } else {
     let ck = $prefs.valueForKey(key);
     if(!ck){
-        console.log('52pj-签到失败：未找到cookie');
+        console.log('52pj-签到失败：未找到cookie\n请先获取Cookie：https://www.52pojie.cn/');
         $done();
     }
     let req = {
