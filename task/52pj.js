@@ -23,15 +23,21 @@ if (flag && url) {
     }
     let req = {
         url: 'https://www.52pojie.cn/home.php?mod=task&do=apply&id=2&referer=/',
+        method:'GET',
         headers:{
             Cookie:ck,
             "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:101.0) Gecko/20100101 Firefox/101.0"
+        },
+        opts:{
+            redirection: false
         }
     };
     post(req,undefined,undefined,'签到').then(res=>{
-        console.log(res.body);
-        console.log(res.statusCode);
-        console.log('签到成功!');
+        if(res.statusCode==200){
+            console.log('签到成功!');
+        }else{
+            console.log('签到异常：请检查Cookie的有效性\n获取路径：https://www.52pojie.cn');
+        }
     }).catch(e=>{
         console.log(`52签到失败：${e.error}`);
     }).finally(()=>{
