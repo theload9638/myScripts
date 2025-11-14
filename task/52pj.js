@@ -23,7 +23,7 @@ if (flag && url) {
     }
     let req = {
         url: 'https://www.52pojie.cn/home.php?mod=task&do=apply&id=2&referer=/',
-        method:'PUT',
+        method:'GET',
         headers:{
             Cookie:ck,
             host:'www.52pojie.cn',
@@ -39,10 +39,6 @@ if (flag && url) {
         }
     };
     post(req,undefined,undefined,'签到').then(res=>{
-        console.log(res.headers['Content-Type']);
-        if(!res.headers['Content-Type'].includes('html')){
-            console.log(res.body);
-        }
         if(res.statusCode==200){
             console.log('签到成功!');
         }else{
