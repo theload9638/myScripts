@@ -31,7 +31,8 @@ if (flag && url) {
             'Accept-Lanuguage':'zh-CN,zh;q=0.9',
             'Accept-Encoding':'gzip, deflate, br, zstd',
             'Accept':'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7',
-            'sec-ch-ua-platform': "Windows"
+            'sec-ch-ua-platform': "Windows",
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36"
         },
         opts:{
             redirection: false
@@ -51,10 +52,6 @@ if (flag && url) {
     });
 }
 function post(req, opts = null, timeout = 5000,type='请求') {
-    req?.headers = {
-        ...req.headers,
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36"
-    };
     return Promise.race([new Promise((a, b) => {
         setTimeout(() => {
             b(`${type}执行失败：请求超时\n opts：${opts?JSON.stringify(opts):null}`);
