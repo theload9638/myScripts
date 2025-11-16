@@ -22,7 +22,7 @@ if (flag && url) {
         $done();
     }
     let req = {
-        url: 'https://www.52pojie.cn/home.php?mod=task&do=apply&id=2&referer=/',
+        url: 'https://www.52pojie.cn/home.php?'+encodeURIComponent('mod=task&do=apply&id=2&referer=/'),
         method:'GET',
         headers:{
             Cookie:ck,
@@ -52,7 +52,6 @@ if (flag && url) {
     });
 }
 function post(req, opts = null, timeout = 5000,type='请求') {
-    req.url = encodeURIComponent(req.url);
     return Promise.race([new Promise((a, b) => {
         setTimeout(() => {
             b(`${type}执行失败：请求超时\n opts：${opts?JSON.stringify(opts):null}`);
