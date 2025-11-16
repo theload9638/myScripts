@@ -25,12 +25,6 @@ if(url.includes('/resource/show/tab/v2')){
     bd['data']['enable_bili_link']=false;
     bd['data']['modular_vip_section']['subtitle']={};
     $done({body:JSON.stringify(bd)});
-}else if(url.includes('/v2/feed/index')){
-    let bd = JSON.parse($response.body);
-    bd['data']['items']=bd['data']['items'].filter(i=>{
-        return !i.hasOwnProperty('banner_item') && !i.hasOwnProperty('ad_info');
-    });
-    $done({body:JSON.stringify(bd)});
 }else if(url.includes('/account/myinfo')){
     let bd = JSON.parse($response.body);
     bd.data.vip = {
