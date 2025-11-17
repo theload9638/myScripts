@@ -6,7 +6,7 @@ if (flag) {
     url = $request?.url;
 }
 if (flag && url) {
-    if (/^https:\/\/www\.52pojie\.cn\/home\.php/.test(url)) {
+    if (/^https:\/\/www\.52pojie\.cn\/home\.php\?/.test(url)) {
         let ck = $request.headers['Cookie'];
         if (ck) {
             $prefs.setValueForKey(ck, key);
@@ -46,7 +46,7 @@ if (flag && url) {
             console.log('签到异常：请检查Cookie的有效性\n获取路径：https://www.52pojie.cn');
         }
     }).catch(e=>{
-        console.log(`52签到失败：${e.error}`);
+        console.log(`52签到失败：${e.error?e.error:e}`);
     }).finally(()=>{
         $done();
     });
