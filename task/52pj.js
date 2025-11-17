@@ -39,6 +39,7 @@ if (flag && url) {
             'Sec-Fetch-Site':'same-origin',
             'Sec-Fetch-User':'?1',
             'upgrade-insecure-requests':1,
+            'Upgrade-Insecure-Requests':1,
             'Connection':'keep-alive',
             "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36"
         },
@@ -48,7 +49,7 @@ if (flag && url) {
     };
     post(req,undefined,undefined,'签到').then(res=>{
         if(res.statusCode==200){
-            console.log('签到成功!',res.headers['Content-Type']);
+            console.log('签到成功!'+res.headers['Content-Type']);
         }else{
             console.log('签到异常：请检查Cookie的有效性\n获取路径：https://www.52pojie.cn');
         }
