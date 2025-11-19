@@ -1,5 +1,6 @@
 let key = '52pj'
 let url = undefined;
+let retry = false;
 
 let flag = globalThis.hasOwnProperty('$request');
 if (flag) {

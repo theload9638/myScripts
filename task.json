@@ -3,7 +3,8 @@
     "task": [
         "0 9 * * * https://raw.githubusercontent.com/theload9638/myScripts/main/task/ikuuu.js, tag=ikuuu流量签到, enabled=false",
         "0 0/6 * * * https://raw.githubusercontent.com/theload9638/myScripts/main/task/dns_clear.js, tag=dns缓存清除, enabled=false",
-        "0 7 * * * https://raw.githubusercontent.com/theload9638/myScripts/main/task/52pj.js, tag=52pj签到, enabled=false"
+        "0 7 * * * https://raw.githubusercontent.com/theload9638/myScripts/main/task/52pj.js, tag=52pj签到, enabled=false",
+        "0 0/2 * * * https://raw.githubusercontent.com/theload9638/myScripts/main/task/retry.js, tag=任务重试, enabled=false"
         ],
     "description": "task-script by kl"
 }
