@@ -185,19 +185,7 @@ function signUp(emailKey, ck) {
     };
     return post(req, { name: emailKey }, undefined, '签到');
 }
-function findLastTask(task) {
-    if (!task) {
-        return null;
-    }
-    if (task.hasNext === false) {
-        return task;
-    } else {
-        if (task.hasOwnProperty('next')) {
-            return findLastTask(task.next);
-        }
-        return task;
-    }
-}
+
 
 
 
