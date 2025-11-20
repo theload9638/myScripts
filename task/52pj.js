@@ -39,8 +39,7 @@ if (flag && url) {
             'Sec-Fetch-Mode':'navigate',
             'Sec-Fetch-Site':'same-origin',
             'Sec-Fetch-User':'?1',
-            'upgrade-insecure-requests':1,
-            'Upgrade-Insecure-Requests':1,
+            'Upgrade-Insecure-Requests':"1",
             'Connection':'keep-alive',
             "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36"
         },

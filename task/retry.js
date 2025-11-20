@@ -113,6 +113,7 @@ function findLastTask(task) {
 }
 function addRetryTask(task, availableTimes) {
     console.log(`${task.name}进行任务重试,剩余重试次数：${availableTimes}`);
+    task.retryTimes = availableTimes;
     let vals = $prefs.valueForKey(key);
     let arr = [task];
     if (vals) {
