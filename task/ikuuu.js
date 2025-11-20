@@ -31,15 +31,18 @@ if (vals !== undefined) {
             if (typeof e !== 'object') {
                 console.log('未知异常：' + e);
             } else {
-                console.log(JSON.stringify(e));
-                console.log(`error:${e.error} , opts: ${e.opts ? JSON.stringify(e.opts) : ''},type: ${e.type}`);
-                if (e.type === 'sign') {
-                    doRetry(Object.keys(obj));
+                if (Object.keys(e).length === 0) {
+                    console.log('未知异常');
+                } else {
+                    console.log(`error:${e.error} , opts: ${e.opts ? JSON.stringify(e.opts) : ''},type: ${e.type}`);
+                    if (e.type === 'sign') {
+                        doRetry(Object.keys(obj));
+                    }
                 }
             }
         } finally {
             if (failed) {
-                await doRetry(failed).finally(()=>{
+                await doRetry(failed).finally(() => {
                     $done();
                 });
             }
