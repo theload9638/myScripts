@@ -8,15 +8,15 @@ if (!vals) {
 let arr = JSON.parse(vals);
 $prefs.removeValueForKey(key);
 
-try{
+try {
     Promise.allSettled(arr.map(i => new HttpTask(i))).then(res => {
-    for (let k of res) {
-        console.log(k + '\n');
-    }
-});
-}catch(e){
-    console.log('未知异常：'+e);
-}finally{
+        for (let k of res) {
+            console.log(k + '\n');
+        }
+    });
+} catch (e) {
+    console.log('未知异常：' + e);
+} finally {
     $done();
 }
 // let taskModel = {
@@ -37,36 +37,37 @@ function HttpTask(task) {
         return Promise.reject('task is null');
     }
     const executeRetry = async (locTask, result, retryTimes) => {
-        if(!locTask){
+        if (!locTask) {
             return result;
         }
+        if (locTask.needResponse && locTask.preload) {
+            if (typeof locTask.preload === 'function') {
+                locTask.preload.call(locTask, result);
+            }
+        }
+        let res;
         try {
-            if (locTask.needResponse && locTask.preload) {
-                if (typeof locTask.preload === 'function') {
-                    locTask.preload.call(locTask, result);
-                }
-            }
-            let res = await send(locTask);
-            if (!locTask.hasNext) {
-                if (locTask.mapHanlder && typeof locTask.mapHanlder === 'function') {
-                    result = locTask.mapHanlder.call(locTask, res);
-                } else {
-                    result = res;
-                }
-                return result;
-            } else {
-                result = res;
-                return await executeRetry(locTask.next,result,retryTimes);
-            }
+            res = await send(locTask);
         } catch (e) {
             if (retryTimes > 0) {
                 addRetryTask(task, retryTimes - 1); // 通知机制
             }
-            throw new Error(`${locTask.name} 本次重试任务执行失败`);
+            throw new Error(`${locTask.name} 本次重试任务执行失败,opts: ${locTask.options?JSON.stringify(locTask.options):null}`);
+        }
+        if (!locTask.hasNext) {
+            if (locTask.mapHanlder && typeof locTask.mapHanlder === 'function') {
+                result = locTask.mapHanlder.call(locTask, res);
+            } else {
+                result = res;
+            }
+            return result;
+        } else {
+            result = res;
+            return await executeRetry(locTask.next, result, retryTimes);
         }
     };
     return new Promise((resolve, reject) => {
-        executeRetry(task,null,task.retryTimes).then(res=>resolve(res)).catch(err=>reject(err));
+        executeRetry(task, null, task.retryTimes).then(res => resolve(res)).catch(err => reject(err));
     });
 }
 function send(task) {
@@ -74,9 +75,9 @@ function send(task) {
         return Promise.reject('task is null');
     }
     let req = task.request;
-    let opts = tasks.options;
-    let timeout = task.timeout ? task.timeout : 5000;
-    let type = task.name ? task.name : 'api';
+    let opts = task.options;
+    let timeout = task.timeout || 5000;
+    let type = task.name || 'api';
     if (!req.method) {
         req.method = 'GET';
     }
@@ -88,13 +89,13 @@ function send(task) {
     }
     return Promise.race([new Promise((a, b) => {
         setTimeout(() => {
-            b(`${type}执行失败：请求超时\n opts：${opts ? JSON.stringify(opts) : null}`);
+            b({ error: `请求超时\n`, opts ,type});
         }, timeout);
     }), new Promise((res, rej) => {
         $task.fetch(req).then(response => {
-            res({ ...response, opts: opts });
+            res({ ...response, opts });
         }, reason => {
-            rej({ opts, error: reason.error });
+            rej({ opts, error: reason.error ,type});
         });
     })])
 }
@@ -112,7 +113,7 @@ function findLastTask(task) {
     }
 }
 function addRetryTask(task, availableTimes) {
-    console.log(`${task.name}进行任务重试,剩余重试次数：${availableTimes}`);
+    console.log(`${task.name}进行任务重试,剩余重试次数：${availableTimes} , options: ${task.options?JSON.stringify(task.options):null}`);
     task.retryTimes = availableTimes;
     let vals = $prefs.valueForKey(key);
     let arr = [task];
