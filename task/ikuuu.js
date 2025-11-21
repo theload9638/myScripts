@@ -11,15 +11,21 @@ if (vals !== undefined) {
         const ps1 = Object.keys(obj).map(key => loginUp(key, obj[key]));
         try {
             const res = await Promise.allSettled(ps1);
-            failed = res.filter(i => i.status === 'rejected').map(i => i.reason );
-            let ps2 = res.filter(i => i.status === 'fulfilled').map(i=>i.value).map(msg => {
-                if (msg.headers.hasOwnProperty('Set-Cookie')) {
-                    let ck = msg.headers['Set-Cookie'].replace(/path=\/(,)?\s?/gi, '').
-                        replace(/expires=[^;]+?;\s?/gi, '').trim();
-                    let name = msg.opts.email;
-                    return signUp(name, ck);
-                }
-                return Promise.reject(`${msg.opts.email}登录失败,请检查网络状态`);
+            failed = res.filter(i => i.status === 'rejected').map(i => i.reason);
+            let suc1 = res.filter(i => i.status === 'fulfilled').map(i => i.value);
+            let failed1 = suc1.filter(i => !i.headers.hasOwnProperty('Set-Cookie')).map(msg => {
+                return { error: `${msg.opts.email}登录失败,请检查网络状态`, opts: { email: msg.opts.email }, type: 'login' };
+            });
+            if(failed){
+                failed.push(failed1);
+            }else{
+                failed = failed1;
+            }
+            let ps2 = suc1.filter(msg => msg.headers.hasOwnProperty('Set-Cookie')).map(msg => {
+                let ck = msg.headers['Set-Cookie'].replace(/path=\/(,)?\s?/gi, '').
+                    replace(/expires=[^;]+?;\s?/gi, '').trim();
+                let name = msg.opts.email;
+                return signUp(name, ck);
             });
             await Promise.all(ps2).then(res2 => {
                 let msg = res2.map(j => `${j.opts.name}签到成功：${JSON.parse(j.body)?.msg}`).reduce((pre, nex) => {
@@ -34,7 +40,9 @@ if (vals !== undefined) {
                 if (Object.keys(e).length === 0) {
                     console.log('未知异常');
                 } else {
-                    console.log(`error:${e.error} , opts: ${e.opts ? JSON.stringify(e.opts) : ''},type: ${e.type}`);
+                    console.log(`error:${e.error} , 
+                        opts: ${e.opts ? JSON.stringify(e.opts) : ''},
+                        type: ${e.type}`);
                     if (e.type === 'sign') {
                         doRetry(Object.keys(obj));
                     }
