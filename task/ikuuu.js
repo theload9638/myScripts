@@ -38,7 +38,7 @@ if (vals !== undefined) {
                 console.log('未知异常：' + e);
             } else {
                 if (Object.keys(e).length === 0) {
-                    console.log('未知异常');
+                    console.log('未知异常:{}');
                 } else {
                     console.log(`error:${e.error} , 
                         opts: ${e.opts ? JSON.stringify(e.opts) : ''},
@@ -126,7 +126,7 @@ function signUp(emailKey, ck) {
 }
 function doRetry(emails) {
     if (retry && Array.isArray(emails) && emails.length > 0) {
-        console.log(`重试队列：${emails}`);
+        console.log(`重试队列：${emails.length}`);
         return new Promise((resolve, reject) => {
             let retryTasks = $prefs.valueForKey(retryKey);
             let obj = JSON.parse(vals);
