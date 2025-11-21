@@ -16,9 +16,9 @@ if (vals !== undefined) {
             let failed1 = suc1.filter(i => !i.headers.hasOwnProperty('Set-Cookie')).map(msg => {
                 return { error: `${msg.opts.email}登录失败,请检查网络状态`, opts: { email: msg.opts.email }, type: 'login' };
             });
-            if(failed){
+            if (failed && failed.length > 0) {
                 failed.push(failed1);
-            }else{
+            } else {
                 failed = failed1;
             }
             let ps2 = suc1.filter(msg => msg.headers.hasOwnProperty('Set-Cookie')).map(msg => {
@@ -27,12 +27,14 @@ if (vals !== undefined) {
                 let name = msg.opts.email;
                 return signUp(name, ck);
             });
-            await Promise.all(ps2).then(res2 => {
-                let msg = res2.map(j => `${j.opts.name}签到成功：${JSON.parse(j.body)?.msg}`).reduce((pre, nex) => {
-                    return pre + '\n' + nex;
+            if (ps2.length > 0) {
+                await Promise.all(ps2).then(res2 => {
+                    let msg = res2.map(j => `${j.opts.name}签到成功：${JSON.parse(j.body)?.msg}`).reduce((pre, nex) => {
+                        return pre + '\n' + nex;
+                    });
+                    console.log(msg);
                 });
-                console.log(msg);
-            });
+            }
         } catch (e) {
             if (typeof e !== 'object') {
                 console.log('未知异常：' + e);
@@ -126,7 +128,7 @@ function signUp(emailKey, ck) {
 }
 function doRetry(emails) {
     if (retry && Array.isArray(emails) && emails.length > 0) {
-        console.log(`重试队列：${emails.length}`);
+        console.log(`重试队列处理中,错误消息：\n${emails.map(i => i.error).join('\n')}`);
         return new Promise((resolve, reject) => {
             let retryTasks = $prefs.valueForKey(retryKey);
             let obj = JSON.parse(vals);
