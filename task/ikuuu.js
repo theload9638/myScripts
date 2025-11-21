@@ -11,8 +11,8 @@ if (vals !== undefined) {
         const ps1 = Object.keys(obj).map(key => loginUp(key, obj[key]));
         try {
             const res = await Promise.allSettled(ps1);
-            failed = res.filter(i => i.status === 'rejected').map(i => i.reason);
-            let ps2 = res.filter(i => i.status === 'fulfilled').map(i=>i.reason).map(msg => {
+            failed = res.filter(i => i.status === 'rejected').map(i => i.reason );
+            let ps2 = res.filter(i => i.status === 'fulfilled').map(i=>i.value).map(msg => {
                 if (msg.headers.hasOwnProperty('Set-Cookie')) {
                     let ck = msg.headers['Set-Cookie'].replace(/path=\/(,)?\s?/gi, '').
                         replace(/expires=[^;]+?;\s?/gi, '').trim();
