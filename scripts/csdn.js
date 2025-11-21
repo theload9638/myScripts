@@ -12,6 +12,24 @@ if(url.includes('/get-ios-config?keys=homeTabTesting_7_B')){
         return p2.includes(item.title);
     });
     $done({body: JSON.stringify(body)});
-}else{
+}else if(url.includes('/download.csdn.net/api/source/detail/v1/userInfo/')){
+    let bd = JSON.parse($response.body);
+    bd.data.downloadBtn2VipBool = true;
+    bd.data.action = {
+        ...bd.data.action,
+        isSelfResource:true,
+        isFreeDownload:true,
+        isMoneyEnough:true,
+        isVipEnough:true,
+        isDownloaded:true
+    };
+    bd.data.content.sourceInfo.cbeans=0;
+    bd.data.content.sourceInfo.score=0;
+    bd.data.content.userBenefit.cbeans=9999;
+    bd.data.content.userBenefit.score=9999;
+
+    $done({body: JSON.stringify(bd)});
+}
+else{
     $done({});
 }
