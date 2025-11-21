@@ -5,8 +5,8 @@ if (!vals) {
     $done();
     return;
 }
-$prefs.removeValueForKey(key);
 let arr = JSON.parse(vals);
+$prefs.removeValueForKey(key);
 console.log('本次执行任务次数：'+arr.length);
 try {
     Promise.allSettled(arr.map(i => new HttpTask(i))).then(res => {
