@@ -7,7 +7,7 @@ if (!vals) {
 }
 const arr = JSON.parse(vals);
 if(Array.isArray(arr) && arr.length<=0){
-    console.log('任务处理异常');
+    console.log(`任务处理异常：${vals}`);
     $prefs.removeValueForKey(key);
     $done();
     return;

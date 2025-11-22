@@ -206,15 +206,13 @@ function doRetry(emails) {
                 };
                 task1s.push(build);
             }
-            if (!retryTasks) {
-                $prefs.setValueForKey(JSON.stringify(task1s), retryKey);
-            } else {
+            if (retryTasks) {
                 let arr2 = JSON.parse(retryTasks);
                 if (Array.isArray(arr2)) {
-                    arr2.concat(task1s);
+                    task1s.concat(arr2);
                 }
-                $prefs.setValueForKey(JSON.stringify(arr2), retryKey);
             }
+            $prefs.setValueForKey(JSON.stringify(task1s), retryKey);
             resolve();
         });
     }
