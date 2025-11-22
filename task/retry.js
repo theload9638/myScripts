@@ -6,8 +6,14 @@ if (!vals) {
     return;
 }
 const arr = JSON.parse(vals);
-$prefs.removeValueForKey(key);
+if(Array.isArray(arr) && arr.length<=0){
+    console.log('任务处理异常');
+    $prefs.removeValueForKey(key);
+    $done();
+    return;
+}
 console.log('本次执行任务次数：' + arr.length);
+$prefs.removeValueForKey(key);
 try {
     Promise.allSettled(arr.map(i => new HttpTask(i))).then(res => {
         for (let k of res) {
