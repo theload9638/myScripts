@@ -175,7 +175,7 @@ function doRetry(emails) {
                             let name = res.opts.email;
                             return { ck, name };
                         }
-                        return Promise.reject(`${res.opts.email}登录失败,请检查网络状态`);
+                        throw `${res.opts.email}登录失败,请检查网络状态`;
                     },
                     retryTimes: retryTimes
                 };

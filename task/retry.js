@@ -7,7 +7,7 @@ if (!vals) {
 }
 let arr = JSON.parse(vals);
 $prefs.removeValueForKey(key);
-console.log('本次执行任务次数：'+arr.length);
+console.log('本次执行任务次数：' + arr.length);
 try {
     Promise.allSettled(arr.map(i => new HttpTask(i))).then(res => {
         for (let k of res) {
@@ -40,30 +40,28 @@ function HttpTask(task) {
         if (!locTask) {
             return result;
         }
-        if (locTask.needResponse && locTask.preload) {
-            if (typeof locTask.preload === 'function') {
-                locTask.preload.call(locTask, result);
-            }
-        }
-        let res;
         try {
-            res = await send(locTask);
-        } catch (e) {
-            if (retryTimes > 0) {
-                addRetryTask(task, retryTimes - 1); // 通知机制
+            if (locTask.needResponse && locTask.preload) {
+                if (typeof locTask.preload === 'function') {
+                    locTask.preload.call(locTask, result);
+                }
             }
-            throw new Error(`${locTask.name} 本次重试任务执行失败,opts: ${locTask.options?JSON.stringify(locTask.options):null}`);
-        }
-        if (!locTask.hasNext) {
+            let res = await send(locTask);
             if (locTask.mapHanlder && typeof locTask.mapHanlder === 'function') {
                 result = locTask.mapHanlder.call(locTask, res);
             } else {
                 result = res;
             }
-            return result;
-        } else {
-            result = res;
-            return await executeRetry(locTask.next, result, retryTimes);
+            if (!locTask.hasNext) {
+                return result;
+            } else {
+                return await executeRetry(locTask.next, result, retryTimes);
+            }
+        } catch (e) {
+            if (retryTimes > 0) {
+                addRetryTask(task, retryTimes - 1); // 通知机制
+            }
+            throw new Error(`${locTask.name} 本次重试任务执行失败,opts: ${locTask.options ? JSON.stringify(locTask.options) : null}`);
         }
     };
     return new Promise((resolve, reject) => {
@@ -89,13 +87,13 @@ function send(task) {
     }
     return Promise.race([new Promise((a, b) => {
         setTimeout(() => {
-            b({ error: `请求超时\n`, opts ,type});
+            b({ error: `请求超时\n`, opts, type });
         }, timeout);
     }), new Promise((res, rej) => {
         $task.fetch(req).then(response => {
             res({ ...response, opts });
         }, reason => {
-            rej({ opts, error: reason.error ,type});
+            rej({ opts, error: reason.error, type });
         });
     })])
 }
@@ -113,7 +111,7 @@ function findLastTask(task) {
     }
 }
 function addRetryTask(task, availableTimes) {
-    console.log(`${task.name}进行任务重试,剩余重试次数：${availableTimes} , options: ${task.options?JSON.stringify(task.options):null}`);
+    console.log(`${task.name}进行任务重试,剩余重试次数：${availableTimes} , options: ${task.options ? JSON.stringify(task.options) : null}`);
     task.retryTimes = availableTimes;
     let vals = $prefs.valueForKey(key);
     let arr = [task];
