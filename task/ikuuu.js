@@ -212,6 +212,7 @@ function doRetry(emails) {
                     task1s.concat(arr2);
                 }
             }
+            console.log(`重试队列处理完毕,新增任务数量：${task1s.length}`);
             $prefs.setValueForKey(JSON.stringify(task1s), retryKey);
             resolve();
         });
