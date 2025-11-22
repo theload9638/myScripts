@@ -1,11 +1,11 @@
-let key = '_retryTask';
+const key = '_retryTask';
 let vals = $prefs.valueForKey(key);
 if (!vals) {
     console.log('暂无重试任务');
     $done();
     return;
 }
-let arr = JSON.parse(vals);
+const arr = JSON.parse(vals);
 $prefs.removeValueForKey(key);
 console.log('本次执行任务次数：' + arr.length);
 try {

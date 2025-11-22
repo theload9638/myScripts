@@ -1,7 +1,7 @@
 const key = 'ikuuu';
 const vals = $prefs.valueForKey(key);
 let retry = true;
-let retryKey = '_retryTask';
+const retryKey = '_retryTask';
 let retryTimes = 3;
 
 if (vals !== undefined) {
@@ -17,7 +17,7 @@ if (vals !== undefined) {
                 return { error: `${msg.opts.email}登录失败,请检查网络状态`, opts: { email: msg.opts.email }, type: 'login' };
             });
             if (failed && failed.length > 0) {
-                failed.push(failed1);
+                failed.concat(failed1);
             } else {
                 failed = failed1;
             }
@@ -46,17 +46,18 @@ if (vals !== undefined) {
                         opts: ${e.opts ? JSON.stringify(e.opts) : ''},
                         type: ${e.type}`);
                     if (e.type === 'sign') {
-                        doRetry(Object.keys(obj));
+                        await doRetry(Object.keys(obj));
                     }
                 }
             }
         } finally {
-            if (failed) {
+            if (failed && failed.length>0) {
                 await doRetry(failed).finally(() => {
                     $done();
                 });
+            } else {
+                $done();
             }
-            $done();
         }
     })();
 } else {
@@ -210,7 +211,7 @@ function doRetry(emails) {
             } else {
                 let arr2 = JSON.parse(retryTasks);
                 if (Array.isArray(arr2)) {
-                    arr2.push(task1s);
+                    arr2.concat(task1s);
                 }
                 $prefs.setValueForKey(JSON.stringify(arr2), retryKey);
             }
