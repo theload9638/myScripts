@@ -46,18 +46,15 @@ if (vals !== undefined) {
                         opts: ${e.opts ? JSON.stringify(e.opts) : ''},
                         type: ${e.type}`);
                     if (e.type === 'sign') {
-                        await doRetry(Object.keys(obj));
+                        failed = Object.keys(obj);
                     }
                 }
             }
         } finally {
             if (failed && failed.length>0) {
-                await doRetry(failed).finally(() => {
-                    $done();
-                });
-            } else {
-                $done();
-            }
+                doRetry(failed);
+            } 
+            $done();
         }
     })();
 } else {
@@ -130,7 +127,7 @@ function signUp(emailKey, ck) {
 function doRetry(emails) {
     if (retry && Array.isArray(emails) && emails.length > 0) {
         console.log(`重试队列处理中,错误消息：\n${emails.map(i => i.error).join('\n')}`);
-        return new Promise((resolve, reject) => {
+        // return new Promise((resolve, reject) => {
             let retryTasks = $prefs.valueForKey(retryKey);
             let obj = JSON.parse(vals);
             let arr1 = Object.keys(obj).filter(i => emails.includes(i));
@@ -214,10 +211,11 @@ function doRetry(emails) {
             }
             console.log(`重试队列处理完毕,新增任务数量：${task1s.length}`);
             $prefs.setValueForKey(JSON.stringify(task1s), retryKey);
-            resolve();
-        });
+            // console.log(`是否立刻持久化成功：${$prefs.valueForKey(retryKey)}`);
+            // resolve();
+        // });
     }
-    return Promise.resolve();
+    // return Promise.resolve();
 }
 
 
