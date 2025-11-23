@@ -134,7 +134,6 @@ function doRetry(emails) {
     if (retry && Array.isArray(emails) && emails.length > 0) {
         console.log(`重试队列处理中,错误消息：\n${emails.map(i => i.error).join('\n')}`);
         // return new Promise((resolve, reject) => {
-            let retryTasks = $prefs.valueForKey(retryKey);
             let obj = JSON.parse(vals);
             let emailKeys = emails.map(i=>{
                 return i.opts?i.opts.email:i;
@@ -212,6 +211,7 @@ function doRetry(emails) {
                 };
                 task1s.push(build);
             }
+            let retryTasks = $prefs.valueForKey(retryKey);
             if (retryTasks) {
                 let arr2 = JSON.parse(retryTasks);
                 if (Array.isArray(arr2)) {
