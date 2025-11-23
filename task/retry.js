@@ -6,7 +6,7 @@ if (!vals) {
     return;
 }
 const arr = JSON.parse(vals);
-if(Array.isArray(arr) && arr.length<=0){
+if (Array.isArray(arr) && arr.length <= 0) {
     console.log(`任务处理异常：${vals}`);
     $prefs.removeValueForKey(key);
     $done();
@@ -15,12 +15,15 @@ if(Array.isArray(arr) && arr.length<=0){
 console.log('本次执行任务次数：' + arr.length);
 $prefs.removeValueForKey(key);
 try {
-    Promise.allSettled(arr.map(i => new HttpTask(i))).then(res => {
-        console.log('本次任务结果数量：'+res.length);
-        for (let k of res) {
-            console.log(k + '\n');
-        }
-    });
+    if (arr.length > 0) {
+        let tasks = arr.map(config => new HttpTask(config));
+        Promise.allSettled(tasks).then(res => {
+            console.log('本次任务结果数量：' + res.length);
+            for (let k of res) {
+                console.log(k + '\n');
+            }
+        });
+    }
 } catch (e) {
     console.log('未知异常：' + e);
 } finally {
