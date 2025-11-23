@@ -46,7 +46,13 @@ if (vals !== undefined) {
                         opts: ${e.opts ? JSON.stringify(e.opts) : ''},
                         type: ${e.type}`);
                     if (e.type === 'sign') {
-                        failed = Object.keys(obj);
+                        failed = Object.keys(obj).map(i=>{
+                            return {
+                                error:'sign error',
+                                type:'sign',
+                                opts:{email:i}
+                            }
+                        });
                     }
                 }
             }
@@ -130,7 +136,10 @@ function doRetry(emails) {
         // return new Promise((resolve, reject) => {
             let retryTasks = $prefs.valueForKey(retryKey);
             let obj = JSON.parse(vals);
-            let arr1 = Object.keys(obj).filter(i => emails.includes(i));
+            let emailKeys = emails.map(i=>{
+                return i.opts?i.opts.email:i;
+            });
+            let arr1 = Object.keys(obj).filter(i => emailKeys.includes(i));
             let task1s = [];
             for (let i = 0; i < arr1.length; i++) {
                 let email = arr1[i];
@@ -211,7 +220,6 @@ function doRetry(emails) {
             }
             console.log(`重试队列处理完毕,新增任务数量：${task1s.length}`);
             $prefs.setValueForKey(JSON.stringify(task1s), retryKey);
-            // console.log(`是否立刻持久化成功：${$prefs.valueForKey(retryKey)}`);
             // resolve();
         // });
     }
