@@ -1,19 +1,13 @@
 const key = '_retryTask';
 let vals = $prefs.valueForKey(key);
-if (!vals) {
+if (!vals || vals==='[]') {
     console.log('暂无重试任务');
     $done();
     return;
 }
 const arr = JSON.parse(vals);
-if (Array.isArray(arr) && arr.length <= 0) {
-    console.log(`任务处理异常：${vals}`);
-    $prefs.removeValueForKey(key);
-    $done();
-    return;
-}
-console.log('本次执行任务次数：' + arr.length);
 $prefs.removeValueForKey(key);
+console.log('本次执行任务数：' + arr.length);
 try {
     if (arr.length > 0) {
         let tasks = arr.map(config => new HttpTask(config));
