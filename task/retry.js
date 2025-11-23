@@ -16,6 +16,7 @@ console.log('本次执行任务次数：' + arr.length);
 $prefs.removeValueForKey(key);
 try {
     Promise.allSettled(arr.map(i => new HttpTask(i))).then(res => {
+        console.log('本次任务结果数量：'+res.length);
         for (let k of res) {
             console.log(k + '\n');
         }
