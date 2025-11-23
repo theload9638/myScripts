@@ -8,6 +8,7 @@ if (url.includes('/ad_template')) {
         html = html.replace(/<a.*?>.*?<\/a>/gs, '');
         html = html.replace(/resizeAd\(\)\s*;/g, '');
         html = html.replace(/AD/g, '');
+        html = html.replace(/resizeAd\(\)\s+[^{}]/g,'');
     }
     $done({ body: html });
 } else if (url.includes('/chapter_view_template')) {
@@ -17,7 +18,8 @@ if (url.includes('/ad_template')) {
         html = html.replace(/<div\s*(?:class=\"ad-body\"([^>]*?))style=\".*?\"\s*>/g, '<div class="ad-body" $1 style="height:0px;">');
         html = html.replace(/<a.*?(?:target=\"_blank\").*?>[\s\S]*?<\/a>/g, '');
         html = html.replace(/<script[^<]*?src=\".*?ad-provider\.js\"\s*>[\s\S]*?(<div class=\"group-notice\")>/g, '$1');
-        html = html.replace(/<div\s*class=\"group-notice\"\s*>\s*AD/g, '<div>');
+        html = html.replace(/<div\s*class=\"group-notice\"\s*>?\s*AD/g, '<div>');
+        html = html.replace(/resizeAd\(\)\s+[^{}]/g,'');
     }
     $done({ body: html });
 } else {
