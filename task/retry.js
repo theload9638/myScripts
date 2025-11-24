@@ -120,8 +120,7 @@ function addRetryTask(task, availableTimes) {
     let vals = $prefs.valueForKey(key);
     let arr = [task];
     if (vals) {
-        arr = JSON.parse(vals);
-        arr.push(task);
+        arr.concat(JSON.parse(vals));
     }
     $prefs.setValueForKey(JSON.stringify(arr), key);
 }
