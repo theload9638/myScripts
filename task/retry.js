@@ -35,7 +35,59 @@ try {
 //     timeout: 3,
 //     retryTimes: 3
 // };
-
+function send(task) {
+    if (!task) {
+        return Promise.reject('task is null');
+    }
+    let req = task.request;
+    let opts = task.options;
+    let timeout = task.timeout || 5000;
+    let type = task.name || 'api';
+    if (!req.method) {
+        req.method = 'GET';
+    }
+    if (!req.headers["User-Agent"]) {
+        req.headers["User-Agent"] = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36";
+    }
+    if (!req.opts) {
+        req.opts = { redirection: false };
+    }
+    let errorMsg = {error:'request timeout',type,opts};
+    return Promise.race([delay(timeout,errorMsg),_rawSend(req,opts,type)]);
+}
+function findLastTask(task) {
+    if (!task) {
+        return null;
+    }
+    if (task.hasNext === false) {
+        return task;
+    } else {
+        if (task.hasOwnProperty('next')) {
+            return findLastTask(task.next);
+        }
+        return task;
+    }
+}
+function delay(timeout,error){
+    return new Promise((res,rej)=>{
+        setTimeout(()=>rej(error),timeout);
+    });
+}
+function _rawSend(req,opts,type){
+    return new Promise((res,rej)=>{
+        $task.fetch(req).then(result=>res({...result,opts}),reason=>rej({opts,error:reason.error,type}));
+    });
+}
+function addRetryTask(task, availableTimes) {
+    console.log(`${task.name}进行任务重试,剩余重试次数：${availableTimes} , options: ${task.options ? JSON.stringify(task.options) : null}`);
+    task.retryTimes = availableTimes;
+    let vals = $prefs.valueForKey(key);
+    let arr = [task];
+    if (vals) {
+        arr.concat(JSON.parse(vals));
+    }
+    $prefs.setValueForKey(JSON.stringify(arr), key);
+}
 function HttpTask(task) {
     if (!task) {
         return Promise.reject('task is null');
@@ -71,56 +123,4 @@ function HttpTask(task) {
     return new Promise((resolve, reject) => {
         executeRetry(task, null, task.retryTimes).then(res => resolve(res)).catch(err => reject(err));
     });
-}
-function send(task) {
-    if (!task) {
-        return Promise.reject('task is null');
-    }
-    let req = task.request;
-    let opts = task.options;
-    let timeout = task.timeout || 5000;
-    let type = task.name || 'api';
-    if (!req.method) {
-        req.method = 'GET';
-    }
-    if (!req.headers["User-Agent"]) {
-        req.headers["User-Agent"] = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36";
-    }
-    if (!req.opts) {
-        req.opts = { redirection: false };
-    }
-    return Promise.race([delay(timeout,{error:'request timeout',type,opts}),_rawSend(req,opts,type)]);
-}
-function findLastTask(task) {
-    if (!task) {
-        return null;
-    }
-    if (task.hasNext === false) {
-        return task;
-    } else {
-        if (task.hasOwnProperty('next')) {
-            return findLastTask(task.next);
-        }
-        return task;
-    }
-}
-function delay(timeout,error){
-    return new Promise((res,rej)=>{
-        setTimeout(()=>rej(error),timeout);
-    });
-}
-function _rawSend(req,opts,type){
-    return new Promise((res,rej)=>{
-        $task.fetch(req).then(result=>res({...result,opts}),reason=>rej({opts,error:reason.error,type}));
-    });
-}
-function addRetryTask(task, availableTimes) {
-    console.log(`${task.name}进行任务重试,剩余重试次数：${availableTimes} , options: ${task.options ? JSON.stringify(task.options) : null}`);
-    task.retryTimes = availableTimes;
-    let vals = $prefs.valueForKey(key);
-    let arr = [task];
-    if (vals) {
-        arr.concat(JSON.parse(vals));
-    }
-    $prefs.setValueForKey(JSON.stringify(arr), key);
 }
