@@ -89,17 +89,7 @@ function send(task) {
     if (!req.opts) {
         req.opts = { redirection: false };
     }
-    return Promise.race([new Promise((a, b) => {
-        setTimeout(() => {
-            b({ error: `请求超时\n`, opts, type });
-        }, timeout);
-    }), new Promise((res, rej) => {
-        $task.fetch(req).then(response => {
-            res({ ...response, opts });
-        }, reason => {
-            rej({ opts, error: reason.error, type });
-        });
-    })])
+    return Promise.race([delay(timeout,{error:'request timeout',type,opts}),_rawSend(req,opts,type)]);
 }
 function findLastTask(task) {
     if (!task) {
@@ -113,6 +103,16 @@ function findLastTask(task) {
         }
         return task;
     }
+}
+function delay(timeout,error){
+    return new Promise((res,rej)=>{
+        setTimeout(()=>rej(error),timeout);
+    });
+}
+function _rawSend(req,opts,type){
+    return new Promise((res,rej)=>{
+        $task.fetch(req).then(result=>res({...result,opts}),reason=>rej({opts,error:reason.error,type}));
+    });
 }
 function addRetryTask(task, availableTimes) {
     console.log(`${task.name}进行任务重试,剩余重试次数：${availableTimes} , options: ${task.options ? JSON.stringify(task.options) : null}`);
