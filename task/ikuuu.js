@@ -1,6 +1,6 @@
 const key = 'ikuuu';
 const vals = $prefs.valueForKey(key);
-let retry = true;
+let retry = false;
 const retryKey = '_retryTask';
 let retryTimes = 3;
 
@@ -57,7 +57,7 @@ if (vals !== undefined) {
                 }
             }
         } finally {
-            if (failed && failed.length>0) {
+            if (retry && failed && failed.length>0) {
                 doRetry(failed);
             } 
             $done();
