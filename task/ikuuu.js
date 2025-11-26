@@ -57,8 +57,13 @@ if (vals !== undefined) {
                 }
             }
         } finally {
-            if (retry && failed && failed.length>0) {
-                doRetry(failed);
+            if (failed && failed.length>0) {
+                console.log('任务执行失败:'+failed.map(i=>{
+                    return i.error?i.error:i;
+                }).join('\n'));
+                if(retry){
+                    doRetry(failed);
+                }
             } 
             $done();
         }
