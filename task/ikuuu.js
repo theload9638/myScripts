@@ -111,7 +111,7 @@ function loginUp(email, passwd) {
             redirection: false
         }
     };
-    return post(req, { email }, timeout = 6000, 'login');
+    return post(req, { email }, 6000, 'login');
 }
 function signUp(emailKey, ck) {
     const req = {
