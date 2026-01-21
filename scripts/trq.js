@@ -1,6 +1,6 @@
 const url = $request.url;
 if(/^https?:\/\/www\.tongrenquan\.org\/tongren\/(.*)+?.html/.test(url)){
-    if(url.includes('9471.html')){
+    if(url.includes('9471')){
         $done();
         return
     }
