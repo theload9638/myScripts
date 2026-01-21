@@ -1,7 +1,7 @@
 const url = $request.url;
 if(/^https?:\/\/www\.tongrenquan\.org\/tongren\/(.*)+?.html/.test(url)){
     if(url.includes('9471.html')){
-        $done({});
+        $done();
         return
     }
      let html = $response.body;
@@ -9,5 +9,5 @@ if(/^https?:\/\/www\.tongrenquan\.org\/tongren\/(.*)+?.html/.test(url)){
      html = html.replace(/<\/head>/,styleStr+'</head>');
      $done({ body: html });
 }else{
-    $done({});
+    $done();
 }
