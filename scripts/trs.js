@@ -1,8 +1,8 @@
-const url = $request.url;
-let uint8Buffer = new Uint8Array($response.bodyBytes);
-let styleStr = '<style>*{background:#595757 !important;}</style>';
-let html = new TextDecoder('utf-8', { fatal: false, ignoreBOM: true }).decode(uint8Buffer);
-console.log(html);
-html = html.replace(/<\/head>/, styleStr + '</head>');
-let utf8Bytes = new TextEncoder().encode(html);
-$done({ bodyBytes: utf8Bytes.buffer });
+const uint8Buffer = new Uint8Array($response.bodyBytes);
+const html = iconv.decode(uint8Buffer, 'gb2312');
+
+const styleStr = '<style>*{background:#595757 !important;}</style>';
+const processedHtml = html.replace(/<\/head>/, styleStr + '</head>');
+
+const gb2312Bytes = iconv.encode(processedHtml, 'gb2312');
+$done({ bodyBytes: gb2312Bytes.buffer });
