@@ -1,3 +1,4 @@
+const url = $request.url;
 const uint8Buffer = new Uint8Array($response.bodyBytes);
 let html = new TextDecoder('gb2312',{ fatal: false, ignoreBOM: true }).decode(uint8Buffer);
 
@@ -5,7 +6,14 @@ let styleStr = '<style>#ad-container,.GoogleActiveViewInnerContainer,.google-aut
 html = html.replace(/<\/head>/, styleStr + '</head>');
 html = html.replace('gb2312','utf-8');
 html = html.replace(/<div\s*id=\"immersive-translate-popup\"(.*?)/s,'</html>');
-html = html.replace(/<div\s*class=\"newNav\"(.*)?<div\s*class=\"readContent\">/s,'<div class="readContent">');
+
+if(/[a-zA-Z_]+\/\d+\.html$/.test(url)){
+    html = html.replace(/<div\s*class=\"head\">(.*)?<div\s*class=\"readContent\">/s,'<div class="readContent">');
+}else if(/[a-zA-Z_]+\/\d+\/\d+\.html$/.test(url)){
+    html = html.replace(/<div\s*class=\"head\">(.*)?<div\s*class=\"topReadContent\"([^>]*?)>/s,'<div class="topReadContent">');
+    html = html.replace(/<ins(.*?)<\/ins>/gs,'');
+    html = html.replace(/<iframe(.*?)<\/iframe>/gs,'');
+}
 
 const utf8Bytes = new TextEncoder().encode(html);
 $done({ bodyBytes: utf8Bytes.buffer });
