@@ -4,7 +4,7 @@ let html = new TextDecoder('gb2312',{ fatal: false, ignoreBOM: true }).decode(ui
 let styleStr = '<style>#ad-container,.GoogleActiveViewInnerContainer,.google-auto-placed,video,#Image,#smx_wrap,#video-ad-ui,#aswift_9,#aswift_9_host,.adsbygoogle,.adsbygoogle-noablate{display:none !important;} * {background: #9c9999 !important;} .reading{ padding: 0px !important;}</style>';
 html = html.replace(/<\/head>/, styleStr + '</head>');
 html = html.replace('gb2312','utf-8');
-html = html.replace(/<div\s*id=\"immersive-translate-popup\"(.*?)/,'</html>');
+html = html.replace(/<div\s*id=\"immersive-translate-popup\"(.*?)/s,'</html>');
 html = html.replace(/<div\s*class=\"newNav\"(.*)?<div\s*class=\"readContent\">/s,'<div class="readContent">');
 
 const utf8Bytes = new TextEncoder().encode(html);
