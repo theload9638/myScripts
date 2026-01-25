@@ -5,7 +5,7 @@ let styleStr = 'td:has(iframe),.bottom-nav,#immersive-translate-popup,.comment-s
 
 if(url.includes('app=forum&act=threadview')){
    html = html.replace(/<div\s*class=\"ad-container\">(.*?)<div\s*class=\"main-content\">/s,'<div class="main-content">'); 
-    styleStr = styleStr + ".subtitle-container,.bottom-nav,.comment-section,.post-list,.ai-detection-feedback{display:none !important;pointer-events: none !important;}";
+   styleStr = styleStr + ".subtitle-container,.bottom-nav,.comment-section,.post-list,.ai-detection-feedback{display:none !important;pointer-events: none !important;}";
 }
 
 html = html.replace(/<\/head>/, '<style>'+styleStr + '</style></head>');
