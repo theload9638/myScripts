@@ -2,7 +2,7 @@ const url = $request.url;
 const uint8Buffer = new Uint8Array($response.bodyBytes);
 let html = new TextDecoder('gb2312',{ fatal: false, ignoreBOM: true }).decode(uint8Buffer);
 
-let styleStr = '#ad-container,.GoogleActiveViewInnerContainer,.google-auto-placed,video,#Image,#smx_wrap,#video-ad-ui,#aswift_9,#aswift_9_host,.adsbygoogle,.adsbygoogle-noablate{display:none !important;} * {background: #575353 !important;} .reading{ padding: 0px !important;}';
+let styleStr = '#ad-container,.GoogleActiveViewInnerContainer,.google-auto-placed,video,#Image,#smx_wrap,#video-ad-ui,#aswift_9,#aswift_9_host,.adsbygoogle,.adsbygoogle-noablate{display:none !important;pointer-events: none !important;} * {background: #494747 !important;} .reading{ padding: 0px !important;}';
 html = html.replace(/<div\s*id=\"immersive-translate-popup\"(.*?)/s,'</html>');
 
 if(/[a-zA-Z_]+\/\d+\.html$/.test(url)){
@@ -11,7 +11,7 @@ if(/[a-zA-Z_]+\/\d+\.html$/.test(url)){
     html = html.replace(/<div\s*class=\"head\">(.*)?<div\s*class=\"topReadContent\"([^>]*?)>/s,'<div class="topReadContent">');
     html = html.replace(/<ins(.*?)<\/ins>/gs,'');
     html = html.replace(/<iframe(.*?)<\/iframe>/gs,'');
-    styleStr= styleStr +' .next_pre,.hotlist{display:none !important;}';
+    styleStr= styleStr +' .next_pre,.hotlist{display:none !important;pointer-events: none !important;}';
 }
 
 html = html.replace(/<\/head>/,'<style>'+styleStr+'</style></head>');
