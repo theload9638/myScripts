@@ -1,12 +1,10 @@
 const url = $request.url;
-const type = $response.headers['content-type'] || $response.headers['Content-Type'];
-console.log($response.headers['content-type']);
+const type = $response.headers['Content-Type'];
+console.log(type);
 if (type.includes('text/html')) {
     let html = $response.body;
     let style = '#popup_box,.balance_insufficient_dialog_box,.banner_box,.banner,.note_box,.foot_box,.shortcut_box,#immersive-translate-popup,.place_holder_box,#comment_list,.dmca_box,.popular_box{display:none !important;pointer-events: none !important;}';
 
-    html = html.replace(/<div\s*id=\"popup_box\".*?<script\s*type=\"text\/javascript\">/s, '<script type="text/javascript">');
-    html = html.replace(/<div\s*class=\"banner_box\".*?<div\s*class=\"main_box\">/s, '<div class="main_box">');
     html = html.replace(/<iframe(.*?)<\/iframe>/gs, '');
 
     if (url.includes('/novel/chapter?id=')) {
