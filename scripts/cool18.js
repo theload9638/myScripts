@@ -8,6 +8,8 @@ if(url.includes('app=forum&act=threadview')){
    styleStr = styleStr + ".subtitle-container,.bottom-nav,.comment-section,.post-list,.ai-detection-feedback{display:none !important;pointer-events: none !important;}";
 }
 
+html = html.replace(/<script(.*?)src=\".*?(?=ad.parkvv.com).*?\"[^>]*>/g,'<script>');
+
 html = html.replace(/<\/head>/, '<style>'+styleStr + '</style></head>');
 
 $done({ body: html });
