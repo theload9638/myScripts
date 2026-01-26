@@ -1,10 +1,9 @@
 const url = $request.url;
 const type = $response.headers['Content-Type'];
-console.log(type);
-if (type.includes('text/html')) {
+if (type.includes('html')) {
     let html = $response.body;
-    let style = '#popup_box,.balance_insufficient_dialog_box,.banner_box,.banner,.note_box,.foot_box,.shortcut_box,#immersive-translate-popup,.place_holder_box,#comment_list,.dmca_box,.popular_box{display:none !important;pointer-events: none !important;}';
-
+    let style = '#popup_box,#popup_content_box,.balance_insufficient_dialog_box,.banner_box,.banner,.note_box,.foot_box,.shortcut_box,#immersive-translate-popup,.place_holder_box,#comment_list,.dmca_box{display:none !important;pointer-events: none !important;}';
+    
     html = html.replace(/<iframe(.*?)<\/iframe>/gs, '');
 
     if (url.includes('/novel/chapter?id=')) {
