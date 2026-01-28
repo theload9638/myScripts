@@ -1,7 +1,7 @@
 const url = $request.url;
 let type = $response.headers['Content-Type'];
 
-if (type.includes("html")) {
+if (type.includes("text")) {
     let domains = [
         'www.googletagmanager.com',
         'www.google-analytics.com',
@@ -13,6 +13,8 @@ if (type.includes("html")) {
         'ad.parkvv.com',
         'go.mavrtracktor.com',
         'creative.mavrtracktor.com',
+        'guidepaparazzisurface.com',
+        'diagramjawlineunhappy.com',
         'img.doppiocdn.com',
         'ttavej.com',
         'www.lovedate.cc',
@@ -35,7 +37,7 @@ if (type.includes("html")) {
     domains.map(escapeRegExp).forEach(domain => {
         html = html.replace(new RegExp(`<([a-zA-Z0-9]+)\\s+[^>]*?(src|href|id|class)\\s*=\\s*(['"]).*?${domain}.*?\\3[^>]*?>`, 'gi'), '<$1>');
     });
-    
+
     html = html.replace(/<ins(.*?)<\/ins>/gs, '');
     html = html.replace(/<iframe(.*?)<\/iframe>/gs, '');
     html = html.replace(/<video(.*?)<\/video>/gs, '');
