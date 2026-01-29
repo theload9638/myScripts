@@ -44,7 +44,7 @@ if (type.includes("text")) {
     ];
     const escapeRegExp = (str) => str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
     let html = $response.body;
-    let styleStr = 'ins,iframe,video,.banner{display:none !important;pointer-events: none !important;} div{ background-image:none !important;}';
+    let styleStr = 'ins,iframe,video,.banner,.ad,#ad{display:none !important;pointer-events: none !important;} div{ background-image:none !important;}';
     let bgColor = '#494747';
     
     html = html.replace(/<ins(.*?)<\/ins>/gs, '');
@@ -63,13 +63,13 @@ if (type.includes("text")) {
             styleStr +=' .menu_box,.more_menu,.avatar{display:none !important;pointer-events: none !important;}';
         }
     } else if (/^https?:\/\/www\.cool18\.com/.test(url)) {
-        styleStr += 'td:has(iframe),.bottom-nav,.comment-section,.post-list,.view_ad_incontent,.view_ad_bottom,.vote-section,.view-gift,.view_tools_box,.adv-6park,.root--26nWL,.bottomRight--h0VsQ,.slideAnimation--2ih2G{display:none !important;pointer-events: none !important;} * {background: ' + bgColor + ' !important;} a:link{color: #fcfafb; !important;}';
+        styleStr += '.bottom-nav,.comment-section,.post-list,.view_ad_incontent,.view_ad_bottom,.vote-section,.view-gift,.view_tools_box,.adv-6park,.root--26nWL,.bottomRight--h0VsQ,.slideAnimation--2ih2G{display:none !important;pointer-events: none !important;} * {background: ' + bgColor + ' !important;} a:link{color: #fcfafb; !important;}';
         if (url.includes('app=forum&act=threadview')) {
             html = html.replace(/<div\s*class=\"ad-container\">(.*?)<div\s*class=\"main-content\">/s, '<div class="main-content">');
             styleStr = styleStr + ".subtitle-container,.bottom-nav,.comment-section,.post-list,.ai-detection-feedback{display:none !important;pointer-events: none !important;}";
         }
     } else if (/^https?:\/\/m\.diyibanzhu\.(me|rest)/.test(url)) {
-        styleStr += '.slide-ad,.footer,.slide,#ad{display:none !important;pointer-events: none !important;} * {background: ' + bgColor + ' !important;}';
+        styleStr += '.slide-ad,.footer,.slide{display:none !important;pointer-events: none !important;} * {background: ' + bgColor + ' !important;}';
         html = html.replace(/class=\"slide-ad\"/g, '');
         if (url.includes('action=article')) {
             styleStr = styleStr + ' .header,.tuijian,#announceinfo{display:none !important;pointer-events: none !important;}';
@@ -81,9 +81,9 @@ if (type.includes("text")) {
         html = html.replace(/<([a-z]+)\s+style=\"display:\s*block;\s*z-index:\s*\d+;\s*position:\s*fixed;.*?\"><\/\1>/gi,'');
     }
     domains.map(escapeRegExp).forEach(domain => {
-        html = html.replace(new RegExp(`<([a-zA-Z0-9]+)\\s+[^>]*?(src|href|class|id)\\s*=\\s*(['"]).*?${domain}.*?\\3[^>]*?>`, 'gi'), '<$1>');
+        html = html.replace(new RegExp(`<([a-zA-Z0-9]+)\\s+[^>]*?(src|href|class|id)\\s*=\\s*(['"]).*?${domain}.*?\\3[^>]*?>`, 'gi'), '<$1 style="display:none !important;pointer-events: none !important;">');
     });
-    html = html.replace(new RegExp(`<([a-zA-Z0-9]+)\\s+[^>]*?(src|href)\\s*=\\s*(['"]).*?\\d+[a-zA-Z]+\.[a-zA-Z]+.\.(cc|com|xyz|net|org)(:?)*?\\3[^>]*?>`, 'gi'), '<$1>');
+    html = html.replace(new RegExp(`<([a-zA-Z0-9]+)\\s+[^>]*?(src|href)\\s*=\\s*(['"]).*?\\d+[a-zA-Z]+\.[a-zA-Z]+.\.(cc|com|xyz|net|org)(:?)*?\\3[^>]*?>`, 'gi'), '<$1 style="display:none !important;pointer-events: none !important;">');
     if (styleStr !== '') {
         html = html.replace(/<\/head>/, '<style>' + styleStr + '</style></head>');
     }
