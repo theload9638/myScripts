@@ -47,7 +47,7 @@ if (type.includes("text")) {
     let styleStr = 'ins,iframe,video,.banner{display:none !important;pointer-events: none !important;} div{ background-image:none !important;}';
     let bgColor = '#494747';
     domains.map(escapeRegExp).forEach(domain => {
-        html = html.replace(new RegExp(`<([a-zA-Z0-9]+)\\s+[^>]*?(src|href)\\s*=\\s*(['"]).*?${domain}.*?\\3[^>]*?>`, 'gi'), '<$1>');
+        html = html.replace(new RegExp(`<([a-zA-Z0-9]+)\\s+[^>]*?(src|href|class|id)\\s*=\\s*(['"]).*?${domain}.*?\\3[^>]*?>`, 'gi'), '<$1>');
     });
     html = html.replace(new RegExp(`<([a-zA-Z0-9]+)\\s+[^>]*?(src|href)\\s*=\\s*(['"]).*?\\d+[a-zA-Z]+\.[a-zA-Z]+.\.(cc|com|xyz|net|org)(:?)*?\\3[^>]*?>`, 'gi'), '<$1>');
     html = html.replace(/<ins(.*?)<\/ins>/gs, '');
