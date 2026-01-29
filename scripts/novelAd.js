@@ -69,7 +69,7 @@ if (type.includes("text")) {
         if (url.includes('action=article')) {
             styleStr = styleStr + ' .header,.tuijian,#announceinfo{display:none !important;pointer-events: none !important;}';
         }
-    }else if(/^https?:\/\/m\.shuhaige\.net\/\d+\/\d+\.html/.test(url)){
+    }else if(/^https?:\/\/m\.shuhaige\.net\/\d+\/\w+\.html/.test(url)){
         styleStr += '.path,.tui,.bYtYBpFi,.tmwac{display:none !important;pointer-events: none !important;} * {background: ' + bgColor + ' !important;}';
         html = html.replace(/<script[^>]*>.*?<\/script>/gs,'');
         html = html.replace(/<div\s*style=\"margin:0;padding:0;outline:0;margin-top:15px\">/,'<div style="display:none !important;">')
