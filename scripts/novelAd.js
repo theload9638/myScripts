@@ -62,7 +62,8 @@ if (type.includes("text")) {
     } else if (/^https?:\/\/www\.uaa(.*?)\.com/.test(url)) {
         styleStr += '.center_box,.logo_box,.balance_insufficient_dialog_box,.note_box,.foot_box,.shortcut_box,.swiper-wrapper,.swiper-button-prev,.swiper-button-next,.place_holder_box,#comment_list,.dmca_box{display:none !important;pointer-events: none !important;}';
         if (url.includes('/novel/chapter?id=')) {
-            html = html.replace(/<div\s*class=\"article\"(.*?)code=\"3\">/gs, '<div class="article"$1 code="999" >')
+            html = html.replace(/<div\s*class=\"article\"(.*?)code=\"3\">/gs, '<div class="article"$1 code="999" >');
+            styleStr +=' .more_menu,.avatar{display:none !important;pointer-events: none !important;}';
         }
     } else if (/^https?:\/\/www\.cool18\.com/.test(url)) {
         styleStr += 'td:has(iframe),.bottom-nav,.comment-section,.post-list,.view_ad_incontent,.view_ad_bottom,.vote-section,.view-gift,.view_tools_box,.adv-6park,.root--26nWL,.bottomRight--h0VsQ,.slideAnimation--2ih2G{display:none !important;pointer-events: none !important;} * {background: ' + bgColor + ' !important;} a:link{color: #fcfafb; !important;}';
@@ -79,6 +80,7 @@ if (type.includes("text")) {
     }else if(/^https?:\/\/m\.shuhaige\.net\/\d+\/\d+\.html/.test(url)){
         styleStr += '.footer,.path,.tui,.bYtYBpFi,.tmwac{display:none !important;pointer-events: none !important;} * {background: ' + bgColor + ' !important;}';
         html = html.replace(/<script\s+type=\"text\/javascript\">.*?<\/script>/gs,'');
+        html = html.replace(/<div\s*style=\"margin:0;padding:0;outline:0;margin-top:15px\">/,'<div style="display:none !important;">')
         html = html.replace(/<([a-z]+)\s+style=\"display:\s*block;\s*z-index:\s*\d+;\s*position:\s*fixed;.*?\"><\/\1>/gi,'');
     }
     if (styleStr !== '') {
