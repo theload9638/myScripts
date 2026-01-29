@@ -42,7 +42,7 @@ if (type.includes("text")) {
     ];
     const escapeRegExp = (str) => str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
     let html = $response.body;
-    let styleStr = 'ins,iframe,video,.banner,.ad,#ad,.footer,#footer{display:none !important;pointer-events: none !important;} div{ background-image:none !important;}';
+    let styleStr = 'ins,iframe,video,audio,.banner,#banner,.ad-mob,.mobile-ad,.m-ad,.popup,.ads,.advertisement,embed,object,.ad,.ad-container,.ad-wrap,.ad-box,#ad,.footer,#footer{display:none !important;pointer-events: none !important;visibility: hidden !important;user-select: none !important;} div{ background-image:none !important;}';
     let bgColor = '#494747';
     
     html = html.replace(/<ins(.*?)<\/ins>/gs, '');
