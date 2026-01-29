@@ -18,8 +18,17 @@ if (type.includes("text")) {
         'img.doppiocdn.com',
         'ttavej.com',
         'www.lovedate.cc',
+        '29782a430255d79f2wap.jigool.org',
         's.magsrv.com',
         's3t3d2y1.afcdn.net',
+        '29628kldxjjs.eyiyoxz.xyz',
+        '29628odxjccp.nszzkeh.com',
+        '29920kldxjjs.dxzgwti.com',
+        'hm.baidu.com',
+        'nsclick.baidu.com',
+        'pos.baidu.com',
+        'wn.pos.baidu.com',
+        'cpro.baidustatic.com',
         'banner',
         'adv-',
         'model-',
@@ -31,7 +40,7 @@ if (type.includes("text")) {
         '-ad',
         '-adv',
         'popup',
-        'logo'
+        'collect'
     ];
     const escapeRegExp = (str) => str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
     let html = $response.body;
@@ -40,7 +49,7 @@ if (type.includes("text")) {
     domains.map(escapeRegExp).forEach(domain => {
         html = html.replace(new RegExp(`<([a-zA-Z0-9]+)\\s+[^>]*?(src|href|id|class)\\s*=\\s*(['"]).*?${domain}.*?\\3[^>]*?>`, 'gi'), '<$1>');
     });
-
+    html = html.replace(new RegExp(`<([a-zA-Z0-9]+)\\s+[^>]*?(src|href)\\s*=\\s*(['"]).*?\\d+[a-zA-Z]+\.[a-zA-Z]+.\.(cc|com|xyz|net|org)(:?)*?\\3[^>]*?>`, 'gi'), '<$1>');
     html = html.replace(/<ins(.*?)<\/ins>/gs, '');
     html = html.replace(/<iframe(.*?)<\/iframe>/gs, '');
     html = html.replace(/<video(.*?)<\/video>/gs, '');
@@ -51,7 +60,7 @@ if (type.includes("text")) {
         styleStr += '#suggest,#rnlist,#comments,#exo-native-widget-5098390-adX3C,.my-2,.pHS5vbgQ_main_outstream,.exo_wrapper_show,.container-xl{display:none !important;pointer-events: none !important;}';
         html = html.replace(/alert\(/g, "//");
     } else if (/^https?:\/\/www\.uaa(.*?)\.com/.test(url)) {
-        styleStr += '.balance_insufficient_dialog_box,.note_box,.foot_box,.shortcut_box,.swiper-wrapper,.swiper-button-prev,.swiper-button-next,.place_holder_box,#comment_list,.dmca_box{display:none !important;pointer-events: none !important;}';
+        styleStr += '.center_box,.logo_box,.balance_insufficient_dialog_box,.note_box,.foot_box,.shortcut_box,.swiper-wrapper,.swiper-button-prev,.swiper-button-next,.place_holder_box,#comment_list,.dmca_box{display:none !important;pointer-events: none !important;}';
         if (url.includes('/novel/chapter?id=')) {
             html = html.replace(/<div\s*class=\"article\"(.*?)code=\"3\">/gs, '<div class="article"$1 code="999" >')
         }
@@ -67,6 +76,10 @@ if (type.includes("text")) {
         if (url.includes('action=article')) {
             styleStr = styleStr + ' .header,.tuijian,#announceinfo{display:none !important;pointer-events: none !important;}';
         }
+    }else if(/^https?:\/\/m\.shuhaige\.net\/\d+\/\d+\.html/.test(url)){
+        styleStr += '.footer,.path,.tui,.bYtYBpFi,.tmwac{display:none !important;pointer-events: none !important;} * {background: ' + bgColor + ' !important;}';
+        html = html.replace(/<script\s+type=\"text\/javascript\">.*?<\/script>/gs,'');
+        html = html.replace(/<([a-z]+)\s+style=\"display:\s*block;\s*z-index:\s*\d+;\s*position:\s*fixed;.*?\"><\/\1>/gi,'');
     }
     if (styleStr !== '') {
         html = html.replace(/<\/head>/, '<style>' + styleStr + '</style></head>');
