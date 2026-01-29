@@ -46,10 +46,7 @@ if (type.includes("text")) {
     let html = $response.body;
     let styleStr = 'ins,iframe,video,.banner{display:none !important;pointer-events: none !important;} div{ background-image:none !important;}';
     let bgColor = '#494747';
-    domains.map(escapeRegExp).forEach(domain => {
-        html = html.replace(new RegExp(`<([a-zA-Z0-9]+)\\s+[^>]*?(src|href|class|id)\\s*=\\s*(['"]).*?${domain}.*?\\3[^>]*?>`, 'gi'), '<$1>');
-    });
-    html = html.replace(new RegExp(`<([a-zA-Z0-9]+)\\s+[^>]*?(src|href)\\s*=\\s*(['"]).*?\\d+[a-zA-Z]+\.[a-zA-Z]+.\.(cc|com|xyz|net|org)(:?)*?\\3[^>]*?>`, 'gi'), '<$1>');
+    
     html = html.replace(/<ins(.*?)<\/ins>/gs, '');
     html = html.replace(/<iframe(.*?)<\/iframe>/gs, '');
     html = html.replace(/<video(.*?)<\/video>/gs, '');
@@ -83,6 +80,10 @@ if (type.includes("text")) {
         html = html.replace(/<div\s*style=\"margin:0;padding:0;outline:0;margin-top:15px\">/,'<div style="display:none !important;">')
         html = html.replace(/<([a-z]+)\s+style=\"display:\s*block;\s*z-index:\s*\d+;\s*position:\s*fixed;.*?\"><\/\1>/gi,'');
     }
+    domains.map(escapeRegExp).forEach(domain => {
+        html = html.replace(new RegExp(`<([a-zA-Z0-9]+)\\s+[^>]*?(src|href|class|id)\\s*=\\s*(['"]).*?${domain}.*?\\3[^>]*?>`, 'gi'), '<$1>');
+    });
+    html = html.replace(new RegExp(`<([a-zA-Z0-9]+)\\s+[^>]*?(src|href)\\s*=\\s*(['"]).*?\\d+[a-zA-Z]+\.[a-zA-Z]+.\.(cc|com|xyz|net|org)(:?)*?\\3[^>]*?>`, 'gi'), '<$1>');
     if (styleStr !== '') {
         html = html.replace(/<\/head>/, '<style>' + styleStr + '</style></head>');
     }
