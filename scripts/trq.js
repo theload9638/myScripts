@@ -2,7 +2,7 @@ const url = $request.url;
 const uint8Buffer = new Uint8Array($response.bodyBytes);
 let html = new TextDecoder('gb2312',{ fatal: false, ignoreBOM: true }).decode(uint8Buffer);
 
-let styleStr = '#ad-container,.ad-video,.GoogleActiveViewInnerContainer,.google-auto-placed,video,#Image,#smx_wrap,#video-ad-ui,#aswift_9,#aswift_9_host,.adsbygoogle,.adsbygoogle-noablate{display:none !important;pointer-events: none !important;} * {background: #494747 !important;} .reading{ padding: 0px !important;}';
+let styleStr = '#ad-container,.ad-video,.GoogleActiveViewInnerContainer,.google-auto-placed,video,#Image,#smx_wrap,#video-ad-ui,#aswift_9,#aswift_9_host,.adsbygoogle,.adsbygoogle-noablate{display:none !important;pointer-events: none !important;} * {background: #494747 !important;}  .infos{color:#78867e !important;} .reading{ padding: 0px !important;}';
 html = html.replace(/<div\s*id=\"immersive-translate-popup\"(.*?)/s,'</html>');
 
 html = html.replace(/<script.*?src=\"\/skin\/default\/js\/(tongji|googgg|goge|gls)\.js\"[^>]*>/g,'<script>');

@@ -2,7 +2,7 @@ const uint8Buffer = new Uint8Array($response.bodyBytes);
 const url = $request.url;
 
 let html = new TextDecoder('gb2312',{ fatal: false, ignoreBOM: true }).decode(uint8Buffer);
-let styleStr = '*{background: #494747 !important;}';
+let styleStr = '*{background: #494747 !important;} .infos{color:#78867e !important;}';
 
 html = html.replace(/<script.*?src=\"\/skin\/default\/js\/(tongji|googgg|goge|gls)\.js\"[^>]*>/g,'<script>');
 html = html.replace(/<script(.*?)src=\".*?(?=www.googletagmanager.com).*?\"[^>]*>/g,'<script>');
