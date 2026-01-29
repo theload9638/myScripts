@@ -44,10 +44,10 @@ if (type.includes("text")) {
     ];
     const escapeRegExp = (str) => str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
     let html = $response.body;
-    let styleStr = 'ins,iframe,video{display:none !important;pointer-events: none !important;} div{ background-image:none !important;}';
+    let styleStr = 'ins,iframe,video,.banner{display:none !important;pointer-events: none !important;} div{ background-image:none !important;}';
     let bgColor = '#494747';
     domains.map(escapeRegExp).forEach(domain => {
-        html = html.replace(new RegExp(`<([a-zA-Z0-9]+)\\s+[^>]*?(src|href|id|class)\\s*=\\s*(['"]).*?${domain}.*?\\3[^>]*?>`, 'gi'), '<$1>');
+        html = html.replace(new RegExp(`<([a-zA-Z0-9]+)\\s+[^>]*?(src|href)\\s*=\\s*(['"]).*?${domain}.*?\\3[^>]*?>`, 'gi'), '<$1>');
     });
     html = html.replace(new RegExp(`<([a-zA-Z0-9]+)\\s+[^>]*?(src|href)\\s*=\\s*(['"]).*?\\d+[a-zA-Z]+\.[a-zA-Z]+.\.(cc|com|xyz|net|org)(:?)*?\\3[^>]*?>`, 'gi'), '<$1>');
     html = html.replace(/<ins(.*?)<\/ins>/gs, '');
@@ -63,7 +63,7 @@ if (type.includes("text")) {
         styleStr += '.center_box,.logo_box,.balance_insufficient_dialog_box,.note_box,.foot_box,.shortcut_box,.swiper-wrapper,.swiper-button-prev,.swiper-button-next,.place_holder_box,#comment_list,.dmca_box{display:none !important;pointer-events: none !important;}';
         if (url.includes('/novel/chapter?id=')) {
             html = html.replace(/<div\s*class=\"article\"(.*?)code=\"3\">/gs, '<div class="article"$1 code="999" >');
-            styleStr +=' .more_menu,.avatar{display:none !important;pointer-events: none !important;}';
+            styleStr +=' .menu_box,.more_menu,.avatar{display:none !important;pointer-events: none !important;}';
         }
     } else if (/^https?:\/\/www\.cool18\.com/.test(url)) {
         styleStr += 'td:has(iframe),.bottom-nav,.comment-section,.post-list,.view_ad_incontent,.view_ad_bottom,.vote-section,.view-gift,.view_tools_box,.adv-6park,.root--26nWL,.bottomRight--h0VsQ,.slideAnimation--2ih2G{display:none !important;pointer-events: none !important;} * {background: ' + bgColor + ' !important;} a:link{color: #fcfafb; !important;}';
@@ -79,7 +79,7 @@ if (type.includes("text")) {
         }
     }else if(/^https?:\/\/m\.shuhaige\.net\/\d+\/\d+\.html/.test(url)){
         styleStr += '.footer,.path,.tui,.bYtYBpFi,.tmwac{display:none !important;pointer-events: none !important;} * {background: ' + bgColor + ' !important;}';
-        html = html.replace(/<script\s+type=\"text\/javascript\">.*?<\/script>/gs,'');
+        html = html.replace(/<script[^>]*>.*?<\/script>/gs,'');
         html = html.replace(/<div\s*style=\"margin:0;padding:0;outline:0;margin-top:15px\">/,'<div style="display:none !important;">')
         html = html.replace(/<([a-z]+)\s+style=\"display:\s*block;\s*z-index:\s*\d+;\s*position:\s*fixed;.*?\"><\/\1>/gi,'');
     }
