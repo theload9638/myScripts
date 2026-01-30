@@ -66,6 +66,7 @@ if (type.includes("text")) {
     let charset = 'utf8';
     let utf8Flag = true;
     if (charsetRes) {
+        console.log(charsetRes);
         charset = charsetRes[2] | 'utf8';
     }
     console.log(charset);
