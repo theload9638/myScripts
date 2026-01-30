@@ -10,12 +10,14 @@ html = html.replace(/<script(.*?)src=\".*?(?=www.googletagmanager.com).*?\"[^>]*
 html = html.replace(/<script(.*?)src=\".*?(?=pagead2.googlesyndication.com).*?\"[^>]*>/g,'<script>');
 html = html.replace(/<script(.*?)src=\".*?(?=fundingchoicesmessages.google.com).*?\"[^>]*>/g,'<script>');
 
+html = html.replace(/<ins(.*?)<\/ins>/gs, '');
+html = html.replace(/<iframe(.*?)<\/iframe>/gs, '');
+html = html.replace(/<video(.*?)<\/video>/gs, '');
+
 if(/[a-zA-Z_]+\/\d+\.html/.test(url)){
     html = html.replace(/<div\s*class=\"head\">(.*)?<div\s*class=\"readContent\">/s,'<div class="readContent">');
 }else if(/[a-zA-Z_]+\/\d+\/\d+\.html/.test(url)){
     html = html.replace(/<div\s*class=\"head\">(.*)?<div\s*class=\"topReadContent\"([^>]*?)>/s,'<div class="topReadContent">');
-    html = html.replace(/<ins(.*?)<\/ins>/gs,'');
-    html = html.replace(/<iframe(.*?)<\/iframe>/gs,'');
     styleStr= styleStr +' .next_pre,.hotlist{display:none !important;pointer-events: none !important;}';
 }
 
