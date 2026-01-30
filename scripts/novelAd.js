@@ -105,7 +105,7 @@ if (type.includes("text")) {
                     html = html.replace(/<([a-zA-Z0-9]+)\s+[^>]*?(src|href|class|id)\s*=\s*(['"])[^'"]*?\/auth\/govip[^'"]*?\3[^>]*?>/gi, '<$1 style="display:none !important;pointer-events: none !important;">');
                 }
             } else if (/https?:\/\/www\.tongrenxsw\.com/.test(url)) {
-                styleStr += '.navM,.searchBoxM,.navM2,.recoBox2,.btnErrorW,{display:none !important;pointer-events: none !important;}';
+                styleStr += '.headerW,.navM,.searchBoxM,.about,.btnAddBook,.navM2,.recoBox2,.btnErrorW{display:none !important;pointer-events: none !important;}';
                 if (/\/book\/\w+(-\w+)?\.html/i.test(url)) {
                     html = html.replace(/<script\s*>[^>]*?<\/script>/gs, '');
                 }
