@@ -38,8 +38,6 @@ if (type.includes("text")) {
         'cpro.baidustatic.com',
         'banner',
         'ad-provider',
-        '-model',
-        '-modal',
         'adBlock',
         '_ad',
         'ads',
@@ -92,7 +90,7 @@ if (type.includes("text")) {
             styleStr += '.mt-3,aside,.sidebar,.is-9{display:none !important;pointer-events: none !important;} * {background: ' + bgColor + ' !important;}';
         }else if(/\/\d+\/w+\.html/.test(url)){
             styleStr += 'img{display:none !important;pointer-events: none !important;}';
-            html = html.replace(new RegExp(`<([a-zA-Z0-9]+)\\s+[^>]*?(src|href|class|id)\\s*=\\s*(['"]).*?/auth/govip.html.*?\\3[^>]*?>`, 'gi'), '<$1 style="display:none !important;pointer-events: none !important;">');
+            html = html.replace(/<([a-zA-Z0-9]+)\s+[^>]*?(src|href|class|id)\s*=\s*(['"])[^'"]*?\/auth\/govip[^'"]*?\3[^>]*?>/gi, '<$1 style="display:none !important;pointer-events: none !important;">');
         }
     }
     domains.map(escapeRegExp).forEach(domain => {
