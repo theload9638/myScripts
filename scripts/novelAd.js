@@ -42,6 +42,7 @@ if (type.includes("text")) {
         '-modal',
         'adBlock',
         '_ad',
+        'ads',
         '/ad',
         '/ad-',
         '_adv',
@@ -88,16 +89,16 @@ if (type.includes("text")) {
         html = html.replace(/<([a-z]+)\s+style=\"display:\s*block;\s*z-index:\s*\d+;\s*position:\s*fixed;.*?\"><\/\1>/gi,'');
     }else if(/https?:\/\/www\.novel543\.com/.test(url)){
         if(/\/\d+(\/)?(dir)?$/.test(url)){
-            styleStr += 'header,.mt-3,aside,.sidebar,.is-9{display:none !important;pointer-events: none !important;} * {background: ' + bgColor + ' !important;}';
+            styleStr += '.mt-3,aside,.sidebar,.is-9{display:none !important;pointer-events: none !important;} * {background: ' + bgColor + ' !important;}';
         }else if(/\/\d+\/w+\.html/.test(url)){
             styleStr += 'img{display:none !important;pointer-events: none !important;}';
             html = html.replace(new RegExp(`<([a-zA-Z0-9]+)\\s+[^>]*?(src|href|class|id)\\s*=\\s*(['"]).*?/auth/govip.html.*?\\3[^>]*?>`, 'gi'), '<$1 style="display:none !important;pointer-events: none !important;">');
         }
     }
     domains.map(escapeRegExp).forEach(domain => {
-        html = html.replace(new RegExp(`<([a-zA-Z0-9]+)\\s+[^>]*?(src|href|class|id)\\s*=\\s*(['"]).*?${domain}.*?\\3[^>]*?>`, 'gi'), '<$1 style="display:none !important;pointer-events: none !important;">');
+        html = html.replace(new RegExp(`<([a-zA-Z0-9]+)\\s+[^>]*?(src|href|class|id)\\s*=\\s*(['"])[^'"]*?${domain}[^'"]*?\\3[^>]*?>`, 'gi'), '<$1 style="display:none !important;pointer-events: none !important;">');
     });
-    html = html.replace(new RegExp(`<([a-zA-Z0-9]+)\\s+[^>]*?(src|href)\\s*=\\s*(['"]).*?\/\/\\d+[a-zA-Z]+\.[a-zA-Z]+.\.(cc|com|xyz|net|org)(:?)*?\\3[^>]*?>`, 'gi'), '<$1 style="display:none !important;pointer-events: none !important;">');
+    html = html.replace(/<([a-zA-Z0-9]+)\s+[^>]*?(src|href)\s*=\s*(['"])[^'"]*?\/\/\d+[a-z]+\.[a-z]+.\.(cc|com|xyz|net|org):?[^'"]*?\3[^>]*?>/gi, '<$1 style="display:none !important;pointer-events: none !important;">');
     if (styleStr !== '') {
         html = html.replace(/<\/head>/, '<style>' + styleStr + '</style></head>');
     }
