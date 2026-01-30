@@ -10,79 +10,82 @@ if (vals !== undefined) {
         const obj = JSON.parse(vals);
         let objKeys = Object.keys(obj);
         let cpK = Object.keys(obj);
-        for (let i = hostIdx; i < hosts.length; i++) {
-            let host = hosts[i];
-            objKeys = toCastFail(failed,cpK);
-            try {
-                const res = await Promise.allSettled(objKeys.map(key => loginUp(host, key, obj[key])));
-                let suc1 = res.filter(i => i.status === 'fulfilled').map(i => i.value);
-                let f1 = res.filter(i => i.status === 'rejected').map(i => i.reason);;
-                let f2 = suc1.filter(i => !i.headers.hasOwnProperty('Set-Cookie')).map(msg => {
-                    return { error: `${msg.opts.email}登录失败,请检查网络状态`, opts: { email: msg.opts.email }, type: 'login' };
-                });
-                if (suc1.length !== objKeys.length || f2.length>0 || f1.length >0) {
-                    let f3 = [...f1,...f2];
-                    failed = (failed && failed.length>0)? failed.concat(f3) : f3;
-                    if(suc1.length===0 || f2.length===objKeys.length || f1.length === objKeys.length){
-                        continue;
-                    }
+        try {
+            for (let i = hostIdx; i < hosts.length; i++) {
+                let host = hosts[i];
+                objKeys = toCastFail(failed, cpK);
+                if(failed && failed.length>0){
+                    failed = undefined;
                 }
-                let ps2 = suc1.filter(msg => msg.headers.hasOwnProperty('Set-Cookie')).map(msg => {
-                    let ck = msg.headers['Set-Cookie'].replace(/path=\/(,)?\s?/gi, '').
-                        replace(/expires=[^;]+?;\s?/gi, '').trim();
-                    return signUp(host, msg.opts.email, ck);
-                });
-                if (ps2.length > 0) {
-                    let res2 = await Promise.all(ps2);
-                    let msg = res2.map(j => `${j.opts.email}签到成功：${JSON.parse(j.body)?.msg}`).reduce((pre, nex) => {
-                        return pre + '\n' + nex;
+                try {
+                    const res = await Promise.allSettled(objKeys.map(key => loginUp(host, key, obj[key])));
+                    let suc1 = res.filter(i => i.status === 'fulfilled').map(i => i.value);
+                    let f1 = res.filter(i => i.status === 'rejected').map(i => i.reason);;
+                    let f2 = suc1.filter(i => !i.headers.hasOwnProperty('Set-Cookie')).map(msg => {
+                        return { error: `${msg.opts.email}登录失败,请检查网络状态`, opts: { email: msg.opts.email }, type: 'login' };
                     });
-                    console.log(msg);
-                    if (failed == undefined || failed.length===0) {
-                        break;
+                    if (suc1.length !== objKeys.length || f2.length > 0 || f1.length > 0) {
+                        let f3 = [...f1, ...f2];
+                        failed = (failed && failed.length > 0) ? failed.concat(f3) : f3;
+                        if (suc1.length === 0 || f2.length === objKeys.length || f1.length === objKeys.length) {
+                            continue;
+                        }
                     }
-                }
-            } catch (e) {
-                if (typeof e !== 'object') {
-                    console.log('未知异常：' + e);
-                } else {
-                    if (Object.keys(e).length === 0) {
-                        console.log('未知异常:{}');
+                    let ps2 = suc1.filter(msg => msg.headers.hasOwnProperty('Set-Cookie')).map(msg => {
+                        let ck = msg.headers['Set-Cookie'].replace(/path=\/(,)?\s?/gi, '').
+                            replace(/expires=[^;]+?;\s?/gi, '').trim();
+                        return signUp(host, msg.opts.email, ck);
+                    });
+                    if (ps2.length > 0) {
+                        let res2 = await Promise.all(ps2);
+                        let msg = res2.map(j => `${j.opts.email}签到成功：${JSON.parse(j.body)?.msg}`).reduce((pre, nex) => {
+                            return pre + '\n' + nex;
+                        });
+                        console.log(msg);
+                        if (failed == undefined || failed.length === 0) {
+                            break;
+                        }
+                    }
+                } catch (e) {
+                    if (typeof e !== 'object') {
+                        console.log('未知异常：' + e);
                     } else {
-                        console.log(`error:${e.error} , 
+                        if (Object.keys(e).length === 0) {
+                            console.log('未知异常:{}');
+                        } else {
+                            console.log(`error:${e.error} , 
                         opts: ${e.opts ? JSON.stringify(e.opts) : ''},
                         type: ${e.type}`);
-                        if (e.type === 'sign') {
-                            failed = Object.keys(obj).map(i => {
-                                return {
-                                    error: 'sign error',
-                                    type: 'sign',
-                                    opts: { email: i }
-                                }
-                            });
+                            if (e.type === 'sign') {
+                                failed = Object.keys(obj).map(i => {
+                                    return {
+                                        error: 'sign error',
+                                        type: 'sign',
+                                        opts: { email: i }
+                                    }
+                                });
+                            }
                         }
                     }
                 }
-            } finally {
-                if (failed && failed.length > 0) {
-                    console.log('任务执行失败:' + failed.map(i => {
-                        return i.error ? i.error : i;
-                    }).join('\n'));
-                }
-                $done();
             }
-
+        } finally {
+            if (failed && failed.length > 0) {
+                console.log('任务执行失败:' + failed.map(i => {
+                    return i.error ? i.error : i;
+                }).join('\n'));
+            }
+            $done();
         }
-
     })();
 } else {
     console.log('ikuuu执行任务失败,请提供用户凭证');
     $done();
 }
-function toCastFail(failedList,rowList){
-    if(!!failedList && failedList.length >0){
-        return failedList.map(i=>i.opts.email);
-    }else{
+function toCastFail(failedList, rowList) {
+    if (!!failedList && failedList.length > 0) {
+        return failedList.map(i => i.opts.email);
+    } else {
         return rowList;
     }
 }
