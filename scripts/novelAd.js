@@ -112,7 +112,7 @@ if (type.includes("text")) {
         const unKnowBuf = new Uint8Array($response.bodyBytes);
         html = new TextDecoder(charset, { fatal: false, ignoreBOM: true }).decode(unKnowBuf);
 
-        styleStr += `#Image,#smx_wrap,#video-ad-ui,#aswift_9,#aswift_9_host{display:none !important;pointer-events: none !important;} *{background: ${bgColor} !important;} .infos{color:#78867e !important;}`;
+        styleStr += `#Image,#onclickshowdiv,#smx_wrap,#video-ad-ui,#aswift_9,#aswift_9_host{display:none !important;pointer-events: none !important;} *{background: ${bgColor} !important;} .infos{color:#78867e !important;}`;
         html = html.replace(charset, 'utf-8');
         html = html.replace(/<script.*?src=\"\/skin\/default\/js\/(tongji|googgg|goge|gls)\.js\"[^>]*>/g, '<script>');
 
