@@ -9,8 +9,10 @@ if (vals !== undefined) {
         let failed = undefined;
         const obj = JSON.parse(vals);
         let objKeys = Object.keys(obj);
+        let cpK = Object.keys(obj);
         for (let i = hostIdx; i < hosts.length; i++) {
             let host = hosts[i];
+            objKeys = toCastFail(failed,cpK);
             try {
                 const res = await Promise.allSettled(objKeys.map(key => loginUp(host, key, obj[key])));
                 let suc1 = res.filter(i => i.status === 'fulfilled').map(i => i.value);
@@ -18,25 +20,25 @@ if (vals !== undefined) {
                 let f2 = suc1.filter(i => !i.headers.hasOwnProperty('Set-Cookie')).map(msg => {
                     return { error: `${msg.opts.email}登录失败,请检查网络状态`, opts: { email: msg.opts.email }, type: 'login' };
                 });
-                if (suc1.length !== objKeys.length) {
+                if (suc1.length !== objKeys.length || f2.length>0 || f1.length >0) {
                     let f3 = [...f1,...f2];
-                    console.log(f3);
-                    failed = f3;
-                    $done();
+                    failed = (failed && failed.length>0)? failed.concat(f3) : f3;
+                    if(suc1.length===0 || f2.length===objKeys.length || f1.length === objKeys.length){
+                        continue;
+                    }
                 }
                 let ps2 = suc1.filter(msg => msg.headers.hasOwnProperty('Set-Cookie')).map(msg => {
                     let ck = msg.headers['Set-Cookie'].replace(/path=\/(,)?\s?/gi, '').
                         replace(/expires=[^;]+?;\s?/gi, '').trim();
-                    let name = msg.opts.email;
-                    return signUp(host, name, ck);
+                    return signUp(host, msg.opts.email, ck);
                 });
                 if (ps2.length > 0) {
                     let res2 = await Promise.all(ps2);
-                    let msg = res2.map(j => `${j.opts.name}签到成功：${JSON.parse(j.body)?.msg}`).reduce((pre, nex) => {
+                    let msg = res2.map(j => `${j.opts.email}签到成功：${JSON.parse(j.body)?.msg}`).reduce((pre, nex) => {
                         return pre + '\n' + nex;
                     });
                     console.log(msg);
-                    if (failed == undefined) {
+                    if (failed == undefined || failed.length===0) {
                         break;
                     }
                 }
@@ -77,7 +79,13 @@ if (vals !== undefined) {
     console.log('ikuuu执行任务失败,请提供用户凭证');
     $done();
 }
-
+function toCastFail(failedList,rowList){
+    if(!!failedList && failedList.length >0){
+        return failedList.map(i=>i.opts.email);
+    }else{
+        return rowList;
+    }
+}
 function post(req, opts = null, timeout = 5000, type = 'api') {
     return Promise.race([new Promise((a, b) => {
         setTimeout(() => {
@@ -138,7 +146,7 @@ function signUp(host, emailKey, ck) {
             'X-Requested-With': 'XMLHttpRequest'
         }
     };
-    return post(req, { name: emailKey }, undefined, 'sign');
+    return post(req, { email: emailKey }, undefined, 'sign');
 }
 
 
