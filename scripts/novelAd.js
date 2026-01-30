@@ -24,25 +24,37 @@ if (type.includes("text")) {
         's3t3d2y1.afcdn.net',
         '29628kldxjjs.eyiyoxz.xyz',
         '29628odxjccp.nszzkeh.com',
+        'cdn.pubfuture-ad.com',
         '29920kldxjjs.dxzgwti.com',
         'hm.baidu.com',
         'nsclick.baidu.com',
+        'api.popin.cc',
+        'ad.tagtoo.co',
+        'onead.onevision.com.tw',
+        '.tagtoo.co',
+        'adc.tamedia.com.tw',
         'pos.baidu.com',
         'wn.pos.baidu.com',
         'cpro.baidustatic.com',
         'banner',
         'ad-provider',
         '-model',
+        '-modal',
+        'adBlock',
         '_ad',
+        '/ad',
+        '/ad-',
         '_adv',
         '-ad',
         '-adv',
+        'video',
+        'audio',
         'popup',
         'collect'
     ];
     const escapeRegExp = (str) => str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
     let html = $response.body;
-    let styleStr = 'ins,iframe,video,audio,.banner,#banner,.ad-mob,.mobile-ad,.m-ad,.popup,.ads,.advertisement,embed,object,.ad,.ad-container,.ad-wrap,.ad-box,#ad,.footer,#footer{display:none !important;pointer-events: none !important;user-select: none !important;} div{ background-image:none !important;}';
+    let styleStr = 'ins,iframe,video,audio,.banner,#banner,.adBlock,#adBlock,.ad-mob,.mobile-ad,.m-ad,.popup,.ads,.advertisement,embed,object,.ad,.ad-container,.ad-wrap,.ad-box,#ad,.footer,#footer{display:none !important;pointer-events: none !important;user-select: none !important;} div{ background-image:none !important;}';
     let bgColor = '#494747';
     
     html = html.replace(/<ins(.*?)<\/ins>/gs, '');
@@ -74,6 +86,13 @@ if (type.includes("text")) {
         html = html.replace(/<script[^>]*>.*?<\/script>/gs,'');
         html = html.replace(/<div\s*style=\"margin:0;padding:0;outline:0;margin-top:15px\">/,'<div style="display:none !important;">')
         html = html.replace(/<([a-z]+)\s+style=\"display:\s*block;\s*z-index:\s*\d+;\s*position:\s*fixed;.*?\"><\/\1>/gi,'');
+    }else if(/https?:\/\/www\.novel543\.com\/\d+/.test(url)){
+        if(/^https?:\/\/www\.novel543\.com\/\d+(\/dir)?$/.test(url)){
+            styleStr += 'header,.mt-3,aside,.sidebar,.is-9{display:none !important;pointer-events: none !important;} * {background: ' + bgColor + ' !important;}';
+        }else if(/https?:\/\/www\.novel543\.com\/\d+\/w+\.html/.test(url)){
+            styleStr += 'img,{display:none !important;pointer-events: none !important;}';
+            html = html.replace(new RegExp(`<([a-zA-Z0-9]+)\\s+[^>]*?(src|href|class|id)\\s*=\\s*(['"]).*?/auth/govip.html.*?\\3[^>]*?>`, 'gi'), '<$1 style="display:none !important;pointer-events: none !important;">');
+        }
     }
     domains.map(escapeRegExp).forEach(domain => {
         html = html.replace(new RegExp(`<([a-zA-Z0-9]+)\\s+[^>]*?(src|href|class|id)\\s*=\\s*(['"]).*?${domain}.*?\\3[^>]*?>`, 'gi'), '<$1 style="display:none !important;pointer-events: none !important;">');

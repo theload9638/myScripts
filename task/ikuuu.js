@@ -101,7 +101,8 @@ function post(req, opts = null, timeout = 5000, type = 'api') {
 }
 
 function loginUp(host, email, passwd) {
-    let bd = `host=${host}&email=${encodeURIComponent(email)}&passwd=${encodeURIComponent(passwd)}&code=`;
+    let tm = ''+Date.now();
+    let bd = `host=${host}&email=${encodeURIComponent(email)}&passwd=${encodeURIComponent(passwd)}&code=&captcha_result[lot_number]=&captcha_result[captcha_output]=&captcha_result[pass_token]=captcha_result[gen_time]=${tm.substring(0,10)}&pageLoadedAt=${tm}`;
     const req = {
         url: `https://${host}/auth/login`,
         method: 'POST',
@@ -121,10 +122,22 @@ function loginUp(host, email, passwd) {
             'Sec-Ch-Ua-Platform': '"Windows"',
             'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36 Edg/142.0.0.0',
             'X-Requested-With': 'XMLHttpRequest',
-            'Connection': 'keep-alive',
-            'Content-Length': bd.length
+            'Connection': 'keep-alive'
+            // 'Content-Length': bd.length
         },
-        body: bd,
+        body: {
+            host,
+            email: encodeURIComponent(email),
+            passwd: encodeURIComponent(passwd),
+            code: undefined,
+            captcha_result:{
+                lot_number: '',
+                captcha_output:'',
+                pass_token:'',
+                gen_time:''
+            },
+            pageLoadedAt:Date.now()
+        },
         opts: {
             redirection: false
         }
