@@ -68,11 +68,8 @@ if (type.includes("text")) {
         let utf8Flag = true;
         if (charsetRes) {
             charset = charsetRes[2] || 'utf8';
+            charset = charset.trim();
         }
-        console.log(charsetRes);
-        console.log(charsetRes[2]);
-        console.log(charsetRes[1]);
-        console.log(charset);
         if (/utf-?8/i.test(charset)) {
             utf8Flag = true;
             if (/^https?:\/\/hlib\.cc/.test(url)) {
@@ -109,7 +106,9 @@ if (type.includes("text")) {
                 }
             } else if (/https?:\/\/www\.tongrenxsw\.com/.test(url)) {
                 styleStr += '.navM,.searchBoxM,.navM2,.recoBox2,.btnErrorW,{display:none !important;pointer-events: none !important;}';
-                html = html.replace(/<script\s*>[^>]*?<\/script>/gs, '');
+                if (/\/book\/\w+(-\w+)?\.html/i.test(url)) {
+                    html = html.replace(/<script\s*>[^>]*?<\/script>/gs, '');
+                }
             }
         } else {
             utf8Flag = false;
