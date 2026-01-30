@@ -19,7 +19,7 @@ if (vals !== undefined) {
                     let suc1 = res.filter(i => i.status === 'fulfilled').map(i => i.value);
                     let f1 = res.filter(i => i.status === 'rejected').map(i => i.reason);;
                     let f2 = suc1.filter(i => !i.headers.hasOwnProperty('Set-Cookie')).map(msg => {
-                        return { error: `${msg.opts.email}登录失败,请检查网络状态`, opts: { email: msg.opts.email }, type: 'login' };
+                        return { error: `${msg.opts.email}登录失败,请检查网络状态`, opts: { email: msg.opts.email,host }, type: 'login' };
                     });
                     if (suc1.length !== objKeys.length || f2.length > 0 || f1.length > 0) {
                         let f3 = [...f1, ...f2];
@@ -68,8 +68,8 @@ if (vals !== undefined) {
             }
         } finally {
             if (failed && failed.length > 0) {
-                console.log('任务执行失败:' + failed.map(i => {
-                    return i.error ? i.error : i;
+                console.log('任务执行失败:' + failed.map(i =>{
+                    return `${i.type}-${i.opts.host}-${i.opts.email}-${i.error}`
                 }).join('\n'));
             }
             $done();
