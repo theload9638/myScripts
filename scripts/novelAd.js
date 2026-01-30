@@ -62,7 +62,7 @@ if (type.includes("text")) {
     let bgColor = '#494747';
 
     let rule = new RegExp(`<meta[^>]*?charset\\s*=\\s*(['"]?)([^>'"]+)(['"]?)`, 'gi');
-    let charsetRes = rule.exec(str);
+    let charsetRes = rule.exec(html);
     let charset = 'utf8';
     let utf8Flag = true;
     if (charsetRes) {
