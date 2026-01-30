@@ -58,8 +58,9 @@ if (type.includes("text")) {
     ];
     const escapeRegExp = (str) => str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
     let html = $response.body;
-    let styleStr = 'ins,iframe,video,audio,.banner,#banner,.ad-video,.copyright,.GoogleActiveViewInnerContainer,.adsbygoogle,.adsbygoogle-noablate.google-auto-placed,#ad-video,#ad-container,.adBlock,#adBlock,.ad-mob,#ad-mob,.mobile-ad,#mobile-ad,.m-ad,#m-ad,.popup,.ads,#ads,.advertisement,#advertisement,embed,object,.ad,.ad-container,.ad-wrap,#ad-wrap,.ad-box,#ad-box,#ad,.footer,#footer{display:none !important;pointer-events: none !important;user-select: none !important;} div{ background-image:none !important;}';
+    let styleStr = 'ins,iframe,video,audio,.banner,#banner,.ad-video,.copyright,.GoogleActiveViewInnerContainer,.adsbygoogle,.adsbygoogle-noablate.google-auto-placed,#ad-video,#ad-container,.adBlock,#adBlock,.ad-mob,#ad-mob,.mobile-ad,#mobile-ad,.m-ad,#m-ad,.popup,.ads,#ads,.advertisement,#advertisement,embed,object,.ad,.ad-container,.ad-wrap,#ad-wrap,.ad-box,#ad-box,#ad,.footer,#footer{display:none !important;pointer-events: none !important;user-select: none !important;}';
     let bgColor = '#494747';
+    let ignoreDivImg = true;
 
     try {
         let rule = new RegExp(`<meta[^>]*?charset\\s*=\\s*(['"]?)([^>'"]+)(['"]?)`, 'gi');
@@ -105,6 +106,7 @@ if (type.includes("text")) {
                     html = html.replace(/<([a-zA-Z0-9]+)\s+[^>]*?(src|href|class|id)\s*=\s*(['"])[^'"]*?\/auth\/govip[^'"]*?\3[^>]*?>/gi, '<$1 style="display:none !important;pointer-events: none !important;">');
                 }
             } else if (/https?:\/\/www\.tongrenxsw\.com/.test(url)) {
+                ignoreDivImg = false;
                 styleStr += '.headerW,.navM,.searchBoxM,.about,.btnAddBook,.navM2,.recoBox2,.btnErrorW{display:none !important;pointer-events: none !important;}';
                 if (/\/book\/\w+(-\w+)?\.html/i.test(url)) {
                     html = html.replace(/<script\s*>[^>]*?<\/script>/gs, '');
@@ -141,6 +143,9 @@ if (type.includes("text")) {
         });
         html = html.replace(/<([a-zA-Z0-9]+)\s+[^>]*?(src|href)\s*=\s*(['"])[^'"]*?\/\/\d+[a-z]+\.[a-z]+.\.(cc|com|xyz|net|org):?[^'"]*?\3[^>]*?>/gi, '<$1 style="display:none !important;pointer-events: none !important;">');
         if (styleStr !== '') {
+            if(ignoreDivImg){
+                styleStr += 'div{ background-image:none !important;}';
+            }
             html = html.replace(/<\/head>/, '<style>' + styleStr + '</style></head>');
         }
         if (!utf8Flag) {
