@@ -1,7 +1,7 @@
 const key = 'ikuuu';
 const vals = $prefs.valueForKey(key);
 
-let hosts = ['ikuuu.de', 'ikuuu.nl', 'ikuuu.fyi'];
+let hosts = ['ikuuu.nl', 'ikuuu.fyi'];
 let hostIdx = 0;
 
 if (vals !== undefined) {
@@ -14,9 +14,6 @@ if (vals !== undefined) {
             for (let i = hostIdx; i < hosts.length; i++) {
                 let host = hosts[i];
                 objKeys = toCastFail(failed, cpK);
-                if(failed && failed.length>0){
-                    failed = undefined;
-                }
                 try {
                     const res = await Promise.allSettled(objKeys.map(key => loginUp(host, key, obj[key])));
                     let suc1 = res.filter(i => i.status === 'fulfilled').map(i => i.value);
@@ -61,7 +58,7 @@ if (vals !== undefined) {
                                     return {
                                         error: 'sign error',
                                         type: 'sign',
-                                        opts: { email: i }
+                                        opts: { email: i ,host}
                                     }
                                 });
                             }
@@ -84,7 +81,7 @@ if (vals !== undefined) {
 }
 function toCastFail(failedList, rowList) {
     if (!!failedList && failedList.length > 0) {
-        return failedList.map(i => i.opts.email);
+        return [...failedList.map(i => i.opts.email)];
     } else {
         return rowList;
     }
@@ -132,7 +129,7 @@ function loginUp(host, email, passwd) {
             redirection: false
         }
     };
-    return post(req, { email }, 6000, 'login');
+    return post(req, { email,host }, 6000, 'login');
 }
 function signUp(host, emailKey, ck) {
     const req = {
@@ -149,7 +146,7 @@ function signUp(host, emailKey, ck) {
             'X-Requested-With': 'XMLHttpRequest'
         }
     };
-    return post(req, { email: emailKey }, undefined, 'sign');
+    return post(req, { email: emailKey,host }, undefined, 'sign');
 }
 
 
