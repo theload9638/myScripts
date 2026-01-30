@@ -107,6 +107,7 @@ if (type.includes("text")) {
                 }
             } else if (/https?:\/\/www\.tongrenxsw\.com/.test(url)) {
                 ignoreDivImg = false;
+                domains.splice(domains.indexOf('popup'),1);
                 styleStr += '.headerW,.navM,.searchBoxM,.about,.btnAddBook,.navM2,.recoBox2,.btnErrorW{display:none !important;pointer-events: none !important;}';
                 if (/\/book\/\w+(-\w+)?\.html/i.test(url)) {
                     html = html.replace(/<script\s*>[^>]*?<\/script>/gs, '');
