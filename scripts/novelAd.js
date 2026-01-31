@@ -114,6 +114,9 @@ if (type.includes("text")) {
                 styleStr += '.headerW,.navM,.searchBoxM,.about,.btnAddBook,.navM2,.recoBox2,.btnErrorW{display:none !important;pointer-events: none !important;}';
                 if (/\/book\/\w+(-\w+)?(-\w+)?\.html/i.test(url)) {
                     html = html.replace(/<script\s*>[^>]*?<\/script>/gs, '');
+                    let fyobj = applyFloatyW(html);
+                    styleStr += fyobj.styleStr;
+                    html += fyobj.result;
                 }
             }
         } else {
@@ -167,4 +170,64 @@ if (type.includes("text")) {
     }
 } else {
     $done();
+}
+
+function applyFloatyW(html){
+    let pnObj = calcPrvANex(html);
+    let sty = `.qx-fw{position:fixed;right:8px;top:50%;transform:translateY(-50%);z-index:9999;display:flex;flex-direction:column;align-items:center;gap:8px;}.qx-fw.qx-fw__main,.qx-fw.qx-fw__btn{border-radius:50%;background:linear-gradient(135deg,#667eea0%,#764ba2100%);color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:transform0.2sease,box-shadow0.2sease;user-select:none;-webkit-user-select:none;}.qx-fw.qx-fw__main{position:relative;width:30px;height:30px;font-size:14px;box-shadow:04px20pxrgba(102,126,234,0.4);}.qx-fw.qx-fw__main:hover{transform:scale(1.08);box-shadow:06px28pxrgba(102,126,234,0.5);}.qx-fw.qx-fw__main:active{transform:scale(0.98);}.qx-fw.qx-fw__main.qx-fw__main--dragging{cursor:grabbing;}.qx-fw.qx-fw__main{cursor:grab;}.qx-fw.qx-fw__main.qx-fw__icon{line-height:1;pointer-events:none;}.qx-fw.qx-fw__btn{display:none;width:36px;height:36px;padding:0;border:none;font-size:10px;line-height:1.2;box-shadow:02px10pxrgba(102,126,234,0.35);}.qx-fw.qx-fw--open.qx-fw__btn{display:flex;}.qx-fw.qx-fw__btn:hover{opacity:0.95;transform:scale(1.05);}.qx-fw.qx-fw__btn:active{transform:scale(0.98);}.qx-fw.qx-fw__btn--prev{order:1;}.qx-fw.qx-fw__main{order:2;}.qx-fw.qx-fw__btn--next{order:3;}`;
+    let floy = `<div class="qx-fw" id="qx-fw" data-prev-class="${pnObj.prev}" data-next-class="${pnObj.next}"><button type="button" class="qx-fw__btn qx-fw__btn--prev" title="上一页">上</button><div class="qx-fw__main" id="qx-fw-main" title="悬浮窗"><span class="qx-fw__icon">qx</span></div><button type="button" class="qx-fw__btn qx-fw__btn--next" title="下一页">下</button></div>`
+    let scp = `<script>(function(){ var wrap =document.getElementById('qx-fw');var main=document.getElementById('qx-fw-main');var dragging=false,startY=0,startTop=0,hasJustDragged=false;var margin=8;var expandedH=118;function triggerByClass(classStr){if(!classStr || typeof classStr!=='string'){return;}var t=classStr.trim();if(!t){return;}var el=document.querySelector('.'+t.split(/\s+/).join('.'));if(el){el.click();}}function onMove(e){if(!dragging){return;}var minTop=margin;var maxTop=window.innerHeight-expandedH-margin;var top=startTop+(e.clientY-startY);top=(top < minTop)?minTop:(top>maxTop?maxTop:top);wrap.style.top=top+'px';wrap.style.transform='none';if(Math.abs(e.clientY-startY)>5){hasJustDragged = true;}}function onUp(){if(!dragging){return;}dragging=false;main.classList.remove('qx-fw__main--dragging');document.removeEventListener('mousemove',onMove);document.removeEventListener('mouseup',onUp);}main.addEventListener('mousedown',function (e){if(e.button!==0){return;}e.preventDefault();dragging=true;hasJustDragged=false;main.classList.add('qx-fw__main--dragging');startY=e.clientY;startTop=wrap.getBoundingClientRect().top;wrap.style.top=startTop+'px';wrap.style.transform='none';document.addEventListener('mousemove',onMove);document.addEventListener('mouseup',onUp);});function clampWrapTop(){var top=wrap.style.top?parseFloat(wrap.style.top):wrap.getBoundingClientRect().top;var minT=margin,maxT =window.innerHeight-expandedH-margin;if(top<minT || top>maxT){top=(top<minT)?minT:((top>maxT)?maxT:top);wrap.style.top=top+'px';wrap.style.transform='none';}}wrap.addEventListener('click',function(e){e.stopPropagation();if(e.target===main || main.contains(e.target)){if(hasJustDragged){hasJustDragged=false;return;}wrap.classList.toggle('qx-fw--open');if(wrap.classList.contains('qx-fw--open')){clampWrapTop();}}else if(e.target.classList.contains('qx-fw__btn--prev')){triggerByClass(wrap.dataset.prevClass);}else if(e.target.classList.contains('qx-fw__btn--next')){triggerByClass(wrap.dataset.nextClass);}});document.addEventListener('click',function(){wrap.classList.remove('qx-fw--open');});})();</script>`;
+    return {
+        styleStr:sty,
+        result:floy + scp
+    };
+}
+function calcPrvANex(html){
+    let prvs = ['上一章'];
+    let nexts = ['下一页'];
+    let targetDom = ['a','button','div'];
+    const calcRgx = (str)=>new RegExp(`<([a-z]+)\\s+[^>]*?(href|class|id)\\s*=\\s*(['"])([^'"]*?)\\3[^>]*?>${str}</\\1>`, 'g');
+    const getCssSelector = (tagName, attrName, attrValue) => {
+        if (!targetDom.includes(tagName.toLowerCase())) {
+            return null;
+        }
+        let cssSelector = tagName.toLowerCase();
+        switch (attrName.toLowerCase()) {
+            case 'class':
+                const classList = attrValue.trim().split(/\s+/).filter(cls => cls);
+                if (classList.length > 0) {cssSelector += '.' + classList.join('.');}
+                break;
+            case 'id':
+                const idValue = attrValue.trim();
+                if (idValue) {cssSelector += '#' + idValue;}
+                break;
+            case 'href':
+                const hrefValue = attrValue.trim();
+                if (hrefValue) {cssSelector += `[href*="${hrefValue}"]`;}
+                break;
+            default:
+                break;
+        }
+        return cssSelector;
+    };
+    let prvSelector;
+    let nextSelector;
+    for(let i=0;i<prvs.length;i++){
+        let res = calcRgx(prvs[i]).exec(html);
+        if(res){
+            prvSelector = getCssSelector(res[1], res[2], res[4]);
+            break;
+        }
+    }
+    for(let i=0;i<nexts.length;i++){
+        let res = calcRgx(nexts[i]).exec(html);
+        if(res){
+            nextSelector = getCssSelector(res[1], res[2], res[4]);
+            break;
+        }
+    }
+    return {
+        prev:prvSelector,
+        next:nextSelector
+    }
 }
