@@ -187,10 +187,10 @@ function applyFloatyW(html) {
     };
 }
 function calcPrvANex(html) {
-    let prvs = ['上一章'];
-    let nexts = ['下一页'];
+    let prvs = ['上一章','上一页'];
+    let nexts = ['下一页','下一章'];
     let targetDom = ['a', 'button', 'div'];
-    const calcRgx = (str) => new RegExp(`<([a-z]+)\\s+[^>]*?(href|class|id)\\s*=\\s*(['"])([^'"]*?)\\3[^>]*?>${str}</\\1>`, 'g');
+    const calcRgx = (str) => new RegExp(`<([a-z]+)\\s+[^>]*?(href|class|id)\\s*=\\s*(['"])([^'"]*?)\\3[^>]*?>\\s*${str}\\s*</\\1>`, 'g');
     const getCssSelector = (tagName, attrName, attrValue) => {
         if (!targetDom.includes(tagName.toLowerCase())) {
             return null;
