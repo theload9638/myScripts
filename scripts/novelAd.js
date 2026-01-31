@@ -114,9 +114,6 @@ if (type.includes("text")) {
                 styleStr += '.headerW,.navM,.searchBoxM,.about,.btnAddBook,.navM2,.recoBox2,.btnErrorW{display:none !important;pointer-events: none !important;}';
                 if (/\/book\/\w+(-\w+)?(-\w+)?\.html/i.test(url)) {
                     html = html.replace(/<script\s*>[^>]*?<\/script>/gs, '');
-                    let fyobj = applyFloatyW(html);
-                    styleStr += fyobj.styleStr;
-                    html += fyobj.result;
                 }
             }
         } else {
