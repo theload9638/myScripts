@@ -148,12 +148,12 @@ if (type.includes("text")) {
             html = html.replace(new RegExp(`<([a-zA-Z0-9]+)\\s+[^>]*?(src|href|class|id)\\s*=\\s*(['"])[^'"]*?${domain}[^'"]*?\\3[^>]*?>`, 'gi'), '<$1 style="display:none !important;pointer-events: none !important;">');
         });
         html = html.replace(/<([a-zA-Z0-9]+)\s+[^>]*?(src|href)\s*=\s*(['"])[^'"]*?\/\/\d+[a-z]+\.[a-z]+.\.(cc|com|xyz|net|org):?[^'"]*?\3[^>]*?>/gi, '<$1 style="display:none !important;pointer-events: none !important;">');
+        if (enableFloatyWindow) {
+            let fyobj = applyFloatyW(html);
+            styleStr += fyobj.styleStr;
+            bodyStr += fyobj.result;
+        }
         if (bodyStr !== '') {
-            if (enableFloatyWindow) {
-                let fyobj = applyFloatyW(html);
-                styleStr += fyobj.styleStr;
-                bodyStr += fyobj.result;
-            }
             html = html.replace(/<\/body>/, bodyStr + '</body>');
         }
         if (styleStr !== '') {
