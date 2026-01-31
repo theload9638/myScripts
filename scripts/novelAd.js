@@ -58,8 +58,9 @@ if (type.includes("text")) {
     ];
     const escapeRegExp = (str) => str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
     let html = $response.body;
-    let styleStr = 'ins,iframe,video,audio,.banner,#banner,.ad-video,.copyright,.GoogleActiveViewInnerContainer,.adsbygoogle,.adsbygoogle-noablate.google-auto-placed,#ad-video,#ad-container,.adBlock,#adBlock,.ad-mob,#ad-mob,.mobile-ad,#mobile-ad,.m-ad,#m-ad,.popup,.ads,#ads,.advertisement,#advertisement,embed,object,.ad,.ad-container,.ad-wrap,#ad-wrap,.ad-box,#ad-box,#ad,.footer,#footer{display:none !important;pointer-events: none !important;user-select: none !important;}';
+    let styleStr = 'ins,iframe,video,audio,.banner,#banner,.ad-video,#video-ad-ui,.copyright,.GoogleActiveViewInnerContainer,.adsbygoogle,.adsbygoogle-noablate.google-auto-placed,#ad-video,#ad-container,.adBlock,#adBlock,.ad-mob,#ad-mob,.mobile-ad,#mobile-ad,.m-ad,#m-ad,.popup,.ads,#ads,.advertisement,#advertisement,embed,object,.ad,.ad-container,.ad-wrap,#ad-wrap,.ad-box,#ad-box,#ad,.footer,#footer{display:none !important;pointer-events: none !important;user-select: none !important;}';
     let bgColor = '#494747';
+    let enableBgColor = true;
     let ignoreDivImg = true;
 
     try {
@@ -83,24 +84,24 @@ if (type.includes("text")) {
                     styleStr += ' .menu_box,.more_menu,.avatar{display:none !important;pointer-events: none !important;}';
                 }
             } else if (/^https?:\/\/www\.cool18\.com/.test(url)) {
-                styleStr += '.bottom-nav,.comment-section,.post-list,.vote-section,.view-gift,.view_tools_box,.root--26nWL,.bottomRight--h0VsQ,.slideAnimation--2ih2G{display:none !important;pointer-events: none !important;} * {background: ' + bgColor + ' !important;} a:link{color: #fcfafb; !important;}';
+                styleStr += '.bottom-nav,.comment-section,.post-list,.vote-section,.view-gift,.view_tools_box,.root--26nWL,.bottomRight--h0VsQ,.slideAnimation--2ih2G{display:none !important;pointer-events: none !important;} a:link{color: #fcfafb; !important;}';
                 if (url.includes('act=threadview')) {
                     html = html.replace(/<div\s*class=\"ad-container\">(.*?)<div\s*class=\"main-content\">/s, '<div class="main-content">');
                     styleStr = styleStr + ".subtitle-container,.bottom-nav,.comment-section,.post-list,.ai-detection-feedback{display:none !important;pointer-events: none !important;}";
                 }
             } else if (/^https?:\/\/m\.diyibanzhu\.(me|rest)/.test(url)) {
-                styleStr += '.slide{display:none !important;pointer-events: none !important;} * {background: ' + bgColor + ' !important;}';
+                styleStr += '.slide{display:none !important;pointer-events: none !important;}';
                 if (url.includes('action=article')) {
                     styleStr = styleStr + ' .header,.tuijian,#announceinfo{display:none !important;pointer-events: none !important;}';
                 }
             } else if (/^https?:\/\/m\.shuhaige\.net\/\d+\/\w+\.html/.test(url)) {
-                styleStr += '.path,.tui,.bYtYBpFi,.tmwac{display:none !important;pointer-events: none !important;} * {background: ' + bgColor + ' !important;}';
+                styleStr += '.path,.tui,.bYtYBpFi,.tmwac{display:none !important;pointer-events: none !important;}';
                 html = html.replace(/<script[^>]*>.*?<\/script>/gs, '');
                 html = html.replace(/<div\s*style=\"margin:0;padding:0;outline:0;margin-top:15px\">/, '<div style="display:none !important;">')
                 html = html.replace(/<([a-z]+)\s+style=\"display:\s*block;\s*z-index:\s*\d+;\s*position:\s*fixed;.*?\"><\/\1>/gi, '');
             } else if (/https?:\/\/www\.novel543\.com/.test(url)) {
                 if (/\/\d+(\/)?(dir)?$/.test(url)) {
-                    styleStr += '.mt-3,aside,.sidebar,.is-9{display:none !important;pointer-events: none !important;} * {background: ' + bgColor + ' !important;}';
+                    styleStr += '.mt-3,aside,.sidebar,.is-9{display:none !important;pointer-events: none !important;}';
                 } else if (/\/\d+\/w+\.html/.test(url)) {
                     styleStr += 'img{display:none !important;pointer-events: none !important;}';
                     html = html.replace(/<([a-zA-Z0-9]+)\s+[^>]*?(src|href|class|id)\s*=\s*(['"])[^'"]*?\/auth\/govip[^'"]*?\3[^>]*?>/gi, '<$1 style="display:none !important;pointer-events: none !important;">');
@@ -118,7 +119,7 @@ if (type.includes("text")) {
             const unKnowBuf = new Uint8Array($response.bodyBytes);
             html = new TextDecoder(charset, { fatal: false, ignoreBOM: true }).decode(unKnowBuf);
 
-            styleStr += `#Image,#onclickshowdiv,#smx_wrap,#video-ad-ui,#aswift_9,#aswift_9_host{display:none !important;pointer-events: none !important;} *{background: ${bgColor} !important;} .infos{color:#78867e !important;}`;
+            styleStr += `#Image,#onclickshowdiv,#smx_wrap,#aswift_9,#aswift_9_host{display:none !important;pointer-events: none !important;} .infos{color:#78867e !important;}`;
             html = html.replace(charset, 'utf-8');
             html = html.replace(/<script.*?src=\"\/skin\/default\/js\/(tongji|googgg|goge|gls)\.js\"[^>]*>/g, '<script>');
 
@@ -146,6 +147,9 @@ if (type.includes("text")) {
         if (styleStr !== '') {
             if(ignoreDivImg){
                 styleStr += 'div{ background-image:none !important;}';
+            }
+            if(enableBgColor){
+                styleStr += '* {background: ' + bgColor + ' !important;}';
             }
             html = html.replace(/<\/head>/, '<style>' + styleStr + '</style></head>');
         }
