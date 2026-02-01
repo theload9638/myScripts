@@ -43,6 +43,7 @@ if (type.includes("text")) {
         'ad-provider',
         'textad',
         'adBlock',
+        'javlib',
         '_ad',
         'ads',
         '/ad',
@@ -167,11 +168,21 @@ if (type.includes("text")) {
             }
             html = html.replace(/<\/head>/, '<style>' + styleStr + '</style></head>');
         }
+        const newHeaders = { ...$response.headers };
+        newHeaders["Cross-Origin-Embedder-Policy"] = "unsafe-none";
+        newHeaders["Cross-Origin-Opener-Policy"] = "unsafe-none";
+        newHeaders["Cross-Origin-Resource-Policy"] = "cross-origin";
+
+        delete newHeaders["Content-Security-Policy"];
+        delete newHeaders["content-security-policy"];
+        delete newHeaders["X-Frame-Options"];
+        delete newHeaders["x-frame-options"];
+        delete newHeaders["Referrer-Policy"];
         if (!utf8Flag) {
             const utf8Bytes = new TextEncoder().encode(html);
-            $done({ bodyBytes: utf8Bytes.buffer });
+            $done({ headers: newHeaders , bodyBytes: utf8Bytes.buffer });
         } else {
-            $done({ body: html });
+            $done({ headers: newHeaders , body: html });
         }
     } catch (e) {
         console.log(`novel adBlock Error: ${error.message}`);
@@ -186,9 +197,9 @@ function applyFloatyW(html) {
     if (!pnObj.prev && !pnObj.next) {
         return null;
     }
-    let sty = `.qx-fw{position:fixed;right:4px;top:54%;transform:translateY(-46%);z-index:9999;display:flex;flex-direction:column;align-items:center;gap:8px;background-color: transparent !important;border-radius: 50%;}.qx-fw .qx-fw__main,.qx-fw .qx-fw__btn{border-radius:50%;background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;color:#fff;display:flex;align-items:center;justify-content:center;transition: transform 0.2s ease,box-shadow 0.2s ease;user-select:none;}.qx-fw .qx-fw__main{position:relative;width:50px;height:50px;font-size:14px;box-shadow: 0 4px 20px rgba(102, 126, 234, 0.4);}.qx-fw .qx-fw__main .qx-fw__icon{line-height: 1; pointer-events: none; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;color: #fff !important;}.qx-fw .qx-fw__btn {display:none;width:40px;height:40px;padding:0;border:none;font-size:10px;line-height:1.2;box-shadow: 0 2px 10px rgba(102, 126, 234, 0.35);}.qx-fw.qx-fw--open .qx-fw__btn{ display: flex; }.qx-fw .qx-fw__btn:hover { opacity: 0.95; transform: scale(1.05); }.qx-fw .qx-fw__btn:active { transform: scale(0.98); }.qx-fw .qx-fw__btn--prev { order: 1; }.qx-fw .qx-fw__main { order: 2; }.qx-fw .qx-fw__btn--next { order: 3; }`;
-    let floy = `<div class="qx-fw" id="qx-fw"><button type="button" id="qx-btn-prv" class="qx-fw__btn qx-fw__btn--prev">上</button><div class="qx-fw__main" id="qx-fw-main" title="悬浮窗"><span class="qx-fw__icon">QX</span></div><button type="button" id="qx-btn-nxt" class="qx-fw__btn qx-fw__btn--next">下</button></div>`
-    let scp = `<script type="text/javascript">(function(){var wrap=document.querySelector('#qx-fw');function triggerByClass(classStr){if (!classStr||classStr==='null'||classStr==='undefined'){return;}var el=document.querySelector(classStr);if(el){el.click();}}wrap.addEventListener('click',function(e){e.stopPropagation();if(e.target.className==='qx-fw__main'){wrap.classList.toggle('qx-fw--open');}else if(e.target.id === 'qx-btn-prv'){triggerByClass('${pnObj.prev}');}else if(e.target.id === 'qx-btn-nxt'){triggerByClass('${pnObj.next}');}});document.addEventListener('click',function(){wrap.classList.remove('qx-fw--open');});})();</script>`;
+    let sty = `.qx-fw{position:fixed;right:4px;top:54%;transform:translateY(-46%);z-index:9999;display:flex;flex-direction:column;align-items:center;gap:8px;background-color: transparent !important;border-radius: 50%;}.qx-fw .qx-fw__main,.qx-fw .qx-fw__btn{border-radius:50%;background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;color:#fff;display:flex;align-items:center;justify-content:center;transition: transform 0.2s ease,box-shadow 0.2s ease;user-select:none;}.qx-fw .qx-fw__main{position:relative;width:50px;height:50px;font-size:14px;box-shadow: 0 4px 20px rgba(102, 126, 234, 0.4);cursor: grab;}.qx-fw .qx-fw__main:active { cursor: grabbing;}.qx-fw .qx-fw__btn {display:none;width:40px;height:40px;padding:0;border:none;font-size:10px;line-height:1.2;box-shadow: 0 2px 10px rgba(102, 126, 234, 0.35);}.qx-fw.qx-fw--open .qx-fw__btn{ display: flex; }.qx-fw .qx-fw__btn:hover { opacity: 0.95; transform: scale(1.05); }.qx-fw .qx-fw__btn:active { transform: scale(0.98); }.qx-fw .qx-fw__btn--prev { order: 1; }.qx-fw .qx-fw__main { order: 2; }.qx-fw .qx-fw__btn--next { order: 3; }`;
+    let floy = `<div class="qx-fw" id="qx-fw"><button type="button" id="qx-btn-prv" class="qx-fw__btn qx-fw__btn--prev">上</button><div class="qx-fw__main" id="qx-fw-main">QX</div><button type="button" id="qx-btn-nxt" class="qx-fw__btn qx-fw__btn--next">下</button></div>`
+    let scp = `<script type="text/javascript">(function(){let wrap=document.querySelector('#qx-fw');let main = document.querySelector('#qx-fw-main');let edge=4;let dragging=false,startX=0,hasJustDragged=false;function snapToSide(dx){if(dx<0){wrap.style.left=edge+'px';wrap.style.right='auto'}else{wrap.style.right=edge+'px';wrap.style.left='auto'}}main.addEventListener('mousedown',function(e){if(e.button!==0){return}e.preventDefault();dragging=true;hasJustDragged=false;startX=e.clientX});document.addEventListener('mousemove',function onMove(e){if(!dragging){return}var dx=e.clientX-startX;if(Math.abs(dx)>10){hasJustDragged=true}});document.addEventListener('mouseup',function onUp(e){if(!dragging)return;var dx=e.clientX-startX;if(Math.abs(dx)>10){snapToSide(dx);}dragging=false});function triggerByClass(classStr){if (!classStr||classStr==='null'||classStr==='undefined'){return;}let el=document.querySelector(classStr);if(el){el.click();}}wrap.addEventListener('click',function(e){e.stopPropagation();if(e.target === main || main.contains(e.target)){if (hasJustDragged) { hasJustDragged = false; return; }wrap.classList.toggle('qx-fw--open');}else if(e.target.id === 'qx-btn-prv'){triggerByClass('${pnObj.prev}');}else if(e.target.id === 'qx-btn-nxt'){triggerByClass('${pnObj.next}');}});document.addEventListener('click',function(){wrap.classList.remove('qx-fw--open');});})();</script>`;
     return {
         styleStr: sty,
         result: floy + scp
