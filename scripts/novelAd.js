@@ -266,7 +266,7 @@ function calcPrvANex(html) {
 
 function calcQWStyle(size = 5, direct = true) {
     if (size<=0) {return;}
-    let tmpStr = '.qx-qw{all:initial;--size:60px;--itemSize:40px;background:transparent !important;position:fixed;z-index:9999;right:6px;top:50%;transform:translateY(-50%);width:var(--size);height:var(--size);display:flex;justify-content:center;align-items:center;}';
+    let tmpStr = '.qx-qw{all:initial;--size:60px;--itemSize:40px;background:transparent !important;border-radius: 50%;position:fixed;z-index:9999;right:6px;top:50%;transform:translateY(-50%);width:var(--size);height:var(--size);display:flex;justify-content:center;align-items:center;}';
     tmpStr += '.qx-qw>div{position:absolute;border-radius:50%;z-index:4;justify-content:center;align-items:center;text-align:center;box-sizing:border-box;transition:transform 0.2s ease,box-shadow 0.2s ease;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%) !important;user-select:none;font-weight:540;}';
     tmpStr += '.qx-main{width:var(--size);height:var(--size);display:flex;box-shadow:0 4px 40px rgba(98,121,224,0.5);user-select:none;cursor:grabbing;}';
     tmpStr += '.qx-main:hover{transform:scale(1.04);}.qx-qw.qx-qw-open .qx-btn{display:flex}';
