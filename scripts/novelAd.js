@@ -17,6 +17,7 @@ if (url.includes('html') || type.includes("text")) {
         'diagramjawlineunhappy.com',
         'img.doppiocdn.com',
         'ttavej.com',
+        'clarity.ms',
         'www.interactivebrokers.com',
         'www.lovedate.cc',
         '29782a430255d79f2wap.jigool.org',
@@ -32,6 +33,8 @@ if (url.includes('html') || type.includes("text")) {
         'ad.tagtoo.co',
         'onead.onevision.com.tw',
         'googleads.g.doubleclick.net',
+        '3e87c0802f91cf8cgg.lzicw0.com',
+        'histats.com',
         'jl00.jkugbfvh.icu',
         '.tagtoo.co',
         'y.clarity.ms',
@@ -50,6 +53,7 @@ if (url.includes('html') || type.includes("text")) {
         'logo',
         '/ad-',
         '_adv',
+        'slide-ad',
         'ad-body',
         '-ad',
         '-adv',
@@ -101,7 +105,9 @@ if (url.includes('html') || type.includes("text")) {
                     styleStr = styleStr + ".subtitle-container,.bottom-nav,.comment-section,.post-list,.ai-detection-feedback{display:none !important;pointer-events: none !important;}";
                 }
             } else if (/^https?:\/\/m\.diyibanzhu\.(me|rest)/.test(url)) {
-                styleStr += '.slide{display:none !important;pointer-events: none !important;}';
+                styleStr += '.slide,.slide-ad{display:none !important;pointer-events: none !important;}';
+                html = html.replace(/<script\s*>[^>]*?<\/script>/gs, '');
+                html = html.replace(/<script\s+type=\"text\/javascript\"\s*>[^>]*?<\/script>/gs, '');
                 if (url.includes('action=article')) {
                     styleStr = styleStr + ' .header,.tuijian,#announceinfo{display:none !important;pointer-events: none !important;}';
                 }
