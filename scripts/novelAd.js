@@ -1,6 +1,8 @@
 const url = $request.url;
 let type = $response.headers['Content-Type'] || $response.headers['content-type'];
 console.log(JSON.stringify($response.headers))
+console.log($response.body);
+
 if (url.includes('html') || type.includes("text")) {
     let domains = [
         'www.googletagmanager.com',
@@ -197,10 +199,10 @@ if (url.includes('html') || type.includes("text")) {
 
 function applyFloatyW(html) {
     let pnObj = calcPrvANex(html);
-    let cn = '<div class="qx-qw"><div class="qx-main">QX</div><div class="qx-btn qx-btn-prv"><span>上页</span></div><div class="qx-btn qx-btn-nxt"><span>下页</span></div><div class="qx-btn qx-btn-unlockSearch"><span>搜索解限</span></div><div class="qx-btn qx-btn-ai"><span>AI</span></div><div class="qx-btn qx-btn-dir"><span>目录</span></div></div>';
-    let scp = `<script>(function(){let container=document.querySelector('.qx-qw');let main=document.querySelector('.qx-main');function clickBtn(cs){if(typeof cs!='string'||cs==='undefined'||cs==='null'){return}let bn=document.querySelector(cs);if(bn){bn.click()};}main.addEventListener('click',function(e){e.stopPropagation();alert(e.target.classList.contains('qx-btn-prv'));if(e.target.classList.contains('qx-main')){container.classList.toggle('qx-qw-open')}else if(e.target.classList.contains('qx-btn-prv')){clickBtn('${pnObj.prev}');}else if(e.target.classList.contains('qx-btn-nxt')){clickBtn('${pnObj.next}');}else if(e.target.classList.contains('qx-btn-dir')){clickBtn('${pnObj.dir}');}else if(e.target.classList.contains('qx-btn-unlockSearch')){document.cookie='boomolastsearchtime=; Max-Age=0; path=/';}else if(e.target.classList.contains('qx-btn-ai')){}});document.addEventListener('click',function(){ontainer.classList.remove('qx-qw-open')})})();</script>`
+    let cn = '<div class="qx-qw"><div class="qx-main">QX</div><div class="qx-btn qx-btn-prv">上页</div><div class="qx-btn qx-btn-nxt">下页</div><div class="qx-btn qx-btn-unlockSearch">搜索 解限</div><div class="qx-btn qx-btn-ai">AI</div><div class="qx-btn qx-btn-dir">目录</div></div>';
+    let scp = `<script>(function(){let container=document.querySelector('.qx-qw');container.addEventListener('click',function(e){e.stopPropagation();if(e.target.classList.contains('qx-main')){container.classList.toggle('qx-qw-open')}else if(e.target.classList.contains('qx-btn-prv')){clickBtn('${pnObj.prev}')}else if(e.target.classList.contains('qx-btn-nxt')){clickBtn('${pnObj.next}')}else if(e.target.classList.contains('qx-btn-dir')){clickBtn('${pnObj.dir}')}else if(e.target.classList.contains('qx-btn-unlockSearch')){document.cookie="boomolastsearchtime=; Max-Age=0; path=/"}else if(e.target.classList.contains('qx-btn-ai')){}});document.addEventListener('click',function(e){container.classList.remove('qx-qw-open')})})();</script>`
     return {
-        styleStr: calcQWStyle(5),
+        styleStr: calcQWStyle(5,true),
         bodyStr: cn + scp
     };
 }
@@ -221,7 +223,7 @@ function calcPrvANex(html) {
         let fss = filterStr.split(/\s+/);
         for (let item of fss) {
             item = item.trim();
-            item = item.replace(/\'/g,'"');
+            item = item.replace(/\'/g, '"');
             if (itemRule.test(item)) {
                 cssSelector += `[${item}]`;
             }
@@ -260,16 +262,12 @@ function calcPrvANex(html) {
 }
 
 function calcQWStyle(size = 5, direct = true) {
-    if (size === 1) {
-        return;
-    }
-    let tmpStr = '.qx-qw{all:initial;--size:60px;--itemSize:40px;background:transparent !important;position:fixed;z-index:9999;right:6px;top:50%;transform:translateY(-50%);width:var(--size);height:var(--size);display:flex;justify-content:center;align-items:center}';
-    tmpStr += '.qx-qw>div{position:absolute;border-radius:50%;z-index:4;justify-content:center;align-items:center;text-align:center;box-sizing:border-box;transition:transform 0.2s ease,box-shadow 0.2s ease;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%) !important}';
-    tmpStr += '.qx-main{width:var(--size);height:var(--size);display:flex;box-shadow:0 4px 40px rgba(98,121,224,0.5);user-select:none;cursor:grabbing}';
-    tmpStr += '.qx-main:hover{transform:scale(1.04)}';
-    tmpStr += '.qx-btn>span{color:#fff !important;font-size:11px !important;background-color:inherit !important;font-weight:550 !important;letter-spacing:1px;word-break:normal;user-select:none}';
-    tmpStr += '.qx-qw.qx-qw-open .qx-btn{display:flex}';
-    tmpStr += '.qx-btn{display:none;top:calc(var(--size) / 2 * -1 + calc(var(--itemSize) /2 * -1));width:var(--itemSize);height:var(--itemSize);box-shadow:0 2px 10px rgba(102,126,234,0.35);transform-origin:center calc(var(--size) / 2 + var(--itemSize) / 2);overflow:hidden}';
+    if (size<=0) {return;}
+    let tmpStr = '.qx-qw{all:initial;--size:60px;--itemSize:40px;background:transparent !important;position:fixed;z-index:9999;right:6px;top:50%;transform:translateY(-50%);width:var(--size);height:var(--size);display:flex;justify-content:center;align-items:center;}';
+    tmpStr += '.qx-qw>div{position:absolute;border-radius:50%;z-index:4;justify-content:center;align-items:center;text-align:center;box-sizing:border-box;transition:transform 0.2s ease,box-shadow 0.2s ease;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%) !important;user-select:none;font-weight:540;}';
+    tmpStr += '.qx-main{width:var(--size);height:var(--size);display:flex;box-shadow:0 4px 40px rgba(98,121,224,0.5);user-select:none;cursor:grabbing;}';
+    tmpStr += '.qx-main:hover{transform:scale(1.04);}.qx-qw.qx-qw-open .qx-btn{display:flex}';
+    tmpStr += '.qx-btn{display:none;top:calc(var(--size) / 2 * -1 + calc(var(--itemSize) /2 * -1));width:var(--itemSize);height:var(--itemSize);box-shadow:0 2px 10px rgba(102,126,234,0.35);transform-origin:center calc(var(--size) / 2 + var(--itemSize) / 2);overflow:hidden;color:#fff !important;font-size:11px !important;letter-spacing:1px;word-break:normal;}';
     const fh = () => {
         let nh = direct === true ? '-' : '';
         direct = !direct;
