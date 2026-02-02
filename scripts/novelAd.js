@@ -1,10 +1,7 @@
 const url = $request.url;
 let type = $response.headers['Content-Type'] || $response.headers['content-type'];
-console.log(type);
-console.log($response.headers['Content-Type']);
-console.log($response.headers['content-type']);
 
-if (type.includes("text") || url.includes('html')) {
+if (url.includes('html') || type.includes("text")) {
     let domains = [
         'www.googletagmanager.com',
         'www.google-analytics.com',
