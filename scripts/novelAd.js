@@ -153,10 +153,8 @@ if (type.includes("text")) {
 
         if (enableFloatyWindow) {
             let fyobj = applyFloatyW(html);
-            if (fyobj) {
-                bodyStr += fyobj.bodyStr;
-                styleStr += fyobj.styleStr;
-            }
+            bodyStr += fyobj.bodyStr;
+            styleStr += fyobj.styleStr;
         }
         if (bodyStr) {
             html = html.replace(/<\/body>/, bodyStr + '</body>');
@@ -190,7 +188,7 @@ if (type.includes("text")) {
             $done({ headers: newHeaders, body: html });
         }
     } catch (e) {
-        console.log(`novel adBlock Error: ${error.message}`);
+        console.log(`novel adBlock Error: ${e.message}`);
         $done({});
     }
 } else {
@@ -260,11 +258,10 @@ function calcPrvANex(html) {
     }
 }
 
-function calcQWStyle(size, direct = true) {
+function calcQWStyle(size = 5, direct = true) {
     if (size === 1) {
         return;
     }
-    let sty = document.createElement('style');
     let tmpStr = '.qx-qw{all:initial;--size:60px;--itemSize:40px;background:transparent !important;position:fixed;z-index:9999;right:6px;top:50%;transform:translateY(-50%);width:var(--size);height:var(--size);display:flex;justify-content:center;align-items:center}';
     tmpStr += '.qx-qw>div{position:absolute;border-radius:50%;z-index:4;justify-content:center;align-items:center;text-align:center;box-sizing:border-box;transition:transform 0.2s ease,box-shadow 0.2s ease;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%) !important}';
     tmpStr += '.qx-main{width:var(--size);height:var(--size);display:flex;box-shadow:0 4px 40px rgba(98,121,224,0.5);user-select:none;cursor:grabbing}';
@@ -277,27 +274,18 @@ function calcQWStyle(size, direct = true) {
         direct = !direct;
         return nh;
     };
-    if (size <= 3) {
-        if (size === 3) {
-            let v5 = fh();
-            tmpStr += `.qx-qw>.qx-btn:nth-child(3){transform: translate(${v5}28px,30px) rotate(${v5}90deg);}`;
-            tmpStr += `.qx-qw>.qx-btn:nth-child(3)>span{transform: rotate(${fh()}90deg);}`;
-        }
-    } else {
-        let v1 = size - 1;
-        let v2 = 180 / v1;
-        let init = (v1 == 4) ? 5 : 15;
-        let step = (v1 == 4) ? 25 : 30;
-        let v4 = 0;
-        for (let v3 = 3; v3 <= size; v3++) {
-            let v5 = fh();
-            tmpStr += `.qx-qw>.qx-btn:nth-child(${v3}){transform: translate(${v5}25px,${init + step * v4}px) rotate(${v5}${v2 * (v4 + 1)}deg);}`;
-            tmpStr += `.qx-qw>.qx-btn:nth-child(${v3})>span{transform: rotate(${fh()}${v2 * (v4 + 1)}deg);}`;
-            v4++;
-        }
+    let v1 = size - 1;
+    let v2 = 180 / v1;
+    let init = (v1 == 4) ? 5 : 15;
+    let step = (v1 == 4) ? 25 : 30;
+    let v4 = 0;
+    for (let v3 = 3; v3 <= size; v3++) {
+        let v5 = fh();
+        tmpStr += `.qx-qw>.qx-btn:nth-child(${v3}){transform: translate(${v5}25px,${init + step * v4}px) rotate(${v5}${v2 * (v4 + 1)}deg);}`;
+        tmpStr += `.qx-qw>.qx-btn:nth-child(${v3})>span{transform: rotate(${fh()}${v2 * (v4 + 1)}deg);}`;
+        v4++;
     }
     tmpStr += '.qx-qw>.qx-btn:last-child{transform: translate(0px,calc(calc( var(--size) / 2 ) + calc( var(--itemSize) /2) + 8px)) rotate(-180deg);}';
     tmpStr += '.qx-qw>.qx-btn:last-child>span{transform: rotate(180deg);}';
-    sty.innerHTML = tmpStr;
-    document.head.appendChild(sty);
+    return tmpStr
 }
