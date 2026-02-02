@@ -63,6 +63,7 @@ if (type.includes("text")) {
     let html = $response.body;
     let styleStr = 'ins,iframe,video,audio,#__copy,div[data-ad],.banner,.ad-body,.logo_box,.ad_encode,#ad_encode,#ad-body,#banner,.ad-video,#video-ad-ui,.copyright,.GoogleActiveViewInnerContainer,.adsbygoogle,.adsbygoogle-noablate.google-auto-placed,#ad-video,#ad-container,.adBlock,#adBlock,.ad-mob,#ad-mob,.mobile-ad,#mobile-ad,.m-ad,#m-ad,.popup,.ads,#ads,.advertisement,#advertisement,embed,object,.ad,.ad-container,.ad-wrap,#ad-wrap,.ad-box,#ad-box,#ad,.footer,#footer{display:none !important;pointer-events: none !important;user-select: none !important;}';
     let bodyStr = '';
+    let scriptStr = '';
     let bgColor = '#494747';
     let enableBgColor = true;
     let enableFloatyWindow = true;
@@ -149,24 +150,27 @@ if (type.includes("text")) {
             html = html.replace(new RegExp(`<([a-zA-Z0-9]+)\\s+[^>]*?(src|href|class|id)\\s*=\\s*(['"])[^'"]*?${domain}[^'"]*?\\3[^>]*?>`, 'gi'), '<$1 style="display:none !important;pointer-events: none !important;">');
         });
         html = html.replace(/<([a-zA-Z0-9]+)\s+[^>]*?(src|href)\s*=\s*(['"])[^'"]*?\/\/\d+[a-z]+\.[a-z]+.\.(cc|com|xyz|net|org):?[^'"]*?\3[^>]*?>/gi, '<$1 style="display:none !important;pointer-events: none !important;">');
-        if (enableFloatyWindow) {
-            let fyobj = applyFloatyW(html);
-            if (fyobj) {
-                styleStr += fyobj.styleStr;
-                bodyStr += fyobj.result;
-            }
-        }
-        if (bodyStr !== '') {
+
+        if (bodyStr) {
             html = html.replace(/<\/body>/, bodyStr + '</body>');
         }
-        if (styleStr !== '') {
+        if (styleStr) {
             if (ignoreDivImg) {
                 styleStr += 'div{ background-image:none !important;}';
             }
             if (enableBgColor) {
                 styleStr += '* {background: ' + bgColor + ' !important;}';
             }
-            html = html.replace(/<\/head>/, '<style>' + styleStr + '</style></head>');
+            if (enableFloatyWindow) {
+                let fyobj = applyFloatyW(html);
+                if (fyobj) {
+                    scriptStr += fyobj.result;
+                }
+            }
+            if(!scriptStr){
+                scriptStr = '';
+            }
+            html = html.replace(/<\/head>/, '<style>' + styleStr + '</style>'+scriptStr+'</head>');
         }
         const newHeaders = { ...$response.headers };
         newHeaders["Cross-Origin-Embedder-Policy"] = "unsafe-none";
@@ -180,9 +184,9 @@ if (type.includes("text")) {
         delete newHeaders["Referrer-Policy"];
         if (!utf8Flag) {
             const utf8Bytes = new TextEncoder().encode(html);
-            $done({ headers: newHeaders , bodyBytes: utf8Bytes.buffer });
+            $done({ headers: newHeaders, bodyBytes: utf8Bytes.buffer });
         } else {
-            $done({ headers: newHeaders , body: html });
+            $done({ headers: newHeaders, body: html });
         }
     } catch (e) {
         console.log(`novel adBlock Error: ${error.message}`);
@@ -194,63 +198,71 @@ if (type.includes("text")) {
 
 function applyFloatyW(html) {
     let pnObj = calcPrvANex(html);
-    if (!pnObj.prev && !pnObj.next) {
-        return null;
+    let tmp = '';
+    if (pnObj.prev) {
+        tmp += "container.appendChild(createQwBtn('prv', '上页'));";
     }
-    let sty = `.qx-fw{position:fixed;right:4px;top:54%;transform:translateY(-46%);z-index:9999;display:flex;flex-direction:column;align-items:center;gap:8px;background-color: transparent !important;border-radius: 50%;}.qx-fw .qx-fw__main,.qx-fw .qx-fw__btn{border-radius:50%;background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;color:#fff;display:flex;align-items:center;justify-content:center;transition: transform 0.2s ease,box-shadow 0.2s ease;user-select:none;}.qx-fw .qx-fw__main{position:relative;width:50px;height:50px;font-size:14px;box-shadow: 0 4px 20px rgba(102, 126, 234, 0.4);cursor: grab;}.qx-fw .qx-fw__main:active { cursor: grabbing;}.qx-fw .qx-fw__btn {display:none;width:40px;height:40px;padding:0;border:none;font-size:10px;line-height:1.2;box-shadow: 0 2px 10px rgba(102, 126, 234, 0.35);}.qx-fw.qx-fw--open .qx-fw__btn{ display: flex; }.qx-fw .qx-fw__btn:hover { opacity: 0.95; transform: scale(1.05); }.qx-fw .qx-fw__btn:active { transform: scale(0.98); }.qx-fw .qx-fw__btn--prev { order: 1; }.qx-fw .qx-fw__main { order: 2; }.qx-fw .qx-fw__btn--next { order: 3; }`;
-    let floy = `<div class="qx-fw" id="qx-fw"><button type="button" class="qx-fw__btn qx-fw__btn--prev">上</button><div class="qx-fw__main" id="qx-fw-main" draggable="true">QX</div><button type="button" class="qx-fw__btn qx-fw__btn--next">下</button></div>`
-    let scp = `<script type="text/javascript">(function(){let wrap=document.querySelector('#qx-fw');let main = document.querySelector('#qx-fw-main');let edge=4;let dragStartX=0;let hasJustDragged=false;function snapToSide(dx){if(dx<0){wrap.style.left=edge+'px';wrap.style.right='auto'}else{wrap.style.right=edge+'px';wrap.style.left='auto'}}main.addEventListener('dragstart',function(e){dragStartX=e.clientX;hasJustDragged=false;e.dataTransfer.setData('text/plain','');e.dataTransfer.effectAllowed='move'});main.addEventListener('dragend',function(e){let endX=e.clientX;let dx=endX-dragStartX;if(Math.abs(dx)>10){hasJustDragged=true;snapToSide(dx)}});function triggerByClass(classStr){if (!classStr||classStr==='null'||classStr==='undefined'){return;}let el=document.querySelector(classStr);if(el){el.click();}}wrap.addEventListener('click',function(e){e.stopPropagation();if(e.target === main || main.contains(e.target)){if (hasJustDragged) { hasJustDragged = false; return; }wrap.classList.toggle('qx-fw--open');}else if(e.target.classList.contains('qx-fw__btn--prev')){triggerByClass('${pnObj.prev}');}else if(e.target.classList.contains('qx-fw__btn--next')){triggerByClass('${pnObj.next}');}});document.addEventListener('click',function(){wrap.classList.remove('qx-fw--open');});})();</script>`;
+    if (pnObj.next) {
+        tmp += "container.appendChild(createQwBtn('nxt', '下页'));";
+    }
+    if (pnObj.dir) {
+        tmp += "container.appendChild(createQwBtn('dir', '目录'));";
+    }
+    let scp = `<script>function createQw(){let container=document.createElement('div');container.className='qx-qw';let main=document.createElement('div');main.className='qx-main';main.innerText='QX';container.appendChild(main);${tmp}container.appendChild(createQwBtn('unlockSearch','搜索 解限'));container.appendChild(createQwBtn('ai','AI'));calcQWStyle(container.children.length-1);main.addEventListener('click',function(e){e.stopPropagation();if(e.target.classList.contains('qx-main')){container.classList.toggle('qx-qw-open')}else if(e.target.classList.contains('qx-btn-prv')){clickBtn('${pnObj.prev}')}else if(e.target.classList.contains('qx-btn-nxt')){clickBtn('${pnObj.next}')}else if(e.target.classList.contains('qx-btn-dir')){clickBtn('${pnObj.dir}')}else if(e.target.classList.contains('qx-btn-unlockSearch')){document.cookie="boomolastsearchtime=; Max-Age=0; path=/"}else if(e.target.classList.contains('qx-btn-ai')){}});document.addEventListener('click',function(){ontainer.classList.remove('qx-qw-open')});document.body.appendChild(container)}function clickBtn(cs){if(typeof cs!="string"||cs==='undefined'||cs==='null'){return}let bn=document.querySelector(cs);bn&&bn.click()}function createQwBtn(name,text){let btn=document.createElement('div');btn.classList.add('qx-btn');btn.classList.add('qx-btn-'+name);let desc=document.createElement('span');desc.innerText=text;btn.appendChild(desc);return btn}function calcQWStyle(size,direct=true){if(size===1){return}let sty=document.createElement('style');let tmpStr='.qx-qw{all:initial;--size:60px;--itemSize:40px;background:transparent !important;position:fixed;z-index:9999;right:6px;top:50%;transform:translateY(-50%);width:var(--size);height:var(--size);display:flex;justify-content:center;align-items:center}';tmpStr+='.qx-qw>div{position:absolute;border-radius:50%;z-index:4;justify-content:center;align-items:center;text-align:center;box-sizing:border-box;transition:transform 0.2s ease,box-shadow 0.2s ease;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%) !important}';tmpStr+='.qx-main{width:var(--size);height:var(--size);display:flex;box-shadow:0 4px 40px rgba(98,121,224,0.5);user-select:none;cursor:grabbing}';tmpStr+='.qx-main:hover{transform:scale(1.04)}';tmpStr+='.qx-btn>span{color:#fff !important;font-size:11px !important;background-color:inherit !important;font-weight:550 !important;letter-spacing:1px;word-break:normal;user-select:none}';tmpStr+='.qx-qw.qx-qw-open .qx-btn{display:flex}';tmpStr+='.qx-btn{display:none;top:calc(var(--size) / 2 * -1 + calc(var(--itemSize) /2 * -1));width:var(--itemSize);height:var(--itemSize);box-shadow:0 2px 10px rgba(102,126,234,0.35);transform-origin:center calc(var(--size) / 2 + var(--itemSize) / 2);overflow:hidden}';const fh=()=>{let nh=direct===true?'-':'';direct=!direct;return nh};if(size<=3){if(size===3){let v5=fh();tmpStr+=`.qx-qw>.qx-btn:nth-child(3){transform:translate(${v5}28px,30px)rotate(${v5}90deg)}`;tmpStr+=`.qx-qw>.qx-btn:nth-child(3)>span{transform:rotate(${fh()}90deg)}`}}else{let v1=size-1;let v2=180/v1;let init=(v1==4)?5:15;let step=(v1==4)?25:30;let v4=0;for(let v3=3;v3<=size;v3++){let v5=fh();tmpStr+=`.qx-qw>.qx-btn:nth-child(${v3}){transform:translate(${v5}25px,${init+step*v4}px)rotate(${v5}${v2*(v4+1)}deg)}`;tmpStr+=`.qx-qw>.qx-btn:nth-child(${v3})>span{transform:rotate(${fh()}${v2*(v4+1)}deg)}`;v4++}}tmpStr+='.qx-qw>.qx-btn:last-child{transform: translate(0px,calc(calc( var(--size) / 2 ) + calc( var(--itemSize) /2) + 8px)) rotate(-180deg);}';tmpStr+='.qx-qw>.qx-btn:last-child>span{transform: rotate(180deg);}';sty.innerHTML=tmpStr;document.head.appendChild(sty)}createQw();</script>`; 
     return {
-        styleStr: sty,
-        result: floy + scp
+        result: scp
     };
 }
 function calcPrvANex(html) {
-    let prvs = ['上一章', '上一页'];
-    let nexts = ['下一页', '下一章'];
+    let prvs = ['上一章', '上一页', '上一章节'];
+    let nexts = ['下一页', '下一章', '下一章节'];
+    let mls = ['目录', '全部章节'];
     let targetDom = ['a', 'button', 'div'];
     const calcRgx = (str) => new RegExp(`<([a-z]+)\\s+[^>]*?(href|class|id)\\s*=\\s*(['"])([^'"]*?)\\3[^>]*?>[^<]*?${str}[^<]*?</\\1>`, 'g');
-    const getCssSelector = (tagName, attrName, attrValue) => {
+    const itemRule = /[^=]*?=(["'])[^'"]*?\1/;
+    const getCssSelector = (resource) => {
+        let tagName = resource[1];
         if (!targetDom.includes(tagName.toLowerCase())) {
             return null;
         }
         let cssSelector = tagName.toLowerCase();
-        switch (attrName.toLowerCase()) {
-            case 'class':
-                const classList = attrValue.trim().split(/\s+/).filter(cls => cls);
-                if (classList.length > 0) { cssSelector += '.' + classList.join('.'); }
-                break;
-            case 'id':
-                const idValue = attrValue.trim();
-                if (idValue) { cssSelector += '#' + idValue; }
-                break;
-            case 'href':
-                const hrefValue = attrValue.trim();
-                if (hrefValue) { cssSelector += `[href*="${hrefValue}"]`; }
-                break;
-            default:
-                break;
+        let filterStr = (resource[0].trim()).replace(new RegExp(`<${tagName}\\s*([^>]*?)>.*?$`, 's'), '$1');
+        let fss = filterStr.split(/\s+/);
+        for (let item of fss) {
+            item = item.trim();
+            if (itemRule.test(item)) {
+                cssSelector += `[${item}]`;
+            }
         }
         return cssSelector;
     };
     let prvSelector = null;
     let nextSelector = null;
+    let dirSelector = null;
     for (let i = 0; i < prvs.length; i++) {
         let res = calcRgx(prvs[i]).exec(html);
         if (res) {
-            prvSelector = getCssSelector(res[1], res[2], res[4]);
+            prvSelector = getCssSelector(res);
             break;
         }
     }
     for (let i = 0; i < nexts.length; i++) {
         let res = calcRgx(nexts[i]).exec(html);
         if (res) {
-            nextSelector = getCssSelector(res[1], res[2], res[4]);
+            nextSelector = getCssSelector(res);
+            break;
+        }
+    }
+    for (let i = 0; i < mls.length; i++) {
+        let res = calcRgx(mls[i]).exec(html);
+        if (res) {
+            dirSelector = getCssSelector(res);
             break;
         }
     }
     return {
         prev: prvSelector,
-        next: nextSelector
+        next: nextSelector,
+        dir: dirSelector
     }
 }
