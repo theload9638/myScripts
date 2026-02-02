@@ -62,6 +62,7 @@ if (url.includes('html') || type.includes("text")) {
     const escapeRegExp = (str) => str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
     let html = $response.body;
     if(!html){
+       console.log(`${url}  / result empty`);
        $done({});
        return;
     }
