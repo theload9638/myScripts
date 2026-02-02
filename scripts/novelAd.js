@@ -198,7 +198,7 @@ if (type.includes("text")) {
 function applyFloatyW(html) {
     let pnObj = calcPrvANex(html);
     let cn = '<div class="qx-qw"><div class="qx-main">QX</div><div class="qx-btn qx-btn-prv"><span>上页</span></div><div class="qx-btn qx-btn-nxt"><span>下页</span></div><div class="qx-btn qx-btn-unlockSearch"><span>搜索解限</span></div><div class="qx-btn qx-btn-ai"><span>AI</span></div><div class="qx-btn qx-btn-dir"><span>目录</span></div></div>';
-    let scp = `<script>(function(){let container=document.querySelector('.qx-qw');let main=document.querySelector('.qx-main');function clickBtn(cs){if(typeof cs!='string'||cs==='undefined'||cs==='null'){return}let bn=document.querySelector(cs);bn&&bn.click()}main.addEventListener('click',function(e){e.stopPropagation();if(e.target.classList.contains('qx-main')){container.classList.toggle('qx-qw-open')}else if(e.target.classList.contains('qx-btn-prv')){clickBtn('${pnObj.prev}')}else if(e.target.classList.contains('qx-btn-nxt')){clickBtn('${pnObj.next}')}else if(e.target.classList.contains('qx-btn-dir')){clickBtn('${pnObj.dir}')}else if(e.target.classList.contains('qx-btn-unlockSearch')){document.cookie='boomolastsearchtime=; Max-Age=0; path=/';}else if(e.target.classList.contains('qx-btn-ai')){}});document.addEventListener('click',function(){ontainer.classList.remove('qx-qw-open')})})();</script>`
+    let scp = `<script>(function(){let container=document.querySelector('.qx-qw');let main=document.querySelector('.qx-main');function clickBtn(cs){if(typeof cs!='string'||cs==='undefined'||cs==='null'){return}let bn=document.querySelector(cs);if(bn){bn.click()};}main.addEventListener('click',function(e){e.stopPropagation();if(e.target.classList.contains('qx-main')){container.classList.toggle('qx-qw-open')}else if(e.target.classList.contains('qx-btn-prv')){clickBtn('${pnObj.prev}');}else if(e.target.classList.contains('qx-btn-nxt')){clickBtn('${pnObj.next}');}else if(e.target.classList.contains('qx-btn-dir')){clickBtn('${pnObj.dir}');}else if(e.target.classList.contains('qx-btn-unlockSearch')){document.cookie='boomolastsearchtime=; Max-Age=0; path=/';}else if(e.target.classList.contains('qx-btn-ai')){}});document.addEventListener('click',function(){ontainer.classList.remove('qx-qw-open')})})();</script>`
     return {
         styleStr: calcQWStyle(5),
         bodyStr: cn + scp
@@ -221,6 +221,7 @@ function calcPrvANex(html) {
         let fss = filterStr.split(/\s+/);
         for (let item of fss) {
             item = item.trim();
+            item = item.replace(/\'/g,'"');
             if (itemRule.test(item)) {
                 cssSelector += `[${item}]`;
             }
