@@ -151,6 +151,13 @@ if (type.includes("text")) {
         });
         html = html.replace(/<([a-zA-Z0-9]+)\s+[^>]*?(src|href)\s*=\s*(['"])[^'"]*?\/\/\d+[a-z]+\.[a-z]+.\.(cc|com|xyz|net|org):?[^'"]*?\3[^>]*?>/gi, '<$1 style="display:none !important;pointer-events: none !important;">');
 
+        if (enableFloatyWindow) {
+            let fyobj = applyFloatyW(html);
+            if (fyobj) {
+                bodyStr += fyobj.bodyStr;
+                styleStr += fyobj.styleStr;
+            }
+        }
         if (bodyStr) {
             html = html.replace(/<\/body>/, bodyStr + '</body>');
         }
@@ -160,13 +167,6 @@ if (type.includes("text")) {
             }
             if (enableBgColor) {
                 styleStr += '* {background: ' + bgColor + ' !important;}';
-            }
-            if (enableFloatyWindow) {
-                let fyobj = applyFloatyW(html);
-                if (fyobj) {
-                    scriptStr += '<script>'+fyobj.scriptStr+'</script>';
-                    styleStr += fyobj.styleStr;
-                }
             }
             if (!scriptStr) {
                 scriptStr = '';
@@ -202,8 +202,8 @@ function applyFloatyW(html) {
     let cn = '<div class="qx-qw"><div class="qx-main">QX</div><div class="qx-btn qx-btn-prv"><span>上页</span></div><div class="qx-btn qx-btn-nxt"><span>下页</span></div><div class="qx-btn qx-btn-unlockSearch"><span>搜索解限</span></div><div class="qx-btn qx-btn-ai"><span>AI</span></div><div class="qx-btn qx-btn-dir"><span>目录</span></div></div>';
     let scp = `<script>(function(){let container=document.querySelector('.qx-qw');let main=document.querySelector('.qx-main');function clickBtn(cs){if(typeof cs!='string'||cs==='undefined'||cs==='null'){return}let bn=document.querySelector(cs);bn&&bn.click()}main.addEventListener('click',function(e){e.stopPropagation();if(e.target.classList.contains('qx-main')){container.classList.toggle('qx-qw-open')}else if(e.target.classList.contains('qx-btn-prv')){clickBtn('${pnObj.prev}')}else if(e.target.classList.contains('qx-btn-nxt')){clickBtn('${pnObj.next}')}else if(e.target.classList.contains('qx-btn-dir')){clickBtn('${pnObj.dir}')}else if(e.target.classList.contains('qx-btn-unlockSearch')){document.cookie='boomolastsearchtime=; Max-Age=0; path=/';}else if(e.target.classList.contains('qx-btn-ai')){}});document.addEventListener('click',function(){ontainer.classList.remove('qx-qw-open')})})();</script>`
     return {
-        styleStr:calcQWStyle(5),
-        bodyStr: cn+scp
+        styleStr: calcQWStyle(5),
+        bodyStr: cn + scp
     };
 }
 function calcPrvANex(html) {
