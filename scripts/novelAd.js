@@ -199,23 +199,11 @@ if (type.includes("text")) {
 
 function applyFloatyW(html) {
     let pnObj = calcPrvANex(html);
-    let tmp = '';
-    let ct = 2;
-    if (pnObj.prev) {
-        tmp += "container.appendChild(createQwBtn('prv', '上页'));";
-        ct++;
-    }
-    if (pnObj.next) {
-        tmp += "container.appendChild(createQwBtn('nxt', '下页'));";
-        ct++;
-    }
-    if (pnObj.dir) {
-        tmp += "container.appendChild(createQwBtn('dir', '目录'));";
-        ct++;
-    }
+    let cn = '<div class="qx-qw"><div class="qx-main">QX</div><div class="qx-btn qx-btn-prv"><span>上页</span></div><div class="qx-btn qx-btn-nxt"><span>下页</span></div><div class="qx-btn qx-btn-unlockSearch"><span>搜索解限</span></div><div class="qx-btn qx-btn-ai"><span>AI</span></div><div class="qx-btn qx-btn-dir"><span>目录</span></div></div>';
+    let scp = `<script>(function(){let container=document.querySelector('.qx-qw');let main=document.querySelector('.qx-main');function clickBtn(cs){if(typeof cs!='string'||cs==='undefined'||cs==='null'){return}let bn=document.querySelector(cs);bn&&bn.click()}main.addEventListener('click',function(e){e.stopPropagation();if(e.target.classList.contains('qx-main')){container.classList.toggle('qx-qw-open')}else if(e.target.classList.contains('qx-btn-prv')){clickBtn('${pnObj.prev}')}else if(e.target.classList.contains('qx-btn-nxt')){clickBtn('${pnObj.next}')}else if(e.target.classList.contains('qx-btn-dir')){clickBtn('${pnObj.dir}')}else if(e.target.classList.contains('qx-btn-unlockSearch')){document.cookie='boomolastsearchtime=; Max-Age=0; path=/';}else if(e.target.classList.contains('qx-btn-ai')){}});document.addEventListener('click',function(){ontainer.classList.remove('qx-qw-open')})})();</script>`
     return {
-        styleStr: calcQWStyle(ct),
-        scriptStr: `function createQw(){let container=document.createElement('div');container.className='qx-qw';let main=document.createElement('div');main.className='qx-main';main.innerText='QX';container.appendChild(main);${tmp}container.appendChild(createQwBtn('ai','AI'));container.appendChild(createQwBtn('dir','目录'));main.addEventListener('click',function(e){e.stopPropagation();if(e.target.classList.contains('qx-main')){container.classList.toggle('qx-qw-open')}else if(e.target.classList.contains('qx-btn-prv')){clickBtn('${pnObj.prev}')}else if(e.target.classList.contains('qx-btn-nxt')){clickBtn('${pnObj.next}')}else if(e.target.classList.contains('qx-btn-dir')){clickBtn('${pnObj.dir}')}else if(e.target.classList.contains('qx-btn-unlockSearch')){document.cookie="boomolastsearchtime=; Max-Age=0; path=/"}else if(e.target.classList.contains('qx-btn-ai')){}});document.addEventListener('click',function(){ontainer.classList.remove('qx-qw-open')});document.body.appendChild(container)}function clickBtn(cs){if(typeof cs!="string"||cs==='undefined'||cs==='null'){return}let bn=document.querySelector(cs);bn&&bn.click()}function createQwBtn(name,text){let btn=document.createElement('div');btn.classList.add('qx-btn');btn.classList.add('qx-btn-'+name);let desc=document.createElement('span');desc.innerText=text;btn.appendChild(desc);return btn}createQw();`
+        styleStr:calcQWStyle(5),
+        bodyStr: cn+scp
     };
 }
 function calcPrvANex(html) {
@@ -276,6 +264,7 @@ function calcQWStyle(size, direct = true) {
     if (size === 1) {
         return;
     }
+    let sty = document.createElement('style');
     let tmpStr = '.qx-qw{all:initial;--size:60px;--itemSize:40px;background:transparent !important;position:fixed;z-index:9999;right:6px;top:50%;transform:translateY(-50%);width:var(--size);height:var(--size);display:flex;justify-content:center;align-items:center}';
     tmpStr += '.qx-qw>div{position:absolute;border-radius:50%;z-index:4;justify-content:center;align-items:center;text-align:center;box-sizing:border-box;transition:transform 0.2s ease,box-shadow 0.2s ease;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%) !important}';
     tmpStr += '.qx-main{width:var(--size);height:var(--size);display:flex;box-shadow:0 4px 40px rgba(98,121,224,0.5);user-select:none;cursor:grabbing}';
@@ -309,5 +298,6 @@ function calcQWStyle(size, direct = true) {
     }
     tmpStr += '.qx-qw>.qx-btn:last-child{transform: translate(0px,calc(calc( var(--size) / 2 ) + calc( var(--itemSize) /2) + 8px)) rotate(-180deg);}';
     tmpStr += '.qx-qw>.qx-btn:last-child>span{transform: rotate(180deg);}';
-    return tmpStr;
+    sty.innerHTML = tmpStr;
+    document.head.appendChild(sty);
 }
