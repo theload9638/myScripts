@@ -1,7 +1,5 @@
 const url = $request.url;
 let type = $response.headers['Content-Type'] || $response.headers['content-type'];
-console.log(JSON.stringify($response.headers))
-console.log($response.body);
 
 if (url.includes('html') || type.includes("text")) {
     let domains = [
@@ -63,6 +61,10 @@ if (url.includes('html') || type.includes("text")) {
     ];
     const escapeRegExp = (str) => str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
     let html = $response.body;
+    if(!html){
+       $done({});
+       return;
+    }
     let styleStr = 'ins,iframe,video,audio,#__copy,div[data-ad],.banner,.ad-body,.logo_box,.ad_encode,#ad_encode,#ad-body,#banner,.ad-video,#video-ad-ui,.copyright,.GoogleActiveViewInnerContainer,.adsbygoogle,.adsbygoogle-noablate.google-auto-placed,#ad-video,#ad-container,.adBlock,#adBlock,.ad-mob,#ad-mob,.mobile-ad,#mobile-ad,.m-ad,#m-ad,.popup,.ads,#ads,.advertisement,#advertisement,embed,object,.ad,.ad-container,.ad-wrap,#ad-wrap,.ad-box,#ad-box,#ad,.footer,#footer{display:none !important;pointer-events: none !important;user-select: none !important;}';
     let bodyStr = '';
     let scriptStr = '';
