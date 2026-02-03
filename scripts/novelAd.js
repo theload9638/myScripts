@@ -106,7 +106,6 @@ if (url.includes('html') || type.includes("text")) {
             } else if (/^https?:\/\/m\.diyibanzhu\.(me|rest)/.test(url)) {
                 styleStr += '.slide,.slide-ad{display:none !important;pointer-events: none !important;}';
                 html = html.replace(/<script\s*>[^>]*?<\/script>/gs, '');
-                html = html.replace(/<script\s+type=\"text\/javascript\"\s*>[^>]*?<\/script>/gs, '');
                 if (url.includes('action=article')) {
                     styleStr = styleStr + ' .header,.tuijian,#announceinfo{display:none !important;pointer-events: none !important;}';
                 }
