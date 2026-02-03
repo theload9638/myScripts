@@ -104,7 +104,7 @@ if (url.includes('html') || type.includes("text")) {
                     styleStr = styleStr + ".subtitle-container,.bottom-nav,.comment-section,.post-list,.ai-detection-feedback{display:none !important;pointer-events: none !important;}";
                 }
             } else if (/^https?:\/\/m\.diyibanzhu\.(me|rest)/.test(url)) {
-                styleStr += '.slide,.slide-ad{display:none !important;pointer-events: none !important;}';
+                styleStr += '.slide{display:none !important;pointer-events: none !important;}';
                 if (url.includes('action=article')) {
                     styleStr = styleStr + ' .header,.tuijian,#announceinfo{display:none !important;pointer-events: none !important;}';
                 }
@@ -205,7 +205,7 @@ if (url.includes('html') || type.includes("text")) {
 
 function applyFloatyW(html) {
     let pnObj = calcPrvANex(html);
-    let cn = '<div class="qx-qw" draggable="true"><div class="qx-main" draggable="true">QX</div><div class="qx-btn qx-btn-prv"><span>上页</span></div><div class="qx-btn qx-btn-nxt"><span>下页</span></div><div class="qx-btn qx-btn-unlockSearch"><span>搜索解限</span></div><div class="qx-btn qx-btn-ai"><span>AI</span></div><div class="qx-btn qx-btn-dir"><span>目录</span></div></div>';
+    let cn = '<div class="qx-qw"><div class="qx-main"><span>QX</span></div><div class="qx-btn qx-btn-prv"><span>上页</span></div><div class="qx-btn qx-btn-nxt"><span>下页</span></div><div class="qx-btn qx-btn-unlockSearch"><span>搜索解限</span></div><div class="qx-btn qx-btn-ai"><span>AI</span></div><div class="qx-btn qx-btn-dir"><span>目录</span></div></div>';
     let scp = `<script>(function(){let container=document.querySelector('.qx-qw');function clickBtn(cs){if(typeof cs!="string"||cs==='undefined'||cs==='null'){return}let bn=document.querySelector(cs);bn&&bn.click()}container.addEventListener('click',function(e){e.stopPropagation();let target=e.target;let par=e.target.parentElement;let isSp=target.nodeName=='SPAN';if(target.classList.contains('qx-main')){container.classList.toggle('qx-qw-open')}else if(target.classList.contains('qx-btn-prv')||(isSp&&par.classList.contains('qx-btn-prv'))){clickBtn('${pnObj.prev}')}else if(target.classList.contains('qx-btn-nxt')||(isSp&&par.classList.contains('qx-btn-nxt'))){clickBtn('${pnObj.next}')}else if(target.classList.contains('qx-btn-dir')||(isSp&&par.classList.contains('qx-btn-dir'))){clickBtn('${pnObj.dir}')}else if(target.classList.contains('qx-btn-unlockSearch')||(isSp&&par.classList.contains('qx-btn-unlockSearch'))){document.cookie="boomolastsearchtime=; Max-Age=0; path=/"}else if(target.classList.contains('qx-btn-ai')||(isSp&&par.classList.contains('qx-btn-ai'))){}});document.addEventListener('click',function(e){container.classList.remove('qx-qw-open')})})();</script>`
     return {
         styleStr: calcQWStyle(5,true),
@@ -269,12 +269,12 @@ function calcPrvANex(html) {
 
 function calcQWStyle(size = 5, direct = true) {
     if (size<=0) {return;}
-    let tmpStr = '.qx-qw{all:initial;--size:60px;--itemSize:40px;background:transparent !important;border-radius: 50%;position:fixed;z-index:9999;right:6px;top:50%;transform:translateY(-50%);width:var(--size);height:var(--size);display:flex;justify-content:center;align-items:center;}';
-    tmpStr += '.qx-qw>div{position:absolute;border-radius:50%;z-index:4;justify-content:center;align-items:center;text-align:center;box-sizing:border-box;transition:transform 0.2s ease,box-shadow 0.2s ease;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%) !important;user-select:none;font-weight:540;}';
+    let tmpStr = '.qx-qw{all:initial;--size:56px;--itemSize:40px;background:transparent !important;border-radius: 50%;position:fixed;z-index:9999;right:6px;top:50%;transform:translateY(-50%);width:var(--size);height:var(--size);display:flex;justify-content:center;align-items:center;}';
+    tmpStr += '.qx-qw>div{position:absolute;border-radius:50%;z-index:4;justify-content:center;align-items:center;text-align:center;box-sizing:border-box;transition:transform 0.2s ease,box-shadow 0.2s ease;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%) !important;user-select:none;font-weight:540;overflow: hidden !important;}';
     tmpStr += '.qx-main{width:var(--size);height:var(--size);display:flex;box-shadow:0 4px 40px rgba(98,121,224,0.5);cursor:grabbing;}';
-    tmpStr += '.qx-btn>span{color:#fff !important;font-size:11px !important;background: transparent !important;font-weight:550 !important;letter-spacing:1px;word-break:normal;user-select:none;}';
-    tmpStr += '.qx-main:hover{transform:scale(1.04);}.qx-qw.qx-qw-open .qx-btn{display:flex}';
-    tmpStr += '.qx-btn{display:none;top:calc(var(--size) / 2 * -1 + calc(var(--itemSize) /2 * -1));width:var(--itemSize);height:var(--itemSize);box-shadow:0 2px 10px rgba(102,126,234,0.35);transform-origin:center calc(var(--size) / 2 + var(--itemSize) / 2);overflow:hidden;}';
+    tmpStr += '.qx-main>span,.qx-btn>span{color:#fff !important;font-size:11px;background: transparent !important;font-weight:550 !important;letter-spacing:1px;word-break:normal;user-select:none;overflow: hidden !important;}';
+    tmpStr += '.qx-main:hover{transform:scale(1.04);}.qx-qw.qx-qw-open .qx-btn{display:flex}.qx-main>span{color:initial !important;font-size:14px !important}';
+    tmpStr += '.qx-btn{display:none;top:calc(var(--size) / 2 * -1 + calc(var(--itemSize) /2 * -1));width:var(--itemSize);height:var(--itemSize);box-shadow:0 2px 10px rgba(102,126,234,0.35);transform-origin:center calc(var(--size) / 2 + var(--itemSize) / 2);}';
     const fh = () => {
         let nh = direct === true ? '-' : '';
         direct = !direct;
