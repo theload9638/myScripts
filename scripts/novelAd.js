@@ -137,7 +137,7 @@ if (url.includes('html') || type.includes("text")) {
             html = html.replace(charset, 'utf-8');
             html = html.replace(/<script.*?src=\"\/skin\/default\/js\/(tongji|googgg|goge|gls)\.js\"[^>]*>/g, '<script>');
 
-            if (/^https?:\/\/www\.tongrenquan\.org/.test(url)
+            if (/^https?:\/\/(www\.)?tongrenquan\.org/.test(url)
                 || /^https?:\/\/tongrenshe\.cc/.test(url)
                 || /^https?:\/\/(www\.)?trxs\.cc/.test(url)
                 || /^https?:\/\/www\.qbtr\.cc/.test(url)
