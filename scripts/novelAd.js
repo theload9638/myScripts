@@ -205,10 +205,10 @@ if (url.includes('html') || type.includes("text")) {
 
 function applyFloatyW(html) {
     let pnObj = calcPrvANex(html);
-    let cn = '<div class="qx-qw"><div class="qx-main"><span>QX</span></div><div class="qx-btn qx-btn-prv"><span>上页</span></div><div class="qx-btn qx-btn-nxt"><span>下页</span></div><div class="qx-btn qx-btn-unlockSearch"><span>搜索解限</span></div><div class="qx-btn qx-btn-ai"><span>AI</span></div><div class="qx-btn qx-btn-dir"><span>目录</span></div></div>';
-    let scp = `<script>(function(){let container=document.querySelector('.qx-qw');function clickBtn(cs){if(typeof cs!="string"||cs==='undefined'||cs==='null'){return}let bn=document.querySelector(cs);bn&&bn.click()}container.addEventListener('click',function(e){e.stopPropagation();let target=e.target;let par=e.target.parentElement;let isSp=target.nodeName=='SPAN';if(target.classList.contains('qx-main')){container.classList.toggle('qx-qw-open')}else if(target.classList.contains('qx-btn-prv')||(isSp&&par.classList.contains('qx-btn-prv'))){clickBtn('${pnObj.prev}')}else if(target.classList.contains('qx-btn-nxt')||(isSp&&par.classList.contains('qx-btn-nxt'))){clickBtn('${pnObj.next}')}else if(target.classList.contains('qx-btn-dir')||(isSp&&par.classList.contains('qx-btn-dir'))){clickBtn('${pnObj.dir}')}else if(target.classList.contains('qx-btn-unlockSearch')||(isSp&&par.classList.contains('qx-btn-unlockSearch'))){document.cookie="boomolastsearchtime=; Max-Age=0; path=/"}else if(target.classList.contains('qx-btn-ai')||(isSp&&par.classList.contains('qx-btn-ai'))){}});document.addEventListener('click',function(e){container.classList.remove('qx-qw-open')})})();</script>`
+    let cn = '<div class="qx-qw qx-qw-right"><div class="qx-main"><span>QX</span></div><div class="qx-btn qx-btn-prv"><span>上页</span></div><div class="qx-btn qx-btn-nxt"><span>下页</span></div><div class="qx-btn qx-btn-close"><span>关闭</span></div><div class="qx-btn qx-btn-ai"><span>AI</span></div><div class="qx-btn qx-btn-dir"><span>目录</span></div></div>';
+    let scp = `<script>(function(){let container=document.querySelector('.qx-qw');function clickBtn(cs){if(typeof cs!="string"||cs==='undefined'||cs==='null'){return}let bn=document.querySelector(cs);bn&&bn.click()}let moveX=-1;let hasMove=false;function snapToSide(dx){if(dx>0){container.classList.remove('qx-qw-left');container.classList.add('qx-qw-right')}else{container.classList.add('qx-qw-left');container.classList.remove('qx-qw-right')}}container.addEventListener('touchstart',(e)=>{let target=e.target;let par=e.target.parentElement;let isSp=target.nodeName=='SPAN';if(e.target.classList.contains('qx-main')||(isSp&&par.classList.contains('qx-main'))){if(e.changedTouches.length>0){moveX=e.changedTouches[0].clientX;hasMove=false}else if(e.targetTouches.length>0){moveX=e.targetTouches[0].clientX;hasMove=false}else if(e.touches.length>0){moveX=e.touches[0].clientX;hasMove=false}}});container.addEventListener('touchend',(e)=>{let target=e.target;let par=e.target.parentElement;let isSp=target.nodeName=='SPAN';if(e.target.classList.contains('qx-main')||(isSp&&par.classList.contains('qx-main'))){let endX=e.changedTouches[0].clientX;let dx=endX-moveX;if(moveX!==-1&&Math.abs(dx)>100){hasMove=true;moveX=-1;snapToSide(dx)}}});container.addEventListener('click',function(e){e.stopPropagation();let target=e.target;let par=e.target.parentElement;let isSp=target.nodeName=='SPAN';if(target.classList.contains('qx-main')||(isSp&&par.classList.contains('qx-main'))){document.cookie="boomolastsearchtime=; Max-Age=0; path=/";if(hasMove){return}container.classList.toggle('qx-qw-open')}else if(target.classList.contains('qx-btn-prv')||(isSp&&par.classList.contains('qx-btn-prv'))){clickBtn('${pnObj.prev}')}else if(target.classList.contains('qx-btn-nxt')||(isSp&&par.classList.contains('qx-btn-nxt'))){clickBtn('${pnObj.next}')}else if(target.classList.contains('qx-btn-dir')||(isSp&&par.classList.contains('qx-btn-dir'))){clickBtn('${pnObj.dir}')}else if(target.classList.contains('qx-btn-close')||(isSp&&par.classList.contains('qx-btn-close'))){window.confirm("确定要关闭吗?")&&(container.style.display="none")}else if(target.classList.contains('qx-btn-ai')||(isSp&&par.classList.contains('qx-btn-ai'))){}});document.addEventListener('click',function(e){container.classList.remove('qx-qw-open')})})();</script>`
     return {
-        styleStr: calcQWStyle(5,true),
+        styleStr: calcQWStyle(),
         bodyStr: cn + scp
     };
 }
@@ -267,29 +267,27 @@ function calcPrvANex(html) {
     }
 }
 
-function calcQWStyle(size = 5, direct = true) {
-    if (size<=0) {return;}
-    let tmpStr = '.qx-qw{all:initial;--size:56px;--itemSize:40px;background:transparent !important;border-radius: 50%;position:fixed;z-index:9999;right:6px;top:50%;transform:translateY(-50%);width:var(--size);height:var(--size);display:flex;justify-content:center;align-items:center;}';
-    tmpStr += '.qx-qw>div{position:absolute;border-radius:50%;z-index:4;justify-content:center;align-items:center;text-align:center;box-sizing:border-box;transition:transform 0.2s ease,box-shadow 0.2s ease;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%) !important;user-select:none;font-weight:540;overflow: hidden !important;}';
-    tmpStr += '.qx-main{width:var(--size);height:var(--size);display:flex;box-shadow:0 4px 40px rgba(98,121,224,0.5);cursor:grabbing;}';
-    tmpStr += '.qx-main>span,.qx-btn>span{color:#fff !important;font-size:11px;background: transparent !important;font-weight:550 !important;letter-spacing:1px;word-break:normal;user-select:none;overflow: hidden !important;}';
-    tmpStr += '.qx-main:hover{transform:scale(1.04);}.qx-qw.qx-qw-open .qx-btn{display:flex}.qx-main>span{color:initial !important;font-size:14px !important}';
-    tmpStr += '.qx-btn{display:none;top:calc(var(--size) / 2 * -1 + calc(var(--itemSize) /2 * -1));width:var(--itemSize);height:var(--itemSize);box-shadow:0 2px 10px rgba(102,126,234,0.35);transform-origin:center calc(var(--size) / 2 + var(--itemSize) / 2);}';
-    const fh = () => {
-        let nh = direct === true ? '-' : '';
-        direct = !direct;
-        return nh;
-    };
+function calcQWStyle() {
+    let size=5;
+    let tmpStr=".qx-qw{all:initial;--size:56px;--itemSize:40px;background:transparent !important;border-radius:50%;position:fixed;z-index:9999;top:50%;transform:translateY(-50%);width:var(--size);height:var(--size);display:flex;justify-content:center;align-items:center}.qx-qw-left{left:6px;right:'auto'}.qx-qw-right{right:6px;left:'auto'}";
+    tmpStr +=".qx-qw>div{position:absolute;border-radius:50%;z-index:4;justify-content:center;align-items:center;text-align:center;box-sizing:border-box;transition:transform 0.2s ease,box-shadow 0.2s ease;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%) !important;font-weight:540;overflow:hidden !important;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}";
+    tmpStr +=".qx-main{width:var(--size);height:var(--size);display:flex;box-shadow:0 4px 40px rgba(98,121,224,0.5);cursor:grabbing}";
+    tmpStr +=".qx-main>span,.qx-btn>span{color:#fff !important;font-size:11px;background:transparent !important;font-weight:550 !important;letter-spacing:1px;word-break:normal;overflow:hidden !important;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}";
+    tmpStr +=".qx-main:hover{transform:scale(1.04)}.qx-qw.qx-qw-open .qx-btn{display:flex}.qx-main>span{color:initial !important;font-size:14px !important}";
+    tmpStr +=".qx-btn{display:none;top:calc(var(--size) / 2 * -1 + calc(var(--itemSize) /2 * -1));width:var(--itemSize);height:var(--itemSize);box-shadow:0 2px 10px rgba(102,126,234,0.35);transform-origin:center calc(var(--size) / 2 + var(--itemSize) / 2)}";
     let v1 = size - 1;
     let v2 = 180 / v1;
     let v4 = 0;
     for (let v3 = 3; v3 <= size; v3++) {
-        let v5 = fh();
-        tmpStr += `.qx-qw>.qx-btn:nth-child(${v3}){transform: translate(${v5}25px,${5 + 25 * v4}px) rotate(${v5}${v2 * (v4 + 1)}deg);}`;
-        tmpStr += `.qx-qw>.qx-btn:nth-child(${v3})>span{transform: rotate(${fh()}${v2 * (v4 + 1)}deg);}`;
+        let x1 = 5 + 25 * v4;
+        let x2 = v2 * (v4 + 1);
+        tmpStr += `.qx-qw.qx-qw-left>.qx-btn:nth-child(${v3}){transform: translate(25px,${x1}px) rotate(${x2}deg);}`;
+        tmpStr += `.qx-qw.qx-qw-left>.qx-btn:nth-child(${v3})>span{transform: rotate(-${x2}deg);}`;
+        tmpStr += `.qx-qw.qx-qw-right>.qx-btn:nth-child(${v3}){transform: translate(-25px,${x1}px) rotate(-${x2}deg);}`;
+        tmpStr += `.qx-qw.qx-qw-right>.qx-btn:nth-child(${v3})>span{transform: rotate(${x2}deg);}`;
         v4++;
     }
     tmpStr += '.qx-qw>.qx-btn:last-child{transform: translate(0px,calc(calc( var(--size) / 2 ) + calc( var(--itemSize) /2) + 8px)) rotate(-180deg);}';
     tmpStr += '.qx-qw>.qx-btn:last-child>span{transform: rotate(180deg);}';
-    return tmpStr
+    return tmpStr;
 }
