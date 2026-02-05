@@ -2,6 +2,12 @@ const url = $request.url;
 let type = $response.headers['Content-Type'] || $response.headers['content-type'];
 
 if (url.includes('html') || type.includes("text")) {
+    let html = $response.body;
+    if(!html){
+       console.log(`${url}  / result empty`);
+       $done({});
+       return;
+    }
     let domains = [
         'www.googletagmanager.com',
         'www.google-analytics.com',
@@ -63,13 +69,7 @@ if (url.includes('html') || type.includes("text")) {
         'collect'
     ];
     const escapeRegExp = (str) => str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-    let html = $response.body;
-    if(!html){
-       console.log(`${url}  / result empty`);
-       $done({});
-       return;
-    }
-    let styleStr = 'ins,iframe,video,audio,#__copy,div[data-ad],.banner,.ad-body,.logo_box,.ad_encode,#ad_encode,#ad-body,#banner,.ad-video,#video-ad-ui,.copyright,.GoogleActiveViewInnerContainer,.adsbygoogle,.adsbygoogle-noablate.google-auto-placed,#ad-video,#ad-container,.adBlock,#adBlock,.ad-mob,#ad-mob,.mobile-ad,#mobile-ad,.m-ad,#m-ad,.popup,.ads,#ads,.advertisement,#advertisement,embed,object,.ad,.ad-container,.ad-wrap,#ad-wrap,.ad-box,#ad-box,#ad,.footer,#footer{display:none !important;pointer-events: none !important;user-select: none !important;}';
+    let styleStr = 'ins,iframe,video,audio,#__copy,div[data-ad],.banner,.ad-body,.logo_box,.ad_encode,#ad_encode,#ad-body,#banner,.ad-video,#video-ad-ui,.copyright,.GoogleActiveViewInnerContainer,.adsbygoogle,.adsbygoogle-noablate.google-auto-placed,#ad-video,#ad-container,.adBlock,#adBlock,.ad-mob,#ad-mob,.mobile-ad,#mobile-ad,.m-ad,#m-ad,.popup,.ads,#ads,.advertisement,#advertisement,embed,object,.ad,.ad-container,.ad-wrap,#ad-wrap,.ad-box,#ad-box,#ad,.footer,#footer{display:none !important;pointer-events: none !important;}';
     let bodyStr = '';
     let scriptStr = '';
     let bgColor = '#494747';
@@ -136,7 +136,7 @@ if (url.includes('html') || type.includes("text")) {
             styleStr += `#Image,#onclickshowdiv,#smx_wrap,#aswift_9,#aswift_9_host{display:none !important;pointer-events: none !important;} .infos{color:#78867e !important;}`;
             html = html.replace(charset, 'utf-8');
             html = html.replace(/<script[^>]*?src=\"\/skin\/default\/js\/(tongji|googgg|goge|gls)\.js\"[^>]*>/g, '<script>');
-
+            
             if (/^https?:\/\/(www\.)?tongrenquan\.org/.test(url)
                 || /^https?:\/\/tongrenshe\.cc/.test(url)
                 || /^https?:\/\/(www\.)?trxs\.cc/.test(url)
@@ -157,7 +157,7 @@ if (url.includes('html') || type.includes("text")) {
         domains.map(escapeRegExp).forEach(domain => {
             html = html.replace(new RegExp(`<([a-zA-Z0-9]+)\\s+[^>]*?(src|href|class|id)\\s*=\\s*(['"])[^'"]*?${domain}[^'"]*?\\3[^>]*?>`, 'gi'), '<$1 style="display:none !important;pointer-events: none !important;">');
         });
-        html = html.replace(/<([a-zA-Z0-9]+)\s+[^>]*?(src|href)\s*=\s*(['"])[^'"]*?\/\/\d+[a-z]+\.[a-z]+.\.(cc|com|xyz|net|org):?[^'"]*?\3[^>]*?>/gi, '<$1 style="display:none !important;pointer-events: none !important;">');
+        html = html.replace(/<([a-zA-Z0-9]+)\s+[^>]*?(src|href)\s*=\s*(['"])[^'"]*?\/\/\d+[a-z]+\.[a-z]+(\.(cc|com|xyz|net|org):?)?[^'"]*?\3[^>]*?>/gi, '<$1 style="display:none !important;pointer-events: none !important;">');
 
         if (enableFloatyWindow) {
             let fyobj = applyFloatyW(html);
@@ -270,7 +270,7 @@ function calcPrvANex(html) {
 
 function calcQWStyle() {
     let size=5;
-    let tmpStr=".qx-qw{all:initial;--size:56px;--itemSize:40px;background:transparent !important;border-radius:50%;position:fixed;z-index:9999;top:50%;transform:translateY(-50%);width:var(--size);height:var(--size);display:flex;justify-content:center;align-items:center}.qx-qw-left{left:6px;right:'auto'}.qx-qw-right{right:6px;left:'auto'}";
+    let tmpStr=".qx-qw{all:initial;--size:54px;--itemSize:40px;background:transparent !important;border-radius:50%;position:fixed;z-index:9999;top:50%;transform:translateY(-50%);width:var(--size);height:var(--size);display:flex;justify-content:center;align-items:center}.qx-qw-left{left:6px;right:'auto'}.qx-qw-right{right:6px;left:'auto'}";
     tmpStr +=".qx-qw>div{position:absolute;border-radius:50%;z-index:4;justify-content:center;align-items:center;text-align:center;box-sizing:border-box;transition:transform 0.2s ease,box-shadow 0.2s ease;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%) !important;font-weight:540;overflow:hidden !important;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}";
     tmpStr +=".qx-main{width:var(--size);height:var(--size);display:flex;box-shadow:0 4px 40px rgba(98,121,224,0.5);cursor:grabbing}";
     tmpStr +=".qx-main>span,.qx-btn>span{color:#fff !important;font-size:11px;background:transparent !important;font-weight:550 !important;letter-spacing:1px;word-break:normal;overflow:hidden !important;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}";
