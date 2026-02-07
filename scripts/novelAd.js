@@ -175,7 +175,7 @@ if (url.includes('html') || (type && type.includes("text"))) {
                 styleStr += '* {background: ' + bgColor + ' !important;}';
             }
             if (!scriptStr) {
-                scriptStr = '';
+                scriptStr = '<script type="text/javascript">try{top.location.hostname;if(top.location.hostname!=window.location.hostname){top.location.href=window.location.href}}catch(e){top.location.href=window.location.href}</script>';
             }
             html = html.replace(/<\/head>/, '<style>' + styleStr + '</style>' + scriptStr + '</head>');
         }
@@ -183,17 +183,13 @@ if (url.includes('html') || (type && type.includes("text"))) {
         newHeaders["Cross-Origin-Embedder-Policy"] = "unsafe-none";
         newHeaders["Cross-Origin-Opener-Policy"] = "unsafe-none";
         newHeaders["Cross-Origin-Resource-Policy"] = "cross-origin";
-
-        delete newHeaders["Content-Security-Policy"];
-        delete newHeaders["content-security-policy"];
-        delete newHeaders["X-Frame-Options"];
-        delete newHeaders["x-frame-options"];
-        delete newHeaders["Referrer-Policy"];
+        newHeaders["X-Frame-Options"]="DENY";
+        
         if (!utf8Flag) {
             const utf8Bytes = new TextEncoder().encode(html);
-            $done({ headers: newHeaders, bodyBytes: utf8Bytes.buffer });
+            $done({ headers:newHeaders ,bodyBytes: utf8Bytes.buffer });
         } else {
-            $done({ headers: newHeaders, body: html });
+            $done({ headers:newHeaders ,body: html });
         }
     } catch (e) {
         console.log(`novel adBlock Error: ${e.message}`);
