@@ -105,6 +105,7 @@ if (url.includes('html') || (type && type.includes("text"))) {
                 }
             } else if (/^https?:\/\/m\.diyibanzhu\.(me|rest)/.test(url)) {
                 styleStr += '.slide,img,picture{display:none !important;pointer-events: none !important;}';
+                scriptStr+=`<script>let tags=['iframe','ins','img','video','object','audio','embed'];let observer=new MutationObserver((changes)=>{changes.forEach(change=>{if(change.addedNodes.length>0){change.addedNodes.forEach(node=>{if(node.nodeType!==1){return}if(tags.includes(node.tagName.toLocaleLowerCase())){node.remove()}})}})});observer.observe(document.documentElement,{childList:true,subtree:true});</script>`;
                 if (url.includes('action=article')) {
                     styleStr = styleStr + ' .header,.tuijian,#announceinfo{display:none !important;pointer-events: none !important;}';
                 }
@@ -184,7 +185,7 @@ if (url.includes('html') || (type && type.includes("text"))) {
         newHeaders["Cross-Origin-Opener-Policy"] = "unsafe-none";
         newHeaders["Cross-Origin-Resource-Policy"] = "cross-origin";
         newHeaders["X-Frame-Options"]="DENY";
-        
+
         if (!utf8Flag) {
             const utf8Bytes = new TextEncoder().encode(html);
             $done({ headers:newHeaders ,bodyBytes: utf8Bytes.buffer });
