@@ -213,6 +213,7 @@ if (url.includes('html') || (type && type.includes("text"))) {
         $done({});
     }
 } else {
+    console.log(`the url {${url}} is ignored , the content-type is ${type}`);
     $done();
 }
 
