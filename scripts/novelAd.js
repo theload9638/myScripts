@@ -176,9 +176,6 @@ if (url.includes('html') || (type && type.includes("text"))) {
         }
         if (enableDynamicBlock) {
             beginHeadStr += `<script type="text/javascript">(function(){let tags=['iframe','ins','img','video','object','audio','embed'];const kill=(el)=>el.remove();tags.forEach(tag=>{document.querySelectorAll(tag).forEach(kill)});let observer=new MutationObserver((changes)=>{changes.forEach(change=>{if(change.type==='childList'){change.addedNodes.forEach(n=>{if(n.nodeType===1&&tags.includes(n.tagName.toLocaleLowerCase())){kill(n)}})}if(change.type==='attributes'){if(change.target.tagName==='IMG'){kill(change.target)}}})});observer.observe(document.documentElement,{childList:true,subtree:true,attributes:true,attributeFilter:['src','srcset']})})();</script>`;
-            if (!newHeaders['Content-Security-Policy']) {
-                newHeaders['Content-Security-Policy'] = "img-src 'none'; media-src 'none'; frame-src 'none'; object-src 'none';child-src 'none'";
-            }
         }
         if (beginHeadStr) {
             html = html.replace(/<head[^>]*?>/, '<head>' + beginHeadStr);
