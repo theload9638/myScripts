@@ -8,6 +8,7 @@ if (url.includes('html') || (type && type.includes("text"))) {
         $done({});
         return;
     }
+    const newHeaders = { ...$response.headers };
     let domains = [
         'www.googletagmanager.com',
         'www.google-analytics.com',
@@ -69,9 +70,10 @@ if (url.includes('html') || (type && type.includes("text"))) {
         'collect'
     ];
     const escapeRegExp = (str) => str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-    let styleStr = 'ins,iframe,video,audio,#__copy,div[data-ad],.banner,.ad-body,.logo_box,.ad_encode,#ad_encode,#ad-body,#banner,.ad-video,#video-ad-ui,.copyright,.GoogleActiveViewInnerContainer,.adsbygoogle,.adsbygoogle-noablate.google-auto-placed,#ad-video,#ad-container,.adBlock,#adBlock,.ad-mob,#ad-mob,.mobile-ad,#mobile-ad,.m-ad,#m-ad,.popup,.ads,#ads,.advertisement,#advertisement,embed,object,.ad,.ad-container,.ad-wrap,#ad-wrap,.ad-box,#ad-box,#ad,.footer,#footer{display:none !important;pointer-events: none !important;}';
+    let styleStr = 'ins,iframe,frame,video,audio,#__copy,div[data-ad],.banner,.ad-body,.logo_box,.ad_encode,#ad_encode,#ad-body,#banner,.ad-video,#video-ad-ui,.copyright,.GoogleActiveViewInnerContainer,.adsbygoogle,.adsbygoogle-noablate.google-auto-placed,#ad-video,#ad-container,.adBlock,#adBlock,.ad-mob,#ad-mob,.mobile-ad,#mobile-ad,.m-ad,#m-ad,.popup,.ads,#ads,.advertisement,#advertisement,embed,object,.ad,.ad-container,.ad-wrap,#ad-wrap,.ad-box,#ad-box,#ad,.footer,#footer{display:none !important;pointer-events: none !important;}';
     let bodyStr = '';
     let scriptStr = '';
+    let beginHeadStr='';
     let bgColor = '#494747';
     let enableBgColor = true;
     let enableFloatyWindow = true;
@@ -105,7 +107,7 @@ if (url.includes('html') || (type && type.includes("text"))) {
                     styleStr = styleStr + ".subtitle-container,.bottom-nav,.comment-section,.post-list,.ai-detection-feedback{display:none !important;pointer-events: none !important;}";
                 }
             } else if (/^https?:\/\/m\.diyibanzhu\.(me|rest)/.test(url)) {
-                styleStr += '.slide,img,picture{display:none !important;pointer-events: none !important;}';
+                styleStr += '.slide,img,picture{display:none !important;pointer-events: none !important;} * {background-image:none !important;}';
                 enableDynamicBlock=true;
                 if (url.includes('action=article')) {
                     styleStr = styleStr + ' .header,.tuijian,#announceinfo{display:none !important;pointer-events: none !important;}';
@@ -153,7 +155,10 @@ if (url.includes('html') || (type && type.includes("text"))) {
             }
         }
         html = html.replace(/<ins(.*?)<\/ins>/gs, '');
+        html = html.replace(/<object(.*?)<\/object>/gs, '');
+        html = html.replace(/<embed(.*?)<\/embed>/gs, '');
         html = html.replace(/<iframe(.*?)<\/iframe>/gs, '');
+        html = html.replace(/<frame(.*?)<\/frame>/gs, '');
         html = html.replace(/<video(.*?)<\/video>/gs, '');
 
         domains.map(escapeRegExp).forEach(domain => {
@@ -169,6 +174,16 @@ if (url.includes('html') || (type && type.includes("text"))) {
         if (bodyStr) {
             html = html.replace(/<\/body>/, bodyStr + '</body>');
         }
+        if(beginHeadStr){
+            if(enableDynamicBlock){
+                beginHeadStr+=`<meta http-equiv="Content-Security-Policy" content="img-src 'none'; media-src 'none'; frame-src 'none'; object-src 'none';child-src 'none'">`;
+                beginHeadStr+=`<script type="text/javascript">(function(){let tags=['iframe','ins','img','video','object','audio','embed'];const kill=(el)=>el.remove();tags.forEach(tag=>{document.querySelectorAll(tag).forEach(kill)});let observer=new MutationObserver((changes)=>{changes.forEach(change=>{if(change.type==='childList'){change.addedNodes.forEach(n=>{if(n.nodeType===1&&tags.includes(n.tagName.toLocaleLowerCase())){kill(n)}})}if(change.type==='attributes'){if(change.target.tagName==='IMG'){kill(change.target)}}})});observer.observe(document.documentElement,{childList:true,subtree:true,attributes:true,attributeFilter:['src','srcset']})})();</script>`;
+                if(!newHeaders['Content-Security-Policy']){
+                    newHeaders['Content-Security-Policy']="img-src 'none'; media-src 'none'; frame-src 'none'; object-src 'none';child-src 'none'";
+                }
+            }
+            html = html.replace(/<head[^>]*?>/, '<head>'+beginHeadStr);
+        }
         if (styleStr) {
             if (ignoreDivImg) {
                 styleStr += 'div{ background-image:none !important;}';
@@ -179,12 +194,9 @@ if (url.includes('html') || (type && type.includes("text"))) {
             if (!scriptStr) {
                 scriptStr = '<script type="text/javascript">try{top.location.hostname;if(top.location.hostname!=window.location.hostname){top.location.href=window.location.href}}catch(e){top.location.href=window.location.href}</script>';
             }
-            if(enableDynamicBlock){
-                 scriptStr+=`<script type="text/javascript">(function(){let tags=['iframe','ins','img','video','object','audio','embed'];let observer=new MutationObserver((changes)=>{changes.forEach(change=>{if(change.addedNodes.length>0){change.addedNodes.forEach(node=>{if(node.nodeType!==1){return}if(tags.includes(node.tagName.toLocaleLowerCase())){node.remove()}})}})});observer.observe(document.documentElement,{childList:true,subtree:true});document.addEventListener('DOMContentLoaded',function(){tags.forEach(tag=>{document.querySelectorAll(tag).forEach(dom=>dom.remove())})})})();</script>`;
-            }
             html = html.replace(/<\/head>/, '<style>' + styleStr + '</style>' + scriptStr + '</head>');
         }
-        const newHeaders = { ...$response.headers };
+        
         newHeaders["Cross-Origin-Embedder-Policy"] = "unsafe-none";
         newHeaders["Cross-Origin-Opener-Policy"] = "unsafe-none";
         newHeaders["Cross-Origin-Resource-Policy"] = "cross-origin";
