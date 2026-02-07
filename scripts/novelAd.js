@@ -73,12 +73,12 @@ if (url.includes('html') || (type && type.includes("text"))) {
     let styleStr = 'ins,iframe,frame,video,audio,#__copy,div[data-ad],.banner,.ad-body,.logo_box,.ad_encode,#ad_encode,#ad-body,#banner,.ad-video,#video-ad-ui,.copyright,.GoogleActiveViewInnerContainer,.adsbygoogle,.adsbygoogle-noablate.google-auto-placed,#ad-video,#ad-container,.adBlock,#adBlock,.ad-mob,#ad-mob,.mobile-ad,#mobile-ad,.m-ad,#m-ad,.popup,.ads,#ads,.advertisement,#advertisement,embed,object,.ad,.ad-container,.ad-wrap,#ad-wrap,.ad-box,#ad-box,#ad,.footer,#footer{display:none !important;pointer-events: none !important;}';
     let bodyStr = '';
     let scriptStr = '';
-    let beginHeadStr='';
+    let beginHeadStr = '';
     let bgColor = '#494747';
     let enableBgColor = true;
     let enableFloatyWindow = true;
     let ignoreDivImg = true;
-    let enableDynamicBlock=false;
+    let enableDynamicBlock = false;
 
     try {
         let rule = new RegExp(`<meta[^>]*?charset\\s*=\\s*(['"]?)([^>'"]+)(['"]?)`, 'gi');
@@ -108,7 +108,7 @@ if (url.includes('html') || (type && type.includes("text"))) {
                 }
             } else if (/^https?:\/\/m\.diyibanzhu\.(me|rest)/.test(url)) {
                 styleStr += '.slide,img,picture{display:none !important;pointer-events: none !important;} * {background-image:none !important;}';
-                enableDynamicBlock=true;
+                enableDynamicBlock = true;
                 if (url.includes('action=article')) {
                     styleStr = styleStr + ' .header,.tuijian,#announceinfo{display:none !important;pointer-events: none !important;}';
                 }
@@ -174,15 +174,15 @@ if (url.includes('html') || (type && type.includes("text"))) {
         if (bodyStr) {
             html = html.replace(/<\/body>/, bodyStr + '</body>');
         }
-        if(beginHeadStr){
-            if(enableDynamicBlock){
-                beginHeadStr+=`<meta http-equiv="Content-Security-Policy" content="img-src 'none'; media-src 'none'; frame-src 'none'; object-src 'none';child-src 'none'">`;
-                beginHeadStr+=`<script type="text/javascript">(function(){let tags=['iframe','ins','img','video','object','audio','embed'];const kill=(el)=>el.remove();tags.forEach(tag=>{document.querySelectorAll(tag).forEach(kill)});let observer=new MutationObserver((changes)=>{changes.forEach(change=>{if(change.type==='childList'){change.addedNodes.forEach(n=>{if(n.nodeType===1&&tags.includes(n.tagName.toLocaleLowerCase())){kill(n)}})}if(change.type==='attributes'){if(change.target.tagName==='IMG'){kill(change.target)}}})});observer.observe(document.documentElement,{childList:true,subtree:true,attributes:true,attributeFilter:['src','srcset']})})();</script>`;
-                if(!newHeaders['Content-Security-Policy']){
-                    newHeaders['Content-Security-Policy']="img-src 'none'; media-src 'none'; frame-src 'none'; object-src 'none';child-src 'none'";
-                }
+        if (enableDynamicBlock) {
+            beginHeadStr += `<meta http-equiv="Content-Security-Policy" content="img-src 'none'; media-src 'none'; frame-src 'none'; object-src 'none';child-src 'none'">`;
+            beginHeadStr += `<script type="text/javascript">(function(){let tags=['iframe','ins','img','video','object','audio','embed'];const kill=(el)=>el.remove();tags.forEach(tag=>{document.querySelectorAll(tag).forEach(kill)});let observer=new MutationObserver((changes)=>{changes.forEach(change=>{if(change.type==='childList'){change.addedNodes.forEach(n=>{if(n.nodeType===1&&tags.includes(n.tagName.toLocaleLowerCase())){kill(n)}})}if(change.type==='attributes'){if(change.target.tagName==='IMG'){kill(change.target)}}})});observer.observe(document.documentElement,{childList:true,subtree:true,attributes:true,attributeFilter:['src','srcset']})})();</script>`;
+            if (!newHeaders['Content-Security-Policy']) {
+                newHeaders['Content-Security-Policy'] = "img-src 'none'; media-src 'none'; frame-src 'none'; object-src 'none';child-src 'none'";
             }
-            html = html.replace(/<head[^>]*?>/, '<head>'+beginHeadStr);
+        }
+        if (beginHeadStr) {
+            html = html.replace(/<head[^>]*?>/, '<head>' + beginHeadStr);
         }
         if (styleStr) {
             if (ignoreDivImg) {
@@ -196,17 +196,17 @@ if (url.includes('html') || (type && type.includes("text"))) {
             }
             html = html.replace(/<\/head>/, '<style>' + styleStr + '</style>' + scriptStr + '</head>');
         }
-        
+
         newHeaders["Cross-Origin-Embedder-Policy"] = "unsafe-none";
         newHeaders["Cross-Origin-Opener-Policy"] = "unsafe-none";
         newHeaders["Cross-Origin-Resource-Policy"] = "cross-origin";
-        newHeaders["X-Frame-Options"]="DENY";
+        newHeaders["X-Frame-Options"] = "DENY";
 
         if (!utf8Flag) {
             const utf8Bytes = new TextEncoder().encode(html);
-            $done({ headers:newHeaders ,bodyBytes: utf8Bytes.buffer });
+            $done({ headers: newHeaders, bodyBytes: utf8Bytes.buffer });
         } else {
-            $done({ headers:newHeaders ,body: html });
+            $done({ headers: newHeaders, body: html });
         }
     } catch (e) {
         console.log(`novel adBlock Error: ${e.message}`);
@@ -224,7 +224,7 @@ function applyFloatyW(html) {
     };
     let cn = '<div class="qx-qw qx-qw-right"><div class="qx-main"><span>QX</span></div><div class="qx-btn qx-btn-prv"><span>上页</span></div><div class="qx-btn qx-btn-ai"><span>AI</span></div><div class="qx-btn qx-btn-setting"><span>设置</span></div><div class="qx-btn qx-btn-dir"><span>目录</span></div><div class="qx-btn qx-btn-nxt"><span>下页</span></div></div>';
     cn += '<div class="qx-fw-ai-mask"><div class="qx-fw-ai-box"><div class="qx-fw-ai-head"><h3>AI助手</h3><button type="button"class="qx-fw-ai-close">×</button></div><div class="qx-fw-ai-body"><textarea class="qx-fw-ai-input"placeholder="输入您的问题..."></textarea><button type="button"class="qx-fw-ai-send">发送</button><div class="qx-fw-ai-reply"></div></div></div></div>';
-    cn += `<div class="qx-qw-setting-box"><div class="qx-qw-setting-layout"><div class="qx-qw-setting-head"><h3>设置</h3><button type="button"class="qx-fw-setting-close">×</button></div><div class="qx-qw-sl-box"><div class="qx-qw-setting-line"><span>自动下一章</span><input type="checkbox"${settingCfg.auto_nxt?'checked':''}id="qxSetCkIP"><label for="qxSetCkIP"class="qxSetingtoggleSwitch"></label></div></div><div class="qx-qw-setting-line"><span class="qx-qw-btn-close">关闭</span></div></div></div>`;
+    cn += `<div class="qx-qw-setting-box"><div class="qx-qw-setting-layout"><div class="qx-qw-setting-head"><h3>设置</h3><button type="button"class="qx-fw-setting-close">×</button></div><div class="qx-qw-sl-box"><div class="qx-qw-setting-line"><span>自动下一章</span><input type="checkbox"${settingCfg.auto_nxt ? 'checked' : ''}id="qxSetCkIP"><label for="qxSetCkIP"class="qxSetingtoggleSwitch"></label></div></div><div class="qx-qw-setting-line"><span class="qx-qw-btn-close">关闭</span></div></div></div>`;
     let scp = `<script>(function(){let container=document.querySelector('.qx-qw');let aiContainer=document.querySelector('.qx-fw-ai-mask');let settingContainer=document.querySelector('.qx-qw-setting-box');let ctCls=document.querySelector('.qx-qw-btn-close');ctCls.addEventListener('click',function(e){window.confirm("确定要关闭吗?")&&(container.style.display="none")});let settingCtCls=document.querySelector('.qx-fw-setting-close');settingCtCls.addEventListener('click',function(e){let setcfm=window.confirm("是否保存配置?");settingContainer.classList.remove('qx-fw-setting--show')});let nxt_timerId=null;let obv_nxt=null;if(${settingCfg.auto_nxt}){let cs='${pnObj.next}';if(typeof cs!="string"||cs==='undefined'||cs==='null'){}else{let nxt_btn=document.querySelector(cs);obv_nxt=new IntersectionObserver(changes=>{if(changes&&changes.length>0&&!nxt_timerId){let changeEntry=changes[0];if(changeEntry.isIntersecting){nxt_timerId=setTimeout(()=>{clearTimeout(nxt_timerId);nxt_btn&&nxt_btn.click()},1000)}}},{threshold:0.5});if(nxt_btn){obv_nxt.observe(nxt_btn)}}}function clickBtn(cs){if(typeof cs!="string"||cs==='undefined'||cs==='null'){return}let bn=document.querySelector(cs);bn&&bn.click()}function createFetch(timeout=6000){return(resource,options)=>{let controller=new AbortController();options=options||{};options.signal=controller.signal;setTimeout(()=>{controller.abort()},timeout);return fetch(resource,options)}}let fetchWithTimeout=createFetch();let moveX=-1;let hasMove=false;function snapToSide(dx){if(dx>0){container.classList.remove('qx-qw-left');container.classList.add('qx-qw-right')}else{container.classList.add('qx-qw-left');container.classList.remove('qx-qw-right')}}container.addEventListener('touchstart',(e)=>{if(e.touches.length>1){e.preventDefault();return}let target=e.target;let par=e.target.parentElement;let isSp=target.nodeName=='SPAN';if(e.target.classList.contains('qx-main')||(isSp&&par.classList.contains('qx-main'))){if(e.changedTouches.length>0){moveX=e.changedTouches[0].clientX;hasMove=false}else if(e.targetTouches.length>0){moveX=e.targetTouches[0].clientX;hasMove=false}else if(e.touches.length>0){moveX=e.touches[0].clientX;hasMove=false}}});let lastTouchEnd=0;container.addEventListener('touchend',(e)=>{let now=Date.now();if(now-lastTouchEnd<=500){lastTouchEnd=now;e.preventDefault();return}else{lastTouchEnd=now}let target=e.target;let par=e.target.parentElement;let isSp=target.nodeName=='SPAN';if(e.target.classList.contains('qx-main')||(isSp&&par.classList.contains('qx-main'))){let endX=e.changedTouches[0].clientX;let dx=endX-moveX;if(moveX!==-1&&Math.abs(dx)>100){hasMove=true;moveX=-1;snapToSide(dx)}}});container.addEventListener('click',function(e){e.stopPropagation();let target=e.target;let par=e.target.parentElement;let isSp=target.nodeName=='SPAN';if(target.classList.contains('qx-main')||(isSp&&par.classList.contains('qx-main'))){document.cookie="boomolastsearchtime=; Max-Age=0; path=/";if(hasMove){return}container.classList.toggle('qx-qw-open')}else if(target.classList.contains('qx-btn-prv')||(isSp&&par.classList.contains('qx-btn-prv'))){clickBtn('${pnObj.prev}')}else if(target.classList.contains('qx-btn-nxt')||(isSp&&par.classList.contains('qx-btn-nxt'))){clickBtn('${pnObj.next}')}else if(target.classList.contains('qx-btn-dir')||(isSp&&par.classList.contains('qx-btn-dir'))){clickBtn('${pnObj.dir}')}else if(target.classList.contains('qx-btn-setting')||(isSp&&par.classList.contains('qx-btn-setting'))){settingContainer.classList.add('qx-fw-setting--show')}else if(target.classList.contains('qx-btn-ai')||(isSp&&par.classList.contains('qx-btn-ai'))){aiContainer.classList.add('qx-fw-ai--show')}});document.addEventListener('click',function(e){container.classList.remove('qx-qw-open')});let aiClose=document.querySelector('.qx-fw-ai-close');let aiSend=document.querySelector('.qx-fw-ai-send');let userInput=document.querySelector('.qx-fw-ai-input');let aiReply=document.querySelector('.qx-fw-ai-reply');aiClose.addEventListener('click',function(e){aiReply.innerText='';userInput.value='';aiContainer.classList.remove('qx-fw-ai--show')});let decoder=new TextDecoder('utf8');let te=new TextEncoder();let aiCfgJson_='${aiCfgJson}';let aiEnabled=aiCfgJson_&&aiCfgJson_!=='null'&&aiCfgJson_!=='undefined';let aiCfg=(aiEnabled)?(JSON.parse(aiCfgJson_)):null;aiSend.addEventListener('click',function(e){if(userInput.value){let text=userInput.value;if(aiEnabled){aiReply.innerText='请稍等,正在生成回复中...';aiCfg.body.prompt=text;let bd=JSON.stringify(aiCfg.body);aiCfg.headers['Content-Length']=te.encode(bd).byteLength;fetchWithTimeout(aiCfg.url,{method:aiCfg.method,headers:aiCfg.headers,body:bd}).then(res=>{if(!res.ok){return new Error('请求失败,状态码:'+res.status)}return res.arrayBuffer()}).then(buf=>{if(buf instanceof Error){aiReply.innerText=buf.message;return}aiReply.innerText=decoder.decode(buf)}).catch(err=>{aiReply.innerText='请求超时'+err.message}).finally(()=>{userInput.value=''})}}})})();</script>`
     return {
         styleStr: calcQWStyle(),
