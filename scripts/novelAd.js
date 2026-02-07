@@ -1,7 +1,7 @@
 const url = $request.url;
 let type = $response.headers['Content-Type'] || $response.headers['content-type'];
 
-if (url.includes('html') || type.includes("text")) {
+if (url.includes('html') || (type && type.includes("text"))) {
     let html = $response.body;
     if (!html) {
         console.log(`${url}  / result empty`);
