@@ -5,13 +5,14 @@ var settingCfg = {
     'auto_block_ad': false,
     'auto_scroll': false
 };
-if ($response.statusCode != 200 && ( url.includes('html') || (type && type.includes("text") ) ) ) {
+if (url.includes('html') || (type && type.includes("text") )  ) {
     let html = $response.body;
     if (!html) {
         console.log(`${url}  / result empty`);
         $done({});
         return;
     }
+    console.log(`${url} is blocked , code = ${$response.statusCode} , type = ${type}`);
     const newHeaders = { ...$response.headers };
     let domains = [
         'www.googletagmanager.com',
@@ -209,7 +210,7 @@ if ($response.statusCode != 200 && ( url.includes('html') || (type && type.inclu
         $done({});
     }
 } else {
-    console.log(`the url {${url}} is ignored , the content-type is ${type}`);
+    console.log(`the url {${url}} is ignored , the content-type is ${type} , code = ${$response.statusCode}`);
     $done({});
     return;
 }
