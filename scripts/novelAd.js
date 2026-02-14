@@ -3,7 +3,7 @@ let type = $response.headers['Content-Type'] || $response.headers['content-type'
 var settingCfg = {
     'auto_nxt': true,
     'auto_block_ad': false,
-    'auto_scroll':true
+    'auto_scroll':false
 };
 if (url.includes('html') || (type && type.includes("text"))) {
     let html = $response.body;
@@ -287,7 +287,7 @@ function calcPrvANex(html) {
 
 function calcQWStyle() {
     let size = 5;
-    let tmpStr = ".qx-qw{all:initial;--size:54px;--itemSize:40px;background:transparent !important;border-radius:50%;position:fixed;z-index:9999;top:50%;transform:translateY(-50%);width:var(--size);height:var(--size);display:flex;justify-content:center;align-items:center}.qx-qw-left{left:6px;right:'auto'}.qx-qw-right{right:6px;left:'auto'}";
+    let tmpStr = ".qx-qw{all:initial;--size:52px;--itemSize:40px;background:transparent !important;border-radius:50%;position:fixed;z-index:9999;top:50%;transform:translateY(-50%);width:var(--size);height:var(--size);display:flex;justify-content:center;align-items:center}.qx-qw-left{left:4px;right:'auto'}.qx-qw-right{right:4px;left:'auto'}";
     tmpStr += ".qx-qw>div{position:absolute;border-radius:50%;z-index:4;justify-content:center;align-items:center;text-align:center;box-sizing:border-box;transition:transform 0.2s ease,box-shadow 0.2s ease;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%) !important;font-weight:540;overflow:hidden !important;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}";
     tmpStr += ".qx-main{width:var(--size);height:var(--size);display:flex;box-shadow:0 4px 40px rgba(98,121,224,0.5);cursor:grabbing}";
     tmpStr += ".qx-main>span,.qx-btn>span{color:#fff !important;font-size:11px;background:transparent !important;font-weight:550 !important;letter-spacing:1px;word-break:normal;overflow:hidden !important;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}";
