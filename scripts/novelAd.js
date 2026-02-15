@@ -5,14 +5,13 @@ var settingCfg = {
     'auto_block_ad': false,
     'auto_scroll': false
 };
-if (url.includes('html') || (type && type.includes("text") )  ) {
+if ( $response.statusCode === 200 && (url.includes('html') || (type && type.includes("text") ) ) ) {
     let html = $response.body;
     if (!html) {
         console.log(`${url}  / result empty`);
         $done({});
         return;
     }
-    console.log(`${url} is blocked , code = ${$response.statusCode} , type = ${type}`);
     const newHeaders = { ...$response.headers };
     let domains = [
         'www.googletagmanager.com',
