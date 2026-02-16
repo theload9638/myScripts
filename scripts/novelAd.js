@@ -83,7 +83,9 @@ if ( $response.statusCode === 200 && (url.includes('html') || (type && type.incl
     let bodyStr = '';
     let scriptStr = '';
     let beginHeadStr = '';
-    let bgColor = '#494747';
+    let bgColor = '#242628';
+    let baseColor = '#e7e9eb';
+    let fontSize = '14';
     let enableBgColor = true;
     let enableFloatyWindow = true;
     let ignoreDivImg = true;
@@ -190,7 +192,7 @@ if ( $response.statusCode === 200 && (url.includes('html') || (type && type.incl
                 styleStr += 'div{ background-image:none !important;}';
             }
             if (enableBgColor) {
-                styleStr += '* {background: ' + bgColor + ' !important;}';
+                styleStr += '* {background: ' + bgColor + ' !important; color: '+baseColor+' !important; font-size: '+fontSize+'px !important;}';
             }
             if (!scriptStr) {
                 scriptStr = '<script type="text/javascript">try{top.location.hostname;if(top.location.hostname!=window.location.hostname){top.location.href=window.location.href}}catch(e){top.location.href=window.location.href}</script>';
