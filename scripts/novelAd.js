@@ -249,6 +249,7 @@ function calcFwSearchParam(){
      if(am.searchParams.has('auto_scroll')){
         settingCfg.auto_scroll=!!am.searchParams.get('auto_scroll');
      }
+     $prefs.setValueForKey(JSON.stringify(settingCfg),'qx-fw-dfs_');
   }
 }
 function calcPrvANex(html) {
