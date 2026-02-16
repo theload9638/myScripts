@@ -85,7 +85,7 @@ if ( $response.statusCode === 200 && (url.includes('html') || (type && type.incl
     let beginHeadStr = '';
     let bgColor = '#242628';
     let baseColor = '#e7e9eb';
-    let fontSize = '14';
+    let fontSize = '12';
     let enableBgColor = true;
     let enableFloatyWindow = true;
     let ignoreDivImg = true;
