@@ -65,9 +65,9 @@ if ( $response.statusCode === 200 && (url.includes('html') || (type && type.incl
         '_ad',
         'ads',
         '/ad',
-        'logo',
         '/ad-',
         '_adv',
+        'logo',
         'slide-ad',
         'ad-body',
         '-ad',
@@ -104,7 +104,7 @@ if ( $response.statusCode === 200 && (url.includes('html') || (type && type.incl
                 styleStr += '#suggest,#rnlist,#comments,#exo-native-widget-5098390-adX3C,.my-2,.pHS5vbgQ_main_outstream,.exo_wrapper_show,.container-xl{display:none !important;pointer-events: none !important;}';
                 html = html.replace(/alert\(/g, "//");
             } else if (/^https?:\/\/www\.uaa(.*?)\.com/.test(url)) {
-                styleStr += '.center_box,.balance_insufficient_dialog_box,.note_box,.foot_box,.shortcut_box,.swiper-wrapper,.swiper-button-prev,.swiper-button-next,.place_holder_box,#comment_list,.dmca_box{display:none !important;pointer-events: none !important;}';
+                styleStr += '.balance_insufficient_dialog_box,.note_box,.foot_box,.shortcut_box,.swiper-wrapper,.swiper-button-prev,.swiper-button-next,.place_holder_box,#comment_list,.dmca_box{display:none !important;pointer-events: none !important;}';
                 if (url.includes('/novel/chapter?id=')) {
                     html = html.replace(/<div\s*class=\"article\"(.*?)code=\"3\">/gs, '<div class="article"$1 code="999" >');
                     styleStr += ' .menu_box,.more_menu,.avatar{display:none !important;pointer-events: none !important;}';
