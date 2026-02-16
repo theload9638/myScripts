@@ -146,9 +146,9 @@ if ( $response.statusCode === 200 && (url.includes('html') || (type && type.incl
             const unKnowBuf = new Uint8Array($response.bodyBytes);
             html = new TextDecoder(charset, { fatal: false, ignoreBOM: true }).decode(unKnowBuf);
 
-            styleStr += `#Image,#onclickshowdiv,#smx_wrap,#aswift_9,#aswift_9_host{display:none !important;pointer-events: none !important;} .infos{color:#78867e !important;}`;
+            styleStr += `#Image,#onclickshowdiv,#smx_wrap,#aswift_9,#aswift_9_host,.book_download{display:none !important;pointer-events: none !important;} .infos{color:#78867e !important;}`;
             html = html.replace(charset, 'utf-8');
-            html = html.replace(/<script[^>]*?src=\"\/skin\/default\/js\/(tongji|googgg|goge|gls)\.js\"[^>]*>/g, '<script>');
+            html = html.replace(/<script[^>]*?src=\"\/skin\/default\/js\/(tongji|googgg|goge|gls|socre|print_start|goooge)\.js\"[^>]*>/g, '<script>');
 
             if (/^https?:\/\/(www\.)?tongrenquan\.org/.test(url)
                 || /^https?:\/\/tongrenshe\.cc/.test(url)
