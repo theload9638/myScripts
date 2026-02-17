@@ -243,17 +243,18 @@ function calcFwSearchParam(){
   let am = new URL($request.url);
   if(am.searchParams.size>0){
      let sfchanged = false;
+     const flagCkS = (str)=>str==='true';
      if(am.searchParams.has('auto_nxt')){
         sfchanged=true;
-        settingCfg.auto_nxt=!!am.searchParams.get('auto_nxt');
+        settingCfg.auto_nxt=flagCkS(am.searchParams.get('auto_nxt'));
      }
      if(am.searchParams.has('auto_block_ad')){
         sfchanged=true;
-        settingCfg.auto_block_ad=!!am.searchParams.get('auto_block_ad');
+        settingCfg.auto_block_ad=flagCkS(am.searchParams.get('auto_block_ad'));
      }
      if(am.searchParams.has('auto_scroll')){
         sfchanged=true;
-        settingCfg.auto_scroll=!!am.searchParams.get('auto_scroll');
+        settingCfg.auto_scroll=flagCkS(am.searchParams.get('auto_scroll'));
      }
      if(sfchanged){
         console.log('change setting');
