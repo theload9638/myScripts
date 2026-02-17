@@ -23,7 +23,6 @@ if(url.includes('/resource/show/tab/v2')){
     bd['data']['live_tip']={};
     delete bd['data']['mall_home'];
     bd['data']['enable_bili_link']=false;
-    bd['data']['modular_vip_section']['subtitle']={};
     $done({body:JSON.stringify(bd)});
 }else if(url.includes('/account/myinfo')){
     let bd = JSON.parse($response.body);
@@ -35,7 +34,8 @@ if(url.includes('/resource/show/tab/v2')){
             "is_super_vip":true
         },
         "status":1,
-        "type":2
+        "type":2,
+        "role":1
     }
     $done({body:JSON.stringify(bd)});
 }
