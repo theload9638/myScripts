@@ -9,9 +9,6 @@ let defaultSetting = {
     'nxt_time': 500,
     'threshold': 1
 };
-var calc_prvs = ['上一章', '上一页', '上一章节','上一篇'];
-var calc_nexts = ['下一章', '下一页', '下一章节','下一篇'];
-var calc_mls = ['目录', '全部章节'];
 var settingCfg = defaultSetting;
 let dsJson = $prefs.valueForKey('qx-fw-dfs_');
 if (dsJson) {
@@ -274,6 +271,9 @@ function calcFwSearchParam() {
     }
 }
 function calcPrvANex(html) {
+    let calc_prvs = ['上一章', '上一页', '上一章节', '上一篇'];
+    let calc_nexts = ['下一章', '下一页', '下一章节', '下一篇'];
+    let calc_mls = ['目录', '全部章节'];
     let targetDom = ['a', 'button', 'div'];
     const calcRgx = (str) => new RegExp(`<([a-z]+)\\s+[^>]*?(href|class|id)\\s*=\\s*(['"])([^'"]*?)\\3[^>]*?>[^<]*?${str}[^<]*?</\\1>`, 'g');
     const itemRule = /[^=]*?=(["'])[^'"]*?\1/;
