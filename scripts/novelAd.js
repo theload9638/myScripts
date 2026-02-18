@@ -3,14 +3,25 @@ let type = $response.headers['Content-Type'] || $response.headers['content-type'
 let defaultSetting = {
     'auto_nxt': true,
     'auto_block_ad': false,
-    'auto_scroll': false
+    'auto_scroll': false,
+    'scroll_speed': 1.2,
+    'scroll_delay': 2000,
+    'nxt_time': 500,
+    'threshold': 1
 };
+var calc_prvs = ['上一章', '上一页', '上一章节','上一篇'];
+var calc_nexts = ['下一章', '下一页', '下一章节','下一篇'];
+var calc_mls = ['目录', '全部章节'];
 var settingCfg = defaultSetting;
 let dsJson = $prefs.valueForKey('qx-fw-dfs_');
-if(dsJson){
-    settingCfg = JSON.parse(dsJson);
+if (dsJson) {
+    let _sobj1 = JSON.parse(dsJson);
+    settingCfg = {
+        ...defaultSetting,
+        ..._sobj1
+    };
 }
-if ( $response.statusCode === 200 && (url.includes('html') || (type && type.includes("text") ) ) ) {
+if ($response.statusCode === 200 && (url.includes('html') || (type && type.includes("text")))) {
     let html = $response.body;
     if (!html) {
         console.log(`${url}  / result empty`);
@@ -116,7 +127,7 @@ if ( $response.statusCode === 200 && (url.includes('html') || (type && type.incl
                     styleStr = styleStr + ".subtitle-container,.bottom-nav,.comment-section,.post-list,.ai-detection-feedback{display:none !important;pointer-events: none !important;}";
                 }
             } else if (/^https?:\/\/m\.diyibanzhu\.(me|rest)/.test(url)) {
-                styleStr += '.slide,img,picture{display:none !important;pointer-events: none !important;} * {background-image:none !important;}';
+                styleStr += '.slide,img,picture,canvas{display:none !important;pointer-events: none !important;} * {background-image:none !important;}';
                 settingCfg.auto_block_ad = true;
                 if (url.includes('action=article')) {
                     styleStr = styleStr + ' .header,.tuijian,#announceinfo{display:none !important;pointer-events: none !important;}';
@@ -192,7 +203,7 @@ if ( $response.statusCode === 200 && (url.includes('html') || (type && type.incl
                 styleStr += 'div{ background-image:none !important;}';
             }
             if (enableBgColor) {
-                styleStr += '* {background: ' + bgColor + ' !important; color: '+baseColor+' !important; font-size: '+fontSize+'px !important;}';
+                styleStr += '* {background: ' + bgColor + ' !important; color: ' + baseColor + ' !important; font-size: ' + fontSize + 'px !important;}';
             }
             if (!scriptStr) {
                 scriptStr = '<script type="text/javascript">try{top.location.hostname;if(top.location.hostname!=window.location.hostname){top.location.href=window.location.href}}catch(e){top.location.href=window.location.href}</script>';
@@ -229,8 +240,8 @@ function applyFloatyW(html) {
     cn += '<div class="qx-fw-ai-mask"><div class="qx-fw-ai-box"><div class="qx-fw-ai-head"><h3>AI助手</h3><button type="button"class="qx-fw-ai-close">×</button></div><div class="qx-fw-ai-body"><textarea class="qx-fw-ai-input"placeholder="输入您的问题..."></textarea><button type="button"class="qx-fw-ai-send">发送</button><div class="qx-fw-ai-reply"></div></div></div></div>';
     cn += `<div class="qx-qw-setting-box"><div class="qx-qw-setting-layout"><div class="qx-qw-setting-head"><h3>设置</h3><button type="button"class="qx-fw-setting-close">×</button></div><div class="qx-qw-sl-box"><div class="qx-qw-setting-line"><span>自动下一章</span><input type="checkbox"${settingCfg.auto_nxt ? 'checked="1"' : ''}id="qxSetCkIP"><label for="qxSetCkIP"class="qxSetingtoggleSwitch"></label></div><div class="qx-qw-setting-line"><span>强力拦截广告</span><input type="checkbox"${settingCfg.auto_block_ad ? 'checked="1"' : ''}id="qxSetCkIP1"><label for="qxSetCkIP1"class="qxSetingtoggleSwitch"></label></div><div class="qx-qw-setting-line"><span>自动滚动</span><input type="checkbox"${settingCfg.auto_scroll ? 'checked="1"' : ''}id="qxSetCkIP2"><label for="qxSetCkIP2"class="qxSetingtoggleSwitch"></label></div></div><div class="qx-qw-setting-line"><span class="qx-qw-btn-close">关闭</span></div></div></div>`;
     let scp = '<script>(function(){';
-    scp+=`let container=document.querySelector('.qx-qw');let aiContainer=document.querySelector('.qx-fw-ai-mask');let settingContainer=document.querySelector('.qx-qw-setting-box');let ctCls=document.querySelector('.qx-qw-btn-close');ctCls.addEventListener('click',function(e){window.confirm("确定要关闭悬浮窗吗?")&&(container.style.display="none")});let settingCfg={'auto_nxt':${settingCfg.auto_nxt},'auto_block_ad':${settingCfg.auto_block_ad},'auto_scroll':${settingCfg.auto_scroll}};let nxt_timerId=null;let obv_nxt=null;const AutoScroller={speed:1,interval:16,delay:2000,delayTimer:null,running:false,rafId:null,lastTime:0,start(options={}){if(this.running||this.delayTimer){return}if(options.speed){this.speed=options.speed}if(options.interval){this.interval=options.interval}if(options.delay!==undefined){this.delay=options.delay}this.delayTimer=setTimeout(()=>{this.running=true;this.lastTime=performance.now();this.loop()},this.delay)},stop(){this.running=false;if(this.rafId){cancelAnimationFrame(this.rafId);this.rafId=null}if(this.delayTimer){clearTimeout(this.delayTimer);this.delayTimer=null}},toggle(){(this.running||this.delayTimer)?this.stop():this.start()},setSpeed(newSpeed){this.speed=newSpeed},loop(){if(!this.running)return;const now=performance.now();const delta=now-this.lastTime;if(delta>=this.interval){this.lastTime=now;const scrollTop=window.scrollY;const maxScroll=document.documentElement.scrollHeight-window.innerHeight;if(scrollTop>=maxScroll){this.stop();return}window.scrollBy(0,this.speed)}this.rafId=requestAnimationFrame(()=>this.loop())}};if(settingCfg.auto_nxt){let cs='${pnObj.next}';if(typeof cs!="string"||cs==='undefined'||cs==='null'){}else{let nxt_btn=document.querySelector(cs);obv_nxt=new IntersectionObserver(changes=>{if(changes&&changes.length>0&&!nxt_timerId){let changeEntry=changes[0];if(changeEntry.isIntersecting){nxt_timerId=setTimeout(()=>{clearTimeout(nxt_timerId);nxt_btn&&nxt_btn.click()},500)}}},{threshold:1});if(nxt_btn){obv_nxt.observe(nxt_btn)}}}if(settingCfg.auto_scroll){AutoScroller.start()}`;
-    scp+=`window.__KILL_RENDER__=(function(){let running=false;const TAGS=['img','video','iframe','object','embed','audio','picture','source','svg','image','frame','ins'];function cleanDOM(){TAGS.forEach(tag=>document.querySelectorAll(tag).forEach(el=>el.remove()))}function cleanCSS(){document.querySelectorAll('*').forEach(el=>{const s=el.style;if(s&&s.backgroundImage&&s.backgroundImage!=='none'){s.backgroundImage='none'}})}function cleanCanvas(){document.querySelectorAll('canvas').forEach(c=>{try{const ctx=c.getContext('2d');if(ctx)ctx.clearRect(0,0,c.width,c.height);const gl=c.getContext('webgl')||c.getContext('webgl2')||c.getContext('experimental-webgl');if(gl){gl.clearColor(0,0,0,0);gl.clear(gl.COLOR_BUFFER_BIT|gl.DEPTH_BUFFER_BIT)}}catch{}})}function sweep(){cleanDOM();cleanCSS();cleanCanvas()}function frame(){if(!running)return;sweep();requestAnimationFrame(frame)}return{start(){if(running)return;running=true;requestAnimationFrame(frame)},stop(){running=false},once(){sweep()}}})();if(settingCfg.auto_block_ad){window.__KILL_RENDER__.start()}let settingCtCls=document.querySelector('.qx-fw-setting-close');settingCtCls.addEventListener('click',function(e){if(true){let stChanged=false;let autoNxtbtn=document.querySelector('#qxSetCkIP');let old = Object.assign({},settingCfg);if(autoNxtbtn.checked!==settingCfg.auto_nxt){stChanged=true;settingCfg.auto_nxt=autoNxtbtn.checked;if(settingCfg.auto_nxt){if(obv_nxt!=null){obv_nxt.observe(document.querySelector('${pnObj.next}'))}}else{if(obv_nxt!=null){obv_nxt.unobserve(document.querySelector('${pnObj.next}'))}}}let autoClrbtn=document.querySelector('#qxSetCkIP1');if(autoClrbtn.checked!==settingCfg.auto_block_ad){stChanged=true;settingCfg.auto_block_ad=autoClrbtn.checked;if(window.__KILL_RENDER__){if(settingCfg.auto_block_ad){window.__KILL_RENDER__.start()}else{window.__KILL_RENDER__.stop()}}}let autoScrollbtn=document.querySelector('#qxSetCkIP2');if(autoScrollbtn.checked!==settingCfg.auto_scroll){stChanged=true;settingCfg.auto_scroll=autoScrollbtn.checked;AutoScroller.toggle()}if(stChanged){document.addEventListener('click',function(e){if(e.target.nodeName==='A'){e.preventDefault();let am=new URL(e.target.href,window.location.origin);if(autoNxtbtn.checked!==old.auto_nxt){am.searchParams.set('auto_nxt',autoNxtbtn.checked)}if(autoClrbtn.checked!==old.auto_block_ad){am.searchParams.set('auto_block_ad',autoClrbtn.checked)}if(autoScrollbtn.checked!==old.auto_scroll){am.searchParams.set('auto_scroll',autoScrollbtn.checked);}window.location.href=am.toString()}})}}settingContainer.classList.remove('qx-fw-setting--show')});`;
+    scp += `let container=document.querySelector('.qx-qw');let aiContainer=document.querySelector('.qx-fw-ai-mask');let settingContainer=document.querySelector('.qx-qw-setting-box');let ctCls=document.querySelector('.qx-qw-btn-close');ctCls.addEventListener('click',function(e){window.confirm("确定要关闭悬浮窗吗?")&&(container.style.display="none")});let settingCfg={'auto_nxt':${settingCfg.auto_nxt},'auto_block_ad':${settingCfg.auto_block_ad},'auto_scroll':${settingCfg.auto_scroll}};let nxt_timerId=null;let obv_nxt=null;const AutoScroller={speed:${settingCfg.scroll_speed},interval:16,delay:${settingCfg.scroll_delay},delayTimer:null,running:false,rafId:null,lastTime:0,start(options={}){if(this.running||this.delayTimer){return}if(options.speed){this.speed=options.speed}if(options.interval){this.interval=options.interval}if(options.delay!==undefined){this.delay=options.delay}this.delayTimer=setTimeout(()=>{this.running=true;this.lastTime=performance.now();this.loop()},this.delay)},stop(){this.running=false;if(this.rafId){cancelAnimationFrame(this.rafId);this.rafId=null}if(this.delayTimer){clearTimeout(this.delayTimer);this.delayTimer=null}},toggle(){(this.running||this.delayTimer)?this.stop():this.start()},setSpeed(newSpeed){this.speed=newSpeed},loop(){if(!this.running)return;const now=performance.now();const delta=now-this.lastTime;if(delta>=this.interval){this.lastTime=now;const scrollTop=window.scrollY;const maxScroll=document.documentElement.scrollHeight-window.innerHeight;if(scrollTop>=maxScroll){this.stop();return}window.scrollBy(0,this.speed)}this.rafId=requestAnimationFrame(()=>this.loop())}};if(settingCfg.auto_nxt){let cs='${pnObj.next}';if(typeof cs!="string"||cs==='undefined'||cs==='null'){}else{let nxt_btn=document.querySelector(cs);obv_nxt=new IntersectionObserver(changes=>{if(changes&&changes.length>0&&!nxt_timerId){let changeEntry=changes[0];if(changeEntry.isIntersecting){nxt_timerId=setTimeout(()=>{clearTimeout(nxt_timerId);nxt_btn&&nxt_btn.click()},${settingCfg.nxt_time})}}},{threshold:${settingCfg.threshold});if(nxt_btn){obv_nxt.observe(nxt_btn)}}}if(settingCfg.auto_scroll){AutoScroller.start()}`;
+    scp += `window.__KILL_RENDER__=(function(){let running=false;const TAGS=['img','video','iframe','object','embed','audio','picture','source','svg','image','frame','ins'];function cleanDOM(){TAGS.forEach(tag=>document.querySelectorAll(tag).forEach(el=>el.remove()))}function cleanCSS(){document.querySelectorAll('*').forEach(el=>{const s=el.style;if(s&&s.backgroundImage&&s.backgroundImage!=='none'){s.backgroundImage='none'}})}function cleanCanvas(){document.querySelectorAll('canvas').forEach(c=>{try{const ctx=c.getContext('2d');if(ctx)ctx.clearRect(0,0,c.width,c.height);const gl=c.getContext('webgl')||c.getContext('webgl2')||c.getContext('experimental-webgl');if(gl){gl.clearColor(0,0,0,0);gl.clear(gl.COLOR_BUFFER_BIT|gl.DEPTH_BUFFER_BIT)}}catch{}})}function sweep(){cleanDOM();cleanCSS();cleanCanvas()}function frame(){if(!running)return;sweep();requestAnimationFrame(frame)}return{start(){if(running)return;running=true;requestAnimationFrame(frame)},stop(){running=false},once(){sweep()}}})();if(settingCfg.auto_block_ad){window.__KILL_RENDER__.start()}let settingCtCls=document.querySelector('.qx-fw-setting-close');settingCtCls.addEventListener('click',function(e){if(true){let stChanged=false;let autoNxtbtn=document.querySelector('#qxSetCkIP');let old = Object.assign({},settingCfg);if(autoNxtbtn.checked!==settingCfg.auto_nxt){stChanged=true;settingCfg.auto_nxt=autoNxtbtn.checked;if(settingCfg.auto_nxt){if(obv_nxt!=null){obv_nxt.observe(document.querySelector('${pnObj.next}'))}}else{if(obv_nxt!=null){obv_nxt.unobserve(document.querySelector('${pnObj.next}'))}}}let autoClrbtn=document.querySelector('#qxSetCkIP1');if(autoClrbtn.checked!==settingCfg.auto_block_ad){stChanged=true;settingCfg.auto_block_ad=autoClrbtn.checked;if(window.__KILL_RENDER__){if(settingCfg.auto_block_ad){window.__KILL_RENDER__.start()}else{window.__KILL_RENDER__.stop()}}}let autoScrollbtn=document.querySelector('#qxSetCkIP2');if(autoScrollbtn.checked!==settingCfg.auto_scroll){stChanged=true;settingCfg.auto_scroll=autoScrollbtn.checked;AutoScroller.toggle()}if(stChanged){document.addEventListener('click',function(e){if(e.target.nodeName==='A'){e.preventDefault();let am=new URL(e.target.href,window.location.origin);if(autoNxtbtn.checked!==old.auto_nxt){am.searchParams.set('auto_nxt',autoNxtbtn.checked)}if(autoClrbtn.checked!==old.auto_block_ad){am.searchParams.set('auto_block_ad',autoClrbtn.checked)}if(autoScrollbtn.checked!==old.auto_scroll){am.searchParams.set('auto_scroll',autoScrollbtn.checked);}window.location.href=am.toString()}})}}settingContainer.classList.remove('qx-fw-setting--show')});`;
     scp += `function clickBtn(cs){if(typeof cs!="string"||cs==='undefined'||cs==='null'){return}let bn=document.querySelector(cs);bn&&bn.click()}function createFetch(timeout=6000){return(resource,options)=>{let controller=new AbortController();options=options||{};options.signal=controller.signal;setTimeout(()=>{controller.abort()},timeout);return fetch(resource,options)}}let fetchWithTimeout=createFetch();let moveX=-1;let hasMove=false;function snapToSide(dx){if(dx>0){container.classList.remove('qx-qw-left');container.classList.add('qx-qw-right')}else{container.classList.add('qx-qw-left');container.classList.remove('qx-qw-right')}AutoScroller.toggle();}container.addEventListener('touchstart',(e)=>{if(e.touches.length>1){e.preventDefault();return}let target=e.target;let par=e.target.parentElement;let isSp=target.nodeName=='SPAN';if(e.target.classList.contains('qx-main')||(isSp&&par.classList.contains('qx-main'))){if(e.changedTouches.length>0){moveX=e.changedTouches[0].clientX;hasMove=false}else if(e.targetTouches.length>0){moveX=e.targetTouches[0].clientX;hasMove=false}else if(e.touches.length>0){moveX=e.touches[0].clientX;hasMove=false}}});let lastTouchEnd=0;container.addEventListener('touchend',(e)=>{let now=Date.now();if(now-lastTouchEnd<=500){lastTouchEnd=now;e.preventDefault();return}else{lastTouchEnd=now}let target=e.target;let par=e.target.parentElement;let isSp=target.nodeName=='SPAN';if(e.target.classList.contains('qx-main')||(isSp&&par.classList.contains('qx-main'))){let endX=e.changedTouches[0].clientX;let dx=endX-moveX;if(moveX!==-1&&Math.abs(dx)>100){hasMove=true;moveX=-1;snapToSide(dx)}}});container.addEventListener('click',function(e){e.stopPropagation();let target=e.target;let par=e.target.parentElement;let isSp=target.nodeName=='SPAN';if(target.classList.contains('qx-main')||(isSp&&par.classList.contains('qx-main'))){document.cookie="boomolastsearchtime=; Max-Age=0; path=/";if(hasMove){return}container.classList.toggle('qx-qw-open')}else if(target.classList.contains('qx-btn-prv')||(isSp&&par.classList.contains('qx-btn-prv'))){clickBtn('${pnObj.prev}')}else if(target.classList.contains('qx-btn-nxt')||(isSp&&par.classList.contains('qx-btn-nxt'))){clickBtn('${pnObj.next}')}else if(target.classList.contains('qx-btn-dir')||(isSp&&par.classList.contains('qx-btn-dir'))){clickBtn('${pnObj.dir}')}else if(target.classList.contains('qx-btn-setting')||(isSp&&par.classList.contains('qx-btn-setting'))){settingContainer.classList.add('qx-fw-setting--show')}else if(target.classList.contains('qx-btn-ai')||(isSp&&par.classList.contains('qx-btn-ai'))){aiContainer.classList.add('qx-fw-ai--show')}});document.addEventListener('click',function(e){container.classList.remove('qx-qw-open')});`;
     scp += `let aiClose=document.querySelector('.qx-fw-ai-close');let aiSend=document.querySelector('.qx-fw-ai-send');let userInput=document.querySelector('.qx-fw-ai-input');let aiReply=document.querySelector('.qx-fw-ai-reply');aiClose.addEventListener('click',function(e){aiReply.innerText='';userInput.value='';aiContainer.classList.remove('qx-fw-ai--show')});let decoder=new TextDecoder('utf8');let te=new TextEncoder();let aiCfgJson_='${aiCfgJson}';let aiEnabled=aiCfgJson_&&aiCfgJson_!=='null'&&aiCfgJson_!=='undefined';let aiCfg=(aiEnabled)?(JSON.parse(aiCfgJson_)):null;aiSend.addEventListener('click',function(e){if(userInput.value){let text=userInput.value;if(aiEnabled){aiReply.innerText='请稍等,正在生成回复中...';aiCfg.body.prompt=text;let bd=JSON.stringify(aiCfg.body);aiCfg.headers['Content-Length']=te.encode(bd).byteLength;fetchWithTimeout(aiCfg.url,{method:aiCfg.method,headers:aiCfg.headers,body:bd}).then(res=>{if(!res.ok){return new Error('请求失败,状态码:'+res.status)}return res.arrayBuffer()}).then(buf=>{if(buf instanceof Error){aiReply.innerText=buf.message;return}aiReply.innerText=decoder.decode(buf)}).catch(err=>{aiReply.innerText='请求超时'+err.message}).finally(()=>{userInput.value=''})}}});`;
     scp += '})();</script>';
@@ -239,33 +250,30 @@ function applyFloatyW(html) {
         bodyStr: cn + scp
     };
 }
-function calcFwSearchParam(){
-  let am = new URL($request.url);
-  if(am.searchParams.size>0){
-     let sfchanged = false;
-     const flagCkS = (str)=>str==='true';
-     if(am.searchParams.has('auto_nxt')){
-        sfchanged=true;
-        settingCfg.auto_nxt=flagCkS(am.searchParams.get('auto_nxt'));
-     }
-     if(am.searchParams.has('auto_block_ad')){
-        sfchanged=true;
-        settingCfg.auto_block_ad=flagCkS(am.searchParams.get('auto_block_ad'));
-     }
-     if(am.searchParams.has('auto_scroll')){
-        sfchanged=true;
-        settingCfg.auto_scroll=flagCkS(am.searchParams.get('auto_scroll'));
-     }
-     if(sfchanged){
-        console.log('change setting');
-        $prefs.setValueForKey(JSON.stringify(settingCfg),'qx-fw-dfs_');
-     }
-  }
+function calcFwSearchParam() {
+    let am = new URL($request.url);
+    if (am.searchParams.size > 0) {
+        let sfchanged = false;
+        const flagCkS = (str) => str === 'true';
+        if (am.searchParams.has('auto_nxt')) {
+            sfchanged = true;
+            settingCfg.auto_nxt = flagCkS(am.searchParams.get('auto_nxt'));
+        }
+        if (am.searchParams.has('auto_block_ad')) {
+            sfchanged = true;
+            settingCfg.auto_block_ad = flagCkS(am.searchParams.get('auto_block_ad'));
+        }
+        if (am.searchParams.has('auto_scroll')) {
+            sfchanged = true;
+            settingCfg.auto_scroll = flagCkS(am.searchParams.get('auto_scroll'));
+        }
+        if (sfchanged) {
+            console.log('change setting');
+            $prefs.setValueForKey(JSON.stringify(settingCfg), 'qx-fw-dfs_');
+        }
+    }
 }
 function calcPrvANex(html) {
-    let prvs = ['上一章', '上一页', '上一章节'];
-    let nexts = ['下一页', '下一章', '下一章节'];
-    let mls = ['目录', '全部章节'];
     let targetDom = ['a', 'button', 'div'];
     const calcRgx = (str) => new RegExp(`<([a-z]+)\\s+[^>]*?(href|class|id)\\s*=\\s*(['"])([^'"]*?)\\3[^>]*?>[^<]*?${str}[^<]*?</\\1>`, 'g');
     const itemRule = /[^=]*?=(["'])[^'"]*?\1/;
@@ -289,22 +297,22 @@ function calcPrvANex(html) {
     let prvSelector = null;
     let nextSelector = null;
     let dirSelector = null;
-    for (let i = 0; i < prvs.length; i++) {
-        let res = calcRgx(prvs[i]).exec(html);
+    for (let i = 0; i < calc_prvs.length; i++) {
+        let res = calcRgx(calc_prvs[i]).exec(html);
         if (res) {
             prvSelector = getCssSelector(res);
             break;
         }
     }
-    for (let i = 0; i < nexts.length; i++) {
-        let res = calcRgx(nexts[i]).exec(html);
+    for (let i = 0; i < calc_nexts.length; i++) {
+        let res = calcRgx(calc_nexts[i]).exec(html);
         if (res) {
             nextSelector = getCssSelector(res);
             break;
         }
     }
-    for (let i = 0; i < mls.length; i++) {
-        let res = calcRgx(mls[i]).exec(html);
+    for (let i = 0; i < calc_mls.length; i++) {
+        let res = calcRgx(calc_mls[i]).exec(html);
         if (res) {
             dirSelector = getCssSelector(res);
             break;
