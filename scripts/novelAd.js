@@ -122,7 +122,7 @@ if ($response.statusCode === 200 && (url.includes('html') || (type && type.inclu
                     styleStr = styleStr + ".subtitle-container,.bottom-nav,.comment-section,.post-list,.ai-detection-feedback{display:none !important;pointer-events: none !important;}";
                 }
             } else if (/^https?:\/\/m\.diyibanzhu\.(me|rest)/.test(url)) {
-                styleStr += '.slide,img,picture,canvas{display:none !important;pointer-events: none !important;} * {background-image:none !important;}';
+                styleStr += '.slide,img,picture,canvas,svg,image{display:none !important;pointer-events: none !important;} *{background-image:none !important;}';
                 settingCfg.auto_block_ad = true;
                 if (url.includes('action=article')) {
                     styleStr = styleStr + ' .header,.tuijian,#announceinfo{display:none !important;pointer-events: none !important;}';
@@ -340,7 +340,7 @@ function calcQWStyle() {
     let v2 = 180 / v1;
     let v4 = 0;
     for (let v3 = 3; v3 <= size; v3++) {
-        let x1 = 4 + 30 * v4;
+        let x1 = 5 + 30 * v4;
         let x2 = v2 * (v4 + 1);
         let x3 = 25;
         tmpStr += `.qx-qw.qx-qw-left>.qx-btn:nth-child(${v3}){transform: translate(${x3}px,${x1}px) rotate(${x2}deg);}`;
