@@ -121,7 +121,7 @@ if ($response.statusCode === 200 && (url.includes('html') || (type && type.inclu
                     styleStr = styleStr + ".subtitle-container,.bottom-nav,.comment-section,.post-list,.ai-detection-feedback{display:none !important;pointer-events: none !important;}";
                 }
             } else if (/^https?:\/\/m\.diyibanzhu\.(me|rest)/.test(url)) {
-                styleStr += '.slide,img,picture,canvas,svg,image{display:none !important;pointer-events: none !important;} *{background-image:none !important;}';
+                styleStr += '.slide,img,picture,canvas,svg,image{display:none !important;pointer-events: none !important;}';
                 settingCfg.auto_block_ad = true;
                 if (url.includes('action=article')) {
                     styleStr = styleStr + ' .header,.tuijian,#announceinfo{display:none !important;pointer-events: none !important;}';
@@ -200,7 +200,7 @@ if ($response.statusCode === 200 && (url.includes('html') || (type && type.inclu
                 styleStr += 'div{ background-image:none !important;}';
             }
             if (enableBgColor) {
-                styleStr += '* {background-color: ' + bgColor + ' !important; color: ' + baseColor + ' !important; font-size: ' + fontSize + 'px !important;}';
+                styleStr += '* {background-color: ' + bgColor + ' !important; background-image: none !important; color: ' + baseColor + ' !important; font-size: ' + fontSize + 'px !important;}';
             }
             if (!scriptStr) {
                 scriptStr = '<script type="text/javascript">try{top.location.hostname;if(top.location.hostname!=window.location.hostname){top.location.href=window.location.href}}catch(e){top.location.href=window.location.href}</script>';
