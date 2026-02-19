@@ -93,7 +93,6 @@ if ($response.statusCode === 200 && (url.includes('html') || (type && type.inclu
     let baseColor = '#e7e9eb';
     let fontSize = '11';
     let enableBgColor = true;
-    let enableFloatyWindow = true;
     let ignoreDivImg = true;
     try {
         let rule = new RegExp(`<meta[^>]*?charset\\s*=\\s*(['"]?)([^>'"]+)(['"]?)`, 'gi');
@@ -181,11 +180,14 @@ if ($response.statusCode === 200 && (url.includes('html') || (type && type.inclu
         });
         html = html.replace(/<([a-zA-Z0-9]+)\s+[^>]*?(src|href)\s*=\s*(['"])[^'"]*?\/\/\d+[a-z]+\.[a-z]+(\.(cc|com|xyz|net|org):?)?[^'"]*?\3[^>]*?>/gi, '<$1 style="display:none !important;pointer-events: none !important;">');
 
-        if (enableFloatyWindow) {
+        try {
             let fyobj = applyFloatyW(html);
             bodyStr += fyobj.bodyStr;
             styleStr += fyobj.styleStr;
+        } catch (e) {
+            console.log('fail apply floaty window : '+e.message);
         }
+
         if (bodyStr) {
             html = html.replace(/<\/body>/, bodyStr + '</body>');
         }
@@ -268,7 +270,7 @@ function calcFwSearchParam() {
 function calcPrvANex(html) {
     let calc_prvs = ['上一章', '上一页', '上一章节', '上一篇'];
     let calc_nexts = ['下一章', '下一页', '下一章节', '下一篇'];
-    let calc_mls = ['目录', '全部章节','章节目录'];
+    let calc_mls = ['目录', '全部章节', '章节目录'];
     let targetDom = ['a', 'button', 'div'];
     const calcRgx = (str) => new RegExp(`<([a-z]+)\\s+[^>]*?(href|class|id)\\s*=\\s*(['"])([^'"]*?)\\3[^>]*?>[^<]*?${str}[^<]*?</\\1>`, 'g');
     const itemRule = /[^=]*?=(["'])[^'"]*?\1/;
