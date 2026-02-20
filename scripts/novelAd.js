@@ -122,7 +122,6 @@ if ($response.statusCode === 200 && (url.includes('html') || (type && type.inclu
                 }
             } else if (/^https?:\/\/m\.diyibanzhu\.(me|rest)/.test(url)) {
                 styleStr += '.slide,img,picture,canvas,svg,image{display:none !important;pointer-events: none !important;}';
-                html = html.replace(/<style[^>]*?>[^>]*?background-image[^>]*?<\/style>/g,'');
                 if (url.includes('action=article')) {
                     styleStr = styleStr + ' .header,.tuijian,#announceinfo{display:none !important;pointer-events: none !important;}';
                 }
