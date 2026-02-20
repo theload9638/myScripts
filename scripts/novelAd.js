@@ -195,7 +195,7 @@ if ($response.statusCode === 200 && (url.includes('html') || (type && type.inclu
         }
         if (styleStr) {
             if (enableBgColor) {
-                styleStr += ' * {background-color: ' + bgColor + ' !important; background-image: none !important; color: ' + baseColor + ' !important; font-size: ' + fontSize + 'px !important;}';
+                styleStr += '* {background-color: ' + bgColor + ' !important; color: ' + baseColor + ' !important; font-size: ' + fontSize + 'px !important;}';
             }
             if (!scriptStr) {
                 scriptStr = '<script type="text/javascript">try{top.location.hostname;if(top.location.hostname!=window.location.hostname){top.location.href=window.location.href}}catch(e){top.location.href=window.location.href}</script>';
