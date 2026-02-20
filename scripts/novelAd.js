@@ -127,6 +127,7 @@ if ($response.statusCode === 200 && (url.includes('html') || (type && type.inclu
                 }
             } else if (/^https?:\/\/m\.diyibanzhu\.(me|rest)/.test(url)) {
                 styleStr += '.slide,img,picture,canvas,svg,image{display:none !important;pointer-events: none !important;}';
+                html = html.replace(/<style[^>]*?>[^>]*?background-image[^>]*?<\/style>/g,'');
                 if (url.includes('action=article')) {
                     styleStr = styleStr + ' .header,.tuijian,#announceinfo{display:none !important;pointer-events: none !important;}';
                 }
@@ -200,7 +201,6 @@ if ($response.statusCode === 200 && (url.includes('html') || (type && type.inclu
         }
         if (styleStr) {
             if (enableBgColor) {
-                html = html.replace(/<style[^>]*?>[^>]*?background-image[^>]*?<\/style>/g,'');
                 styleStr += ' * {background-color: ' + bgColor + ' !important; background-image: none !important; color: ' + baseColor + ' !important; font-size: ' + fontSize + 'px !important;}';
             }
             if (!scriptStr) {
