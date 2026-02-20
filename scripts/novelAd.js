@@ -1,4 +1,4 @@
-//version fsd5
+//version fsd6
 const url = $request.url;
 let type = $response.headers['Content-Type'] || $response.headers['content-type'];
 let defaultSetting = {
@@ -197,7 +197,7 @@ if ($response.statusCode === 200 && (url.includes('html') || (type && type.inclu
             if (enableBgColor) {
                 styleStr += '*{background-color: ' + bgColor + ' !important;color: ' + baseColor + ' !important; font-size: ' + fontSize + 'px !important;}';
             }
-            html = html.replace(/<\/head>/, '<style>' + styleStr + '</stylebackground-image></head>');
+            html = html.replace(/<\/head>/, '<style>' + styleStr + '</style></head>');
         }
 
         newHeaders["Cross-Origin-Embedder-Policy"] = "unsafe-none";
