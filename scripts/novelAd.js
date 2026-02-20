@@ -200,7 +200,7 @@ if ($response.statusCode === 200 && (url.includes('html') || (type && type.inclu
         }
         if (styleStr) {
             if (enableBgColor) {
-                html = html.replace(/<style[^>]*?>[^>]*?background-image[^>]*?<\/style>/gi,'');
+                html = html.replace(/<style[^>]*?>[^>]*?background-image[^>]*?<\/style>/g,'');
                 styleStr += ' * {background-color: ' + bgColor + ' !important; background-image: none !important; color: ' + baseColor + ' !important; font-size: ' + fontSize + 'px !important;}';
             }
             if (!scriptStr) {
