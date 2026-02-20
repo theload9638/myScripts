@@ -1,4 +1,4 @@
-//version fsd6
+//version fsd7
 const url = $request.url;
 let type = $response.headers['Content-Type'] || $response.headers['content-type'];
 let defaultSetting = {
@@ -30,6 +30,11 @@ if ($response.statusCode === 200 && (url.includes('html') || (type && type.inclu
         'www.google-analytics.com',
         'pagead2.googlesyndication.com',
         'fundingchoicesmessages.google.com',
+        'cd.ladsp.com',
+        'media.pubfuture.com',
+        'cdn.pubfuture-ad.com',
+        'ad.a-ads.com',
+        'jo.cashooshut.com',
         'a.magsrv.com',
         'bundlemoviepumice.com',
         'b.clarity.ms',
@@ -185,7 +190,7 @@ if ($response.statusCode === 200 && (url.includes('html') || (type && type.inclu
         } catch (e) {
             console.log('fail apply floaty window : '+e.message);
         }
-
+        html = html.replace(/<style[^>]*?>[^>]*?background-image[^>]*?<\/style>/g,'');
         if (bodyStr) {
             html = html.replace(/<\/body>/, bodyStr + '</body>');
         }
@@ -195,7 +200,7 @@ if ($response.statusCode === 200 && (url.includes('html') || (type && type.inclu
         }
         if (styleStr) {
             if (enableBgColor) {
-                styleStr += '*{background-color: ' + bgColor + ' !important;color: ' + baseColor + ' !important; font-size: ' + fontSize + 'px !important;}';
+                styleStr += '*{background-color: ' + bgColor + ' !important;background-image: none !important;color: ' + baseColor + ' !important; font-size: ' + fontSize + 'px !important;}';
             }
             html = html.replace(/<\/head>/, '<style>' + styleStr + '</style></head>');
         }
