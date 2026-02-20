@@ -1,4 +1,4 @@
-//version fsd4
+//version fsd5
 const url = $request.url;
 let type = $response.headers['Content-Type'] || $response.headers['content-type'];
 let defaultSetting = {
@@ -89,7 +89,6 @@ if ($response.statusCode === 200 && (url.includes('html') || (type && type.inclu
     const escapeRegExp = (str) => str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
     let styleStr = 'ins,iframe,frame,video,audio,#__copy,#infoad,div[data-ad],.banner,.ad-body,.logo_box,.ad_encode,#ad_encode,#ad-body,#banner,.ad-video,#video-ad-ui,.copyright,.GoogleActiveViewInnerContainer,.adsbygoogle,.adsbygoogle-noablate.google-auto-placed,#ad-video,#ad-container,.adBlock,#adBlock,.ad-mob,#ad-mob,.mobile-ad,#mobile-ad,.m-ad,#m-ad,.popup,.ads,#ads,.advertisement,#advertisement,embed,object,.ad,.ad-container,.ad-wrap,#ad-wrap,.ad-box,#ad-box,#ad,.footer,#footer{display:none !important;pointer-events: none !important;}';
     let bodyStr = '';
-    let scriptStr = '';
     let beginHeadStr = '';
     let bgColor = '#242628';
     let baseColor = '#e7e9eb';
@@ -122,9 +121,9 @@ if ($response.statusCode === 200 && (url.includes('html') || (type && type.inclu
                     styleStr = styleStr + ".subtitle-container,.bottom-nav,.comment-section,.post-list,.ai-detection-feedback{display:none !important;pointer-events: none !important;}";
                 }
             } else if (/^https?:\/\/m\.diyibanzhu\.(me|rest)/.test(url)) {
-                styleStr += '.slide,img,picture,canvas,svg,image{display:none !important;pointer-events: none !important;}';
+                styleStr += '.slide,img,picture{display:none !important;pointer-events: none !important;}';
                 if (url.includes('action=article')) {
-                    styleStr = styleStr + ' .header,.tuijian,#announceinfo{display:none !important;pointer-events: none !important;}';
+                    styleStr = styleStr + '.header,.tuijian,#announceinfo{display:none !important;pointer-events: none !important;}';
                 }
             } else if (/^https?:\/\/m\.shuhaige\.net\/\d+\/\w+\.html/.test(url)) {
                 styleStr += '.path,.tui,.bYtYBpFi,.tmwac{display:none !important;pointer-events: none !important;}';
@@ -196,12 +195,9 @@ if ($response.statusCode === 200 && (url.includes('html') || (type && type.inclu
         }
         if (styleStr) {
             if (enableBgColor) {
-                styleStr += '* {background-color: ' + bgColor + ' !important; color: ' + baseColor + ' !important; font-size: ' + fontSize + 'px !important;}';
+                styleStr += '*{background-color: ' + bgColor + ' !important;color: ' + baseColor + ' !important; font-size: ' + fontSize + 'px !important;}';
             }
-            if (!scriptStr) {
-                scriptStr = '<script type="text/javascript">try{top.location.hostname;if(top.location.hostname!=window.location.hostname){top.location.href=window.location.href}}catch(e){top.location.href=window.location.href}</script>';
-            }
-            html = html.replace(/<\/head>/, '<style>' + styleStr + '</stylebackground-image>' + scriptStr + '</head>');
+            html = html.replace(/<\/head>/, '<style>' + styleStr + '</stylebackground-image></head>');
         }
 
         newHeaders["Cross-Origin-Embedder-Policy"] = "unsafe-none";
