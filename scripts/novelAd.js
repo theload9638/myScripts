@@ -1,4 +1,4 @@
-//version fsd8
+//version fsd9
 const url = $request.url;
 let type = $response.headers['Content-Type'] || $response.headers['content-type'];
 let defaultSetting = {
@@ -127,6 +127,7 @@ if ($response.statusCode === 200 && (url.includes('html') || (type && type.inclu
                 }
             } else if (/^https?:\/\/m\.diyibanzhu\.(me|rest)/.test(url)) {
                 styleStr += '.slide,img,picture{display:none !important;pointer-events: none !important;}';
+                settingCfg.auto_block_ad=true;
                 if (url.includes('action=article')) {
                     styleStr = styleStr + '.header,.tuijian,#announceinfo{display:none !important;pointer-events: none !important;}';
                 }
@@ -251,14 +252,17 @@ function calcFwSearchParam() {
         if (am.searchParams.has('auto_nxt')) {
             sfchanged = true;
             settingCfg.auto_nxt = flagCkS(am.searchParams.get('auto_nxt'));
+            am.searchParams.delete('auto_nxt')
         }
         if (am.searchParams.has('auto_block_ad')) {
             sfchanged = true;
             settingCfg.auto_block_ad = flagCkS(am.searchParams.get('auto_block_ad'));
+            am.searchParams.delete('auto_block_ad')
         }
         if (am.searchParams.has('auto_scroll')) {
             sfchanged = true;
             settingCfg.auto_scroll = flagCkS(am.searchParams.get('auto_scroll'));
+            am.searchParams.delete('auto_scroll')
         }
         if (sfchanged) {
             console.log('change setting');
