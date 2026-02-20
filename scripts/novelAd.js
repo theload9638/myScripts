@@ -1,3 +1,4 @@
+//version fsd3
 const url = $request.url;
 let type = $response.headers['Content-Type'] || $response.headers['content-type'];
 let defaultSetting = {
