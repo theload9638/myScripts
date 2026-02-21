@@ -1,4 +1,4 @@
-//version fsd18
+//version fsd19
 const url = $request.url;
 let type = $response.headers['Content-Type'] || $response.headers['content-type'];
 let defaultSetting = {
@@ -34,6 +34,9 @@ if ($response.statusCode === 200 && (url.includes('html') || (type && type.inclu
         'www.googletagmanager.com',
         'www.google-analytics.com',
         'pagead2.googlesyndication.com',
+        '8tlzg5.com',
+        'txmz0y.com',
+        'lzicw0.com',
         'fundingchoicesmessages.google.com',
         'cd.ladsp.com',
         'media.pubfuture.com',
@@ -161,7 +164,7 @@ if ($response.statusCode === 200 && (url.includes('html') || (type && type.inclu
 
             styleStr += `#Image,#onclickshowdiv,#smx_wrap,#aswift_9,#aswift_9_host,.book_download{display:none !important;pointer-events: none !important;} .infos{color:#78867e !important;}`;
             html = html.replace(charset, 'utf-8');
-            html = html.replace(/<script[^>]*?src=\"\/skin\/default\/js\/(tongji|googgg|goge|gls|socre|print_start|goooge)\.js\"[^>]*>/g, '<script>');
+            html = html.replace(/<script[^>]*?src=\"\/skin\/default\/js\/(tongji|googgg|goge|gls|socre|print_start|goooge)\.js\"[^>]*>/g, '<>');
 
             if (/^https?:\/\/(www\.)?tongrenquan\.org/.test(url)
                 || /^https?:\/\/tongrenshe\.cc/.test(url)
@@ -185,6 +188,7 @@ if ($response.statusCode === 200 && (url.includes('html') || (type && type.inclu
         html = html.replace(/alert\(/g, "//");
 
         domains.map(escapeRegExp).forEach(domain => {
+            html = html.replace(new RegExp(`<(script|a)\\s+[^>]*?(src|href)\\s*=\\s*(['"])[^'"]*?${domain}[^'"]*?\\3[^>]*?>[^<]*?(</\\1>)?`, 'gi'), '');
             html = html.replace(new RegExp(`<([a-zA-Z0-9]+)\\s+[^>]*?(src|href|class|id)\\s*=\\s*(['"])[^'"]*?${domain}[^'"]*?\\3[^>]*?>`, 'gi'), '<$1 style="display:none !important;pointer-events: none !important;">');
         });
         html = html.replace(/<([a-zA-Z0-9]+)\s+[^>]*?(src|href)\s*=\s*(['"])[^'"]*?\/\/\d+[a-z]+\.[a-z]+(\.(cc|com|xyz|net|org):?)?[^'"]*?\3[^>]*?>/gi, '<$1 style="display:none !important;pointer-events: none !important;">');
