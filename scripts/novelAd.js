@@ -1,4 +1,4 @@
-//version fsd19
+//version fsd20
 const url = $request.url;
 let type = $response.headers['Content-Type'] || $response.headers['content-type'];
 let defaultSetting = {
@@ -7,7 +7,7 @@ let defaultSetting = {
     'auto_scroll': false,
     'scroll_speed': 1.2,
     'scroll_delay': 2000,
-    'block_times': 20,
+    'block_times': 50,
     'prev_texts': ['上一章', '上一页', '上一章节', '上一篇'],
     'next_texts': ['下一章', '下一页', '下一章节', '下一篇'],
     'dir_texts': ['目录', '全部章节', '章节目录'],
