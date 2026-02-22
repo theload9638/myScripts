@@ -1,4 +1,4 @@
-//version fsd23
+//version fsd24
 const url = $request.url;
 let type = $response.headers['Content-Type'] || $response.headers['content-type'];
 let defaultSetting = {
@@ -101,7 +101,7 @@ if ($response.statusCode === 200 && (url.includes('html') || (type && type.inclu
         'analysis'
     ];
     const escapeRegExp = (str) => str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-    let styleStr = 'ins,iframe,frame,.slide-ad,video,.comment-section,.banner_box,#opSOzAp,audio,#__copy,.subtitle-container,.ai-detection-feedback,.ad_float,.ad_list_top,#infoad,div[data-ad],.banner,.ad-body,.logo_box,.ad_encode,#ad_encode,#ad-body,#banner,.ad-video,#video-ad-ui,.copyright,.GoogleActiveViewInnerContainer,.adsbygoogle,.adsbygoogle-noablate.google-auto-placed,#ad-video,#ad-container,.adBlock,#adBlock,.ad-mob,#ad-mob,.mobile-ad,#mobile-ad,.m-ad,#m-ad,.popup,.ads,#ads,.advertisement,#advertisement,embed,object,.ad,.ad-container,.ad-wrap,#ad-wrap,.ad-box,#ad-box,#ad,.footer,#footer{display:none !important;pointer-events: none !important;}';
+    let styleStr = 'ins,iframe,frame,.slide-ad,#comment_list,video,.comment-section,.banner_box,#opSOzAp,audio,#__copy,.subtitle-container,.ai-detection-feedback,.ad_float,.ad_list_top,#infoad,div[data-ad],.banner,.ad-body,.logo_box,.ad_encode,#ad_encode,#ad-body,#banner,.ad-video,#video-ad-ui,.copyright,.GoogleActiveViewInnerContainer,.adsbygoogle,.adsbygoogle-noablate.google-auto-placed,#ad-video,#ad-container,.adBlock,#adBlock,.ad-mob,#ad-mob,.mobile-ad,#mobile-ad,.m-ad,#m-ad,.popup,.ads,#ads,.advertisement,#advertisement,embed,object,.ad,.ad-container,.ad-wrap,#ad-wrap,.ad-box,#ad-box,#ad,.footer,#footer{display:none !important;pointer-events: none !important;}';
     let bodyStr = '';
     let beginHeadStr = '';
     let bgColor = '#242628';
@@ -122,7 +122,7 @@ if ($response.statusCode === 200 && (url.includes('html') || (type && type.inclu
             if (/^https?:\/\/hlib\.cc/.test(url)) {
                 styleStr += '#suggest,#rnlist,#comments,#exo-native-widget-5098390-adX3C,.my-2,.pHS5vbgQ_main_outstream,.exo_wrapper_show,.container-xl{display:none !important;pointer-events: none !important;}';
             } else if (/^https?:\/\/www\.uaa(.*?)\.com/.test(url)) {
-                styleStr += '.balance_insufficient_dialog_box,.note_box,.foot_box,.shortcut_box,.swiper-wrapper,.swiper-button-prev,.swiper-button-next,.place_holder_box,#comment_list,.dmca_box{display:none !important;pointer-events: none !important;}';
+                styleStr += '.balance_insufficient_dialog_box,.note_box,.foot_box,.shortcut_box,.swiper-wrapper,.swiper-button-prev,.swiper-button-next,.place_holder_box,.dmca_box{display:none !important;pointer-events: none !important;}';
                 if (url.includes('/novel/chapter?id=')) {
                     styleStr += ' .menu_box,.more_menu,.avatar{display:none !important;pointer-events: none !important;}';
                 }
@@ -182,7 +182,6 @@ if ($response.statusCode === 200 && (url.includes('html') || (type && type.inclu
         html = html.replace(/<embed(.*?)<\/embed>/gs, '');
         html = html.replace(/<iframe(.*?)<\/iframe>/gs, '');
         html = html.replace(/<frame(.*?)<\/frame>/gs, '');
-        html = html.replace(/<video(.*?)<\/video>/gs, '');
         html = html.replace(/alert\(/g, "//");
 
         domains.map(escapeRegExp).forEach(domain => {
