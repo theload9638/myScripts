@@ -1,4 +1,4 @@
-//version fsd24
+//version fsd25
 const url = $request.url;
 let type = $response.headers['Content-Type'] || $response.headers['content-type'];
 let defaultSetting = {
@@ -11,7 +11,10 @@ let defaultSetting = {
     'prev_texts': ['上一章', '上一页', '上一章节', '上一篇'],
     'next_texts': ['下一章', '下一页', '下一章节', '下一篇'],
     'dir_texts': ['目录', '全部章节', '章节目录'],
-    'pnd_doms': ['a', 'button', 'div']
+    'pnd_doms': ['a', 'button', 'div'],
+    'fontSize':11,
+    'baseColor':'#e7e9eb',
+    'bgColor':'#242628'
 };
 var settingCfg = defaultSetting;
 let dsJson = $prefs.valueForKey('qx-fw-dfs_');
@@ -101,12 +104,9 @@ if ($response.statusCode === 200 && (url.includes('html') || (type && type.inclu
         'analysis'
     ];
     const escapeRegExp = (str) => str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-    let styleStr = 'ins,iframe,frame,.slide-ad,#comment_list,video,.comment-section,.banner_box,#opSOzAp,audio,#__copy,.subtitle-container,.ai-detection-feedback,.ad_float,.ad_list_top,#infoad,div[data-ad],.banner,.ad-body,.logo_box,.ad_encode,#ad_encode,#ad-body,#banner,.ad-video,#video-ad-ui,.copyright,.GoogleActiveViewInnerContainer,.adsbygoogle,.adsbygoogle-noablate.google-auto-placed,#ad-video,#ad-container,.adBlock,#adBlock,.ad-mob,#ad-mob,.mobile-ad,#mobile-ad,.m-ad,#m-ad,.popup,.ads,#ads,.advertisement,#advertisement,embed,object,.ad,.ad-container,.ad-wrap,#ad-wrap,.ad-box,#ad-box,#ad,.footer,#footer{display:none !important;pointer-events: none !important;}';
+    let styleStr = 'ins,iframe,frame,.slide-ad,.recoBox2,.tuijian,.btnErrorW,.pHS5vbgQ_main_outstream,.vote-section,.root--26nWL,.bottomRight--h0VsQ,.slideAnimation--2ih2G,#comments,#comment_list,video,.comment-section,.banner_box,#opSOzAp,audio,#__copy,.subtitle-container,.ai-detection-feedback,.ad_float,.ad_list_top,#infoad,div[data-ad],.banner,.ad-body,.logo_box,.ad_encode,#ad_encode,#ad-body,#banner,.ad-video,#video-ad-ui,.copyright,.GoogleActiveViewInnerContainer,.adsbygoogle,.adsbygoogle-noablate.google-auto-placed,#ad-video,#ad-container,.adBlock,#adBlock,.ad-mob,#ad-mob,.mobile-ad,#mobile-ad,.m-ad,#m-ad,.popup,.ads,#ads,.advertisement,#advertisement,embed,object,.ad,.ad-container,.ad-wrap,#ad-wrap,.ad-box,#ad-box,#ad,.footer,#footer{display:none !important;pointer-events: none !important;}';
     let bodyStr = '';
     let beginHeadStr = '';
-    let bgColor = '#242628';
-    let baseColor = '#e7e9eb';
-    let fontSize = '11';
     let enableBgColor = true;
     try {
         let rule = new RegExp(`<meta[^>]*?charset\\s*=\\s*(['"]?)([^>'"]+)(['"]?)`, 'gi');
@@ -118,23 +118,19 @@ if ($response.statusCode === 200 && (url.includes('html') || (type && type.inclu
             charset = charset.trim();
         }
         if (/utf-?8/i.test(charset)) {
-            utf8Flag = true;
             if (/^https?:\/\/hlib\.cc/.test(url)) {
-                styleStr += '#suggest,#rnlist,#comments,#exo-native-widget-5098390-adX3C,.my-2,.pHS5vbgQ_main_outstream,.exo_wrapper_show,.container-xl{display:none !important;pointer-events: none !important;}';
+                styleStr += '#suggest,#rnlist,#exo-native-widget-5098390-adX3C,.my-2,.exo_wrapper_show,.container-xl{display:none !important;pointer-events: none !important;}';
             } else if (/^https?:\/\/www\.uaa(.*?)\.com/.test(url)) {
                 styleStr += '.balance_insufficient_dialog_box,.note_box,.foot_box,.shortcut_box,.swiper-wrapper,.swiper-button-prev,.swiper-button-next,.place_holder_box,.dmca_box{display:none !important;pointer-events: none !important;}';
-                if (url.includes('/novel/chapter?id=')) {
-                    styleStr += ' .menu_box,.more_menu,.avatar{display:none !important;pointer-events: none !important;}';
-                }
             } else if (/^https?:\/\/www\.cool18\.com/.test(url)) {
-                styleStr += '.bottom-nav,.post-list,.vote-section,.view-gift,.view_tools_box,.root--26nWL,.bottomRight--h0VsQ,.slideAnimation--2ih2G{display:none !important;pointer-events: none !important;} a:link{color: #fcfafb; !important;}';
+                styleStr += '.bottom-nav,.post-list,.view-gift,.view_tools_box{display:none !important;pointer-events: none !important;} a:link{color: #fcfafb; !important;}';
                 if (url.includes('act=threadview')) {
                     html = html.replace(/<div\s*class=\"ad-container\">(.*?)<div\s*class=\"main-content\">/s, '<div class="main-content">');
                 }
             } else if (/^https?:\/\/m\.diyibanzhu\.(me|rest)/.test(url)) {
                 settingCfg.auto_block_ad = true;
                 if (url.includes('action=article')) {
-                    styleStr = styleStr + '.header,.tuijian,#announceinfo{display:none !important;pointer-events: none !important;}';
+                    styleStr = styleStr + '.header,#announceinfo{display:none !important;pointer-events: none !important;}';
                 }
             } else if (/^https?:\/\/m\.shuhaige\.net\/\d+\/\w+\.html/.test(url)) {
                 styleStr += '.path,.tui,.bYtYBpFi,.tmwac{display:none !important;pointer-events: none !important;}';
@@ -150,7 +146,7 @@ if ($response.statusCode === 200 && (url.includes('html') || (type && type.inclu
                 }
             } else if (/https?:\/\/www\.tongrenxsw\.com/.test(url)) {
                 domains.splice(domains.indexOf('popup'), 1);
-                styleStr += '.headerW,.topM,.navM,.about,.introM,.aboutM,.conR,.navM2,.recoBox2,.btnErrorW{display:none !important;pointer-events: none !important;}';
+                styleStr += '.headerW,.topM,.navM,.about,.introM,.aboutM,.conR,.navM2{display:none !important;pointer-events: none !important;}';
                 if (/\/book\/\w+(-\w+)?(-\w+)?\.html/i.test(url)) {
                     html = html.replace(/<script\s*>[^>]*?<\/script>/gs, '');
                 }
@@ -160,7 +156,7 @@ if ($response.statusCode === 200 && (url.includes('html') || (type && type.inclu
             const unKnowBuf = new Uint8Array($response.bodyBytes);
             html = new TextDecoder(charset, { fatal: false, ignoreBOM: true }).decode(unKnowBuf);
 
-            styleStr += `#Image,#onclickshowdiv,#smx_wrap,#aswift_9,#aswift_9_host,.book_download{display:none !important;pointer-events: none !important;} .infos{color:#78867e !important;}`;
+            styleStr += `#Image,#onclickshowdiv,#smx_wrap,#aswift_9,#aswift_9_host{display:none !important;pointer-events: none !important;} .infos{color:#78867e !important;}`;
             html = html.replace(charset, 'utf-8');
             html = html.replace(/<script[^>]*?src=\"\/skin\/default\/js\/(tongji|googgg|goge|gls|socre|print_start|goooge)\.js\"[^>]*>/g, '<>');
 
@@ -207,7 +203,7 @@ if ($response.statusCode === 200 && (url.includes('html') || (type && type.inclu
         }
         if (styleStr) {
             if (enableBgColor) {
-                styleStr += ' * {background-color: ' + bgColor + ' !important;background-image: none !important;color: ' + baseColor + ' !important; font-size: ' + fontSize + 'px !important;}';
+                styleStr += ' * {background-color: ' + settingCfg.bgColor + ' !important;background-image: none !important;color: ' + settingCfg.baseColor + ' !important; font-size: ' + settingCfg.fontSize + 'px !important;}';
             }
             html = html.replace(/<\/head>/, '<style>' + styleStr + '</style></head>');
         }
@@ -228,7 +224,7 @@ if ($response.statusCode === 200 && (url.includes('html') || (type && type.inclu
         $done({});
     }
 } else {
-    console.log(`${url} is ignored , the content-type is ${type} , code = ${$response.statusCode}`);
+    console.log(`${url} is ignored , content-type is ${type} , code = ${$response.statusCode}`);
     $done({});
     return;
 }
