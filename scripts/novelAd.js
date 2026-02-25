@@ -1,4 +1,4 @@
-//version fsd25
+//version fsd26
 const url = $request.url;
 let type = $response.headers['Content-Type'] || $response.headers['content-type'];
 let defaultSetting = {
@@ -14,7 +14,10 @@ let defaultSetting = {
     'pnd_doms': ['a', 'button', 'div'],
     'fontSize':11,
     'baseColor':'#e7e9eb',
-    'bgColor':'#242628'
+    'bgColor':'#242628',
+    'enableBgColor':true,
+    'domains':[],
+    'debug':false
 };
 var settingCfg = defaultSetting;
 let dsJson = $prefs.valueForKey('qx-fw-dfs_');
@@ -103,11 +106,13 @@ if ($response.statusCode === 200 && (url.includes('html') || (type && type.inclu
         'collect',
         'analysis'
     ];
+    if(settingCfg.domains.length>0){
+        domains = domains.concat(settingCfg.domains);
+    }
     const escapeRegExp = (str) => str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-    let styleStr = 'ins,iframe,frame,.slide-ad,.recoBox2,.tuijian,.btnErrorW,.pHS5vbgQ_main_outstream,.vote-section,.root--26nWL,.bottomRight--h0VsQ,.slideAnimation--2ih2G,#comments,#comment_list,video,.comment-section,.banner_box,#opSOzAp,audio,#__copy,.subtitle-container,.ai-detection-feedback,.ad_float,.ad_list_top,#infoad,div[data-ad],.banner,.ad-body,.logo_box,.ad_encode,#ad_encode,#ad-body,#banner,.ad-video,#video-ad-ui,.copyright,.GoogleActiveViewInnerContainer,.adsbygoogle,.adsbygoogle-noablate.google-auto-placed,#ad-video,#ad-container,.adBlock,#adBlock,.ad-mob,#ad-mob,.mobile-ad,#mobile-ad,.m-ad,#m-ad,.popup,.ads,#ads,.advertisement,#advertisement,embed,object,.ad,.ad-container,.ad-wrap,#ad-wrap,.ad-box,#ad-box,#ad,.footer,#footer{display:none !important;pointer-events: none !important;}';
+    let styleStr = 'ins,iframe,frame,.bYtYBpFi,.tmwac,.slide-ad,.recoBox2,.tuijian,.btnErrorW,.pHS5vbgQ_main_outstream,.vote-section,.root--26nWL,.bottomRight--h0VsQ,.slideAnimation--2ih2G,#comments,#comment_list,video,.comment-section,.banner_box,#opSOzAp,audio,#__copy,.subtitle-container,.ai-detection-feedback,.ad_float,.ad_list_top,#infoad,div[data-ad],.banner,.ad-body,.logo_box,.ad_encode,#ad_encode,#ad-body,#banner,.ad-video,#video-ad-ui,.copyright,.GoogleActiveViewInnerContainer,.adsbygoogle,.adsbygoogle-noablate.google-auto-placed,#ad-video,#ad-container,.adBlock,#adBlock,.ad-mob,#ad-mob,.mobile-ad,#mobile-ad,.m-ad,#m-ad,.popup,.ads,#ads,.advertisement,#advertisement,embed,object,.ad,.ad-container,.ad-wrap,#ad-wrap,.ad-box,#ad-box,#ad,.footer,#footer{display:none !important;pointer-events: none !important;}';
     let bodyStr = '';
     let beginHeadStr = '';
-    let enableBgColor = true;
     try {
         let rule = new RegExp(`<meta[^>]*?charset\\s*=\\s*(['"]?)([^>'"]+)(['"]?)`, 'gi');
         let charsetRes = rule.exec(html);
@@ -117,7 +122,7 @@ if ($response.statusCode === 200 && (url.includes('html') || (type && type.inclu
             charset = charsetRes[2] || 'utf8';
             charset = charset.trim();
         }
-        if (/utf-?8/i.test(charset)) {
+        if (/utf-?8/i.test(charset) || charset.toLowerCase().startsWith('utf')) {
             if (/^https?:\/\/hlib\.cc/.test(url)) {
                 styleStr += '#suggest,#rnlist,#exo-native-widget-5098390-adX3C,.my-2,.exo_wrapper_show,.container-xl{display:none !important;pointer-events: none !important;}';
             } else if (/^https?:\/\/www\.uaa(.*?)\.com/.test(url)) {
@@ -132,9 +137,8 @@ if ($response.statusCode === 200 && (url.includes('html') || (type && type.inclu
                 if (url.includes('action=article')) {
                     styleStr = styleStr + '.header,#announceinfo{display:none !important;pointer-events: none !important;}';
                 }
-            } else if (/^https?:\/\/m\.shuhaige\.net\/\d+\/\w+\.html/.test(url)) {
-                styleStr += '.path,.tui,.bYtYBpFi,.tmwac{display:none !important;pointer-events: none !important;}';
-                html = html.replace(/<script[^>]*>.*?<\/script>/gs, '');
+            } else if (/^https?:\/\/m\.shuhaige\.net/.test(url)) {
+                html = html.replace(/<script[^>]*?>[^<]*?<\/script>/g, '');
                 html = html.replace(/<div\s*style=\"margin:0;padding:0;outline:0;margin-top:15px\">/, '<div style="display:none !important;">')
                 html = html.replace(/<([a-z]+)\s+style=\"display:\s*block;\s*z-index:\s*\d+;\s*position:\s*fixed;.*?\"><\/\1>/gi, '');
             } else if (/https?:\/\/www\.novel543\.com/.test(url)) {
@@ -148,7 +152,7 @@ if ($response.statusCode === 200 && (url.includes('html') || (type && type.inclu
                 domains.splice(domains.indexOf('popup'), 1);
                 styleStr += '.headerW,.topM,.navM,.about,.introM,.aboutM,.conR,.navM2{display:none !important;pointer-events: none !important;}';
                 if (/\/book\/\w+(-\w+)?(-\w+)?\.html/i.test(url)) {
-                    html = html.replace(/<script\s*>[^>]*?<\/script>/gs, '');
+                    html = html.replace(/<script[^>]*?>[^<]*?<\/script>/g, '');
                 }
             }
         } else {
@@ -158,7 +162,7 @@ if ($response.statusCode === 200 && (url.includes('html') || (type && type.inclu
 
             styleStr += `#Image,#onclickshowdiv,#smx_wrap,#aswift_9,#aswift_9_host{display:none !important;pointer-events: none !important;} .infos{color:#78867e !important;}`;
             html = html.replace(charset, 'utf-8');
-            html = html.replace(/<script[^>]*?src=\"\/skin\/default\/js\/(tongji|googgg|goge|gls|socre|print_start|goooge)\.js\"[^>]*>/g, '<>');
+            html = html.replace(/<script[^>]*?src=\"\/skin\/default\/js\/(tongji|googgg|goge|gls|socre|print_start|goooge)\.js\"[^>]*?>/g, '<>');
 
             if (/^https?:\/\/(www\.)?tongrenquan\.org/.test(url)
                 || /^https?:\/\/tongrenshe\.cc/.test(url)
@@ -202,7 +206,7 @@ if ($response.statusCode === 200 && (url.includes('html') || (type && type.inclu
             html = html.replace(/<head[^>]*?>/, '<head>' + beginHeadStr);
         }
         if (styleStr) {
-            if (enableBgColor) {
+            if (settingCfg.enableBgColor) {
                 styleStr += ' * {background-color: ' + settingCfg.bgColor + ' !important;background-image: none !important;color: ' + settingCfg.baseColor + ' !important; font-size: ' + settingCfg.fontSize + 'px !important;}';
             }
             html = html.replace(/<\/head>/, '<style>' + styleStr + '</style></head>');
@@ -212,7 +216,9 @@ if ($response.statusCode === 200 && (url.includes('html') || (type && type.inclu
         newHeaders["Cross-Origin-Opener-Policy"] = "unsafe-none";
         newHeaders["Cross-Origin-Resource-Policy"] = "cross-origin";
         newHeaders["X-Frame-Options"] = "DENY";
-
+        if(settingCfg.debug){
+            console.log(`\ncharset: ${charset} \n headers: ${JSON.stringify(newHeaders)}\n`);
+        }
         if (!utf8Flag) {
             const utf8Bytes = new TextEncoder().encode(html);
             $done({ headers: newHeaders, bodyBytes: utf8Bytes.buffer });
