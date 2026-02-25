@@ -1,4 +1,4 @@
-//version fsd27
+//version fsd28
 const url = $request.url;
 let type = $response.headers['Content-Type'] || $response.headers['content-type'];
 let defaultSetting = {
@@ -17,6 +17,8 @@ let defaultSetting = {
     'bgColor':'#242628',
     'enableBgColor':true,
     'domains':[],
+    'styleStr':'',
+    'bodyStr':'',
     'debug':false
 };
 var settingCfg = defaultSetting;
@@ -110,7 +112,7 @@ if ($response.statusCode === 200 && (url.includes('html') || (type && type.inclu
         domains = domains.concat(settingCfg.domains);
     }
     const escapeRegExp = (str) => str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-    let styleStr = 'ins,iframe,frame,.tui,.bYtYBpFi,.tmwac,.slide-ad,.recoBox2,.tuijian,.btnErrorW,.pHS5vbgQ_main_outstream,.vote-section,.root--26nWL,.bottomRight--h0VsQ,.slideAnimation--2ih2G,#comments,#comment_list,video,.comment-section,.banner_box,#opSOzAp,audio,#__copy,.subtitle-container,.ai-detection-feedback,.ad_float,.ad_list_top,#infoad,div[data-ad],.banner,.ad-body,.logo_box,.ad_encode,#ad_encode,#ad-body,#banner,.ad-video,#video-ad-ui,.copyright,.GoogleActiveViewInnerContainer,.adsbygoogle,.adsbygoogle-noablate.google-auto-placed,#ad-video,#ad-container,.adBlock,#adBlock,.ad-mob,#ad-mob,.mobile-ad,#mobile-ad,.m-ad,#m-ad,.popup,.ads,#ads,.advertisement,#advertisement,embed,object,.ad,.ad-container,.ad-wrap,#ad-wrap,.ad-box,#ad-box,#ad,.footer,#footer{display:none !important;pointer-events: none !important;}';
+    let styleStr = 'ins,iframe,frame,.tui,.bYtYBpFi,.tmwac,#announceinfo,.slide-ad,.recoBox2,.tuijian,.btnErrorW,.pHS5vbgQ_main_outstream,.vote-section,.root--26nWL,.bottomRight--h0VsQ,.slideAnimation--2ih2G,#comments,#comment_list,video,.comment-section,.banner_box,#opSOzAp,audio,#__copy,.subtitle-container,.ai-detection-feedback,.ad_float,.ad_list_top,#infoad,div[data-ad],.banner,.ad-body,.logo_box,.ad_encode,#ad_encode,#ad-body,#banner,.ad-video,#video-ad-ui,.copyright,.GoogleActiveViewInnerContainer,.adsbygoogle,.adsbygoogle-noablate.google-auto-placed,#ad-video,#ad-container,.adBlock,#adBlock,.ad-mob,#ad-mob,.mobile-ad,#mobile-ad,.m-ad,#m-ad,.popup,.ads,#ads,.advertisement,#advertisement,embed,object,.ad,.ad-container,.ad-wrap,#ad-wrap,.ad-box,#ad-box,#ad,.footer,#footer{display:none !important;pointer-events: none !important;}';
     let bodyStr = '';
     let beginHeadStr = '';
     try {
@@ -135,7 +137,7 @@ if ($response.statusCode === 200 && (url.includes('html') || (type && type.inclu
             } else if (/^https?:\/\/m\.diyibanzhu\.(me|rest)/.test(url)) {
                 settingCfg.auto_block_ad = true;
                 if (url.includes('action=article')) {
-                    styleStr = styleStr + '.header,#announceinfo{display:none !important;pointer-events: none !important;}';
+                    styleStr = styleStr + '.header{display:none !important;pointer-events: none !important;}';
                 }
             } else if (/^https?:\/\/m\.shuhaige\.net/.test(url)) {
                 html = html.replace(/<script\s*>.*?<\/script>/gs, '');
@@ -197,7 +199,9 @@ if ($response.statusCode === 200 && (url.includes('html') || (type && type.inclu
         } catch (e) {
             console.log('fail apply floaty window : ' + e.message);
         }
-
+        if(settingCfg.bodyStr){
+            bodyStr += settingCfg.bodyStr;
+        }
         if (bodyStr) {
             html = html.replace(/<\/body>/, bodyStr + '</body>');
         }
@@ -208,6 +212,9 @@ if ($response.statusCode === 200 && (url.includes('html') || (type && type.inclu
         if (styleStr) {
             if (settingCfg.enableBgColor) {
                 styleStr += ' * {background-color: ' + settingCfg.bgColor + ' !important;background-image: none !important;color: ' + settingCfg.baseColor + ' !important; font-size: ' + settingCfg.fontSize + 'px !important;}';
+            }
+            if(settingCfg.styleStr){
+                styleStr += settingCfg.styleStr;
             }
             html = html.replace(/<\/head>/, '<style>' + styleStr + '</style></head>');
         }
