@@ -1,4 +1,4 @@
-//version fsd30
+//version fsd31
 const url = $request.url;
 let type = $response.headers['Content-Type'] || $response.headers['content-type'];
 let defaultSetting = {
@@ -139,11 +139,6 @@ if ($response.statusCode === 200 && (url.includes('html') || (type && type.inclu
                 if (url.includes('action=article')) {
                     styleStr = styleStr + '.header{display:none !important;pointer-events: none !important;}';
                 }
-            } else if (/^https?:\/\/m\.shuhaige\.net/.test(url)) {
-                settingCfg.auto_block_ad = true;
-                html = html.replace(/<script[^>]*?>[^<]*?<\/script>/gs, '');
-                html = html.replace(/<div\s*style=\"margin:0;padding:0;outline:0;[^'"]*?\">/, '<div style="display:none !important;">')
-                html = html.replace(/<([a-z]+)\s+style=\"display:\s*block;\s*z-index:\s*\d+;\s*position:\s*fixed;.*?\"><\/\1>/gi, '');
             } else if (/https?:\/\/www\.novel543\.com/.test(url)) {
                 if (/\/\d+(\/)?(dir)?$/.test(url)) {
                     styleStr += '.mt-3,aside,.sidebar,.is-9{display:none !important;pointer-events: none !important;}';
