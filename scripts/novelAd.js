@@ -1,4 +1,4 @@
-//version fsd28
+//version fsd29
 const url = $request.url;
 let type = $response.headers['Content-Type'] || $response.headers['content-type'];
 let defaultSetting = {
@@ -140,8 +140,8 @@ if ($response.statusCode === 200 && (url.includes('html') || (type && type.inclu
                     styleStr = styleStr + '.header{display:none !important;pointer-events: none !important;}';
                 }
             } else if (/^https?:\/\/m\.shuhaige\.net/.test(url)) {
-                html = html.replace(/<script\s*>.*?<\/script>/gs, '');
-                html = html.replace(/<div\s*style=\"margin:0;padding:0;outline:0;margin-top:15px\">/, '<div style="display:none !important;">')
+                html = html.replace(/<script[^>]*?>[^<]*?<\/script>/g, '');
+                html = html.replace(/<div\s*style=\"margin:0;padding:0;outline:0;[^'"]*?\">/, '<div style="display:none !important;">')
                 html = html.replace(/<([a-z]+)\s+style=\"display:\s*block;\s*z-index:\s*\d+;\s*position:\s*fixed;.*?\"><\/\1>/gi, '');
             } else if (/https?:\/\/www\.novel543\.com/.test(url)) {
                 if (/\/\d+(\/)?(dir)?$/.test(url)) {
