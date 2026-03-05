@@ -1,4 +1,4 @@
-//version fsd31
+//version fsd32
 const url = $request.url;
 let type = $response.headers['Content-Type'] || $response.headers['content-type'];
 let defaultSetting = {
@@ -126,7 +126,7 @@ if ($response.statusCode === 200 && (url.includes('html') || (type && type.inclu
         }
         if (/utf-?8/i.test(charset) || charset.toLowerCase().startsWith('utf')) {
             if (/^https?:\/\/hlib\.cc/.test(url)) {
-                styleStr += '#suggest,#rnlist,#exo-native-widget-5098390-adX3C,.my-2,.exo_wrapper_show,.container-xl{display:none !important;pointer-events: none !important;}';
+                styleStr += '#suggest,#rnlist,#exo-native-widget-5098390-adX3C,.exo_wrapper_show,.container-xl{display:none !important;pointer-events: none !important;}';
             } else if (/^https?:\/\/www\.uaa(.*?)\.com/.test(url)) {
                 styleStr += '.balance_insufficient_dialog_box,.note_box,.foot_box,.shortcut_box,.swiper-wrapper,.swiper-button-prev,.swiper-button-next,.place_holder_box,.dmca_box{display:none !important;pointer-events: none !important;}';
             } else if (/^https?:\/\/www\.cool18\.com/.test(url)) {
