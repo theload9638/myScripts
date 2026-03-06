@@ -1,6 +1,7 @@
-//version fsd32
+//version fsd33
 const url = $request.url;
 let type = $response.headers['Content-Type'] || $response.headers['content-type'];
+const stf_special_key = 'special';
 let defaultSetting = {
     'auto_nxt': true,
     'auto_block_ad': false,
@@ -19,7 +20,8 @@ let defaultSetting = {
     'domains':[],
     'styleStr':'',
     'bodyStr':'',
-    'debug':false
+    'debug':false,
+    'enable_proxy':true
 };
 var settingCfg = defaultSetting;
 let dsJson = $prefs.valueForKey('qx-fw-dfs_');
@@ -187,7 +189,9 @@ if ($response.statusCode === 200 && (url.includes('html') || (type && type.inclu
             html = html.replace(new RegExp(`<([a-zA-Z0-9]+)\\s+[^>]*?(src|href|class|id)\\s*=\\s*(['"])[^'"]*?${domain}[^'"]*?\\3[^>]*?>`, 'gi'), '<$1 style="display:none !important;pointer-events: none !important;">');
         });
         html = html.replace(/<([a-zA-Z0-9]+)\s+[^>]*?(src|href)\s*=\s*(['"])[^'"]*?\/\/\d+[a-z]+\.[a-z]+(\.(cc|com|xyz|net|org):?)?[^'"]*?\3[^>]*?>/gi, '<$1 style="display:none !important;pointer-events: none !important;">');
-
+        if(settingCfg.enable_proxy){
+            configProxy();
+        }
         try {
             let fyobj = applyFloatyW(html);
             bodyStr += fyobj.bodyStr;
@@ -237,7 +241,28 @@ if ($response.statusCode === 200 && (url.includes('html') || (type && type.inclu
     $done({});
     return;
 }
-
+function configProxy(){
+    let spObj = settingCfg[stf_special_key];
+    if(spObj && typeof spObj === 'object' && Object.keys(spObj).length>0){
+        let ul = new URL($request.url);
+        let host = ul.host || ul.hostname;
+        let curHost_obj = spObj[host];
+        if(curHost_obj && typeof curHost_obj==='object' && Object.keys(curHost_obj).length>0){
+            let cfg_ks = Object.keys(defaultSetting);
+            let px_cgd = false;
+            for(let nm of cfg_ks){
+                let vl = curHost_obj[nm];
+                if(vl){
+                    px_cgd = true;
+                    settingCfg[nm]=vl;
+                }
+            }
+            if(settingCfg.debug){
+                console.log(`config is changed by ${host}`);
+            }
+        }
+    }
+}
 function applyFloatyW(html) {
     let pnObj = calcPrvANex(html);
     calcFwSearchParam();
