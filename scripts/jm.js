@@ -3,9 +3,9 @@ const url = $request.url;
 if (url.includes('/ad_template')) {
     let html = $response.body;
     if (html) {
-        html = html.replace(/<style>.*?<\/style>/gs, '');
+        html = html.replace(/<style>[^<]*?<\/style>/g, '');
         html = html.replace(/<script>.*?(?=ad_encode).*?<\/script>/gs, '');
-        html = html.replace(/<a.*?>.*?<\/a>/gs, '');
+        html = html.replace(/<a[^>]*?>[^<]*?<\/a>/g, '');
         html = html.replace(/resizeAd\(\)\s*;/g, '');
         html = html.replace(/AD/g, '');
         html = html.replace(/resizeAd\(\)\s+[^{}]/g,'');
