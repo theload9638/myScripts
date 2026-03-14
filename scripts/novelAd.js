@@ -1,4 +1,4 @@
-//version fsd35
+//version fsd36
 const url = $request.url;
 let type = $response.headers['Content-Type'] || $response.headers['content-type'];
 const stf_special_key = 'special';
@@ -257,7 +257,7 @@ function configProxy(){
                     settingCfg[nm]=vl;
                 }
             }
-            if(settingCfg.debug){
+            if(settingCfg.debug && px_cgd){
                 console.log(`config is changed by ${host}`);
             }
         }
