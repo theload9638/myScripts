@@ -1,0 +1,83 @@
+# ad or boring game web
+
+host,mmgame.qpic.cn,reject
+
+#ad
+
+host-wildcard,p*-ad.adukwai.com,reject
+host, v.adx.hubcloud.com.cn, reject
+host-suffix, bdstatic.com,reject
+
+host, pagead2.googlesyndication.com , reject
+host, www.googletagmanager.com , reject
+host, www.google-analytics.com , reject
+host, 789free.fun,reject
+host, ads.exoclick.com,reject
+host, wxc70.cc, reject
+host, aplsof2fd.flirnapolfwemvrybhszorex.com, reject
+host, aplsof2fd.kyrvrybhsovashordoblarmek.com, reject
+host, jashd.zentaryovorvrybhstazvran.com , reject
+host, y.clarity.ms , reject
+host, yfihpfqfwa2.com, reject
+host, cd.ladsp.com , reject
+host, media.pubfuture.com , reject
+host, cdn.pubfuture-ad.com, reject
+host, jo.cashooshut.com, reject
+host, ad.a-ads.com , reject
+host-suffix, txmz0y.com, reject
+host-suffix, lzicw0.com, reject
+host-suffix, 8tlzg5.com, reject
+host, jl00.jkugbfvh.icu, reject
+host, cdn.pubfuture-ad.com,reject
+host, ad.tagtoo.co , reject
+host, adc.tamedia.com.tw,reject
+host, 2.mis2662.cc, reject
+host, api.popin.cc, reject
+host, onead.onevision.com.tw, reject
+host, www.lovedate.cc , reject
+host, empire-night.com, reject
+host, www.clarity.ms , reject
+host, hm.baidu.com, reject
+host, www.interactivebrokers.com, reject
+host, 29920kldxjjs.dxzgwti.com, reject
+host, nsclick.baidu.com,reject
+host, pos.baidu.com,reject
+host, wn.pos.baidu.com,reject
+host, cpro.baidustatic.com,reject
+host, 29782a430255d79f2wap.jigool.org,reject
+host, go.mavrtracktor.com , reject
+host, s3t3d2y1.afcdn.net,reject
+host, guidepaparazzisurface.com,reject
+host, diagramjawlineunhappy.com , reject
+^https?:\/\/www\.googletagmanager\.com url reject-200
+host, xbbb.org , reject
+host, creative.mavrtracktor.com, reject
+host, ey43.com , reject
+host, ad.parkvv.com, reject
+host, www.gstatic.com, reject
+host, fonts.googleapis.com, reject
+host, googleads.g.doubleclick.net, reject
+^https?:\/\/googleads\.g\.doubleclick\.net url reject-200
+host, fonts.gstatic.cn, reject
+host, *.gstatic.com , reject
+host, tpc.googlesyndication.com, reject
+host, bundlemoviepumice.com , reject
+
+
+host-wildcard, p*-sign.douyinpic.com, reject
+host, advmonitor.tantanapp.com, reject
+host, sf3-fe-tos.pglstatp-toutiao.com, reject
+host, p66-ad.adkwai.com, reject
+host, adsmind.ugdtimg.com, reject
+host, pgdt.ugdtimg.com, reject
+host, tracelog-debug.aiclk.com, reject
+host, ads.adfunlink.com, reject
+host, p2-lm.adukwai.com, reject
+ip-cidr, 118.212.136.211/32, reject
+ip-cidr, 117.168.151.76/32, reject
+ip-cidr, 120.203.230.22/32, reject
+
+host,resource.ad-scope.com.cn,reject
+host,mobads-pre-config.cdn.bcebos.com,reject
+
+
