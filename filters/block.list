@@ -49,7 +49,7 @@ host, go.mavrtracktor.com , reject
 host, s3t3d2y1.afcdn.net,reject
 host, guidepaparazzisurface.com,reject
 host, diagramjawlineunhappy.com , reject
-^https?:\/\/www\.googletagmanager\.com url reject-200
+
 host, xbbb.org , reject
 host, creative.mavrtracktor.com, reject
 host, ey43.com , reject
@@ -57,7 +57,7 @@ host, ad.parkvv.com, reject
 host, www.gstatic.com, reject
 host, fonts.googleapis.com, reject
 host, googleads.g.doubleclick.net, reject
-^https?:\/\/googleads\.g\.doubleclick\.net url reject-200
+
 host, fonts.gstatic.cn, reject
 host, *.gstatic.com , reject
 host, tpc.googlesyndication.com, reject
