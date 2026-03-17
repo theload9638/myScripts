@@ -1,4 +1,4 @@
-//version fsd39
+//version fsd40
 const url = $request.url;
 let type = $response.headers['Content-Type'] || $response.headers['content-type'];
 const stf_special_key = 'special';
@@ -45,6 +45,14 @@ if ($response.statusCode === 200 && (url.includes('html') || (type && type.inclu
     let domains = [
         'www.googletagmanager.com',
         'www.google-analytics.com',
+        'jnnmp1350.com',
+        'demandingoverdriveunthread.com',
+        'acquiredeceasedundress.com',
+        'creative.xxxvjmp.com',
+        'analytics.google.com',
+        'img.doppiocdn.com',
+        'creative.xlivrdr.com',
+        'go.xlivrdr.com',
         'wxc70.cc',
         'ads.exoclick.com',
         'pagead2.googlesyndication.com',

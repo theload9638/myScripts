@@ -9,6 +9,14 @@ host, v.adx.hubcloud.com.cn, reject
 host-suffix, bdstatic.com,reject
 
 host, pagead2.googlesyndication.com , reject
+host, img.doppiocdn.com, reject
+host, creative.xlivrdr.com,reject
+host, go.xlivrdr.com,reject
+host, analytics.google.com,reject
+host, demandingoverdriveunthread.com,reject
+host, acquiredeceasedundress.com,reject
+host, creative.xxxvjmp.com, reject
+host, jnnmp1350.com,reject
 host, www.googletagmanager.com , reject
 host, www.google-analytics.com , reject
 host, 789free.fun,reject
