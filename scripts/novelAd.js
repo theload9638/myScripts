@@ -1,4 +1,5 @@
-//version fsd42
+//version fsd43
+//use this with https://raw.githubusercontent.com/theload9638/myScripts/main/filters/block.list
 const url = $request.url;
 let type = $response.headers['Content-Type'] || $response.headers['content-type'];
 const stf_special_key = 'special';
@@ -23,6 +24,7 @@ let defaultSetting = {
     'styleStr':'',
     'bodyStr':'',
     'debug':false,
+    'preBlock':400,
     'enable_proxy':true
 };
 var settingCfg = defaultSetting;
@@ -41,6 +43,12 @@ if ($response.statusCode === 200 && (url.includes('html') || (type && type.inclu
         $done({});
         return;
     }
+    let htmLen=html.length;
+    if(htmLen<settingCfg.preBlock){
+        console.log(`pre block invalid html , size: ${htmLen} , content-length: ${$response.headers['Content-Length']||$response.headers['content-length']}`);
+        $done({});
+        return;
+    }
     const newHeaders = { ...$response.headers };
     let domains = [
         'jnnmp1350.com',
@@ -51,7 +59,6 @@ if ($response.statusCode === 200 && (url.includes('html') || (type && type.inclu
         'creative.xlivrdr.com',
         'go.xlivrdr.com',
         'wxc70.cc',
-        'ads.exoclick.com',
         'aplsof2fd.flirnapolfwemvrybhszorex.com',
         'jashd.zentaryovorvrybhstazvran.com',
         '789free.fun',
@@ -67,7 +74,6 @@ if ($response.statusCode === 200 && (url.includes('html') || (type && type.inclu
         'ad.a-ads.com',
         'jo.cashooshut.com',
         'bundlemoviepumice.com',
-        'www.clarity.ms',
         'b.clarity.ms',
         'ad.parkvv.com',
         'go.mavrtracktor.com',
@@ -125,7 +131,7 @@ if ($response.statusCode === 200 && (url.includes('html') || (type && type.inclu
         domains = domains.concat(settingCfg.domains);
     }
     const escapeRegExp = (str) => str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-    let styleStr=['ins,iframe,frame,#ad_iframe,.c835e-33_e,.float-right-daily,.exo_wrapper_show,.web-right-float-button,#exo-native-widget-5098390-adX3C,.float-right-image,.tui,.exo-native-widget,.exo-native-widget-outer-container,.group-notice,.bYtYBpFi,.tmwac,#announceinfo,.slide-ad,.recoBox2,.tuijian,.btnErrorW,.pHS5vbgQ_main_outstream,.vote-section,.root--26nWL,.bottomRight--h0VsQ,.slideAnimation--2ih2G,#comments,#comment_list,video,.comment-section,.banner_box,#opSOzAp,audio,#__copy,.subtitle-container,.ai-detection-feedback,.ad_float,.ad_list_top,#infoad,div[data-ad],.banner,.ad-body,.logo_box,.ad_encode,#ad_encode,#ad-body,#banner,.ad-video,#video-ad-ui,.copyright,.GoogleActiveViewInnerContainer,.adsbygoogle,.adsbygoogle-noablate.google-auto-placed,#ad-video,#ad-container,.adBlock,#adBlock,.ad-mob,#ad-mob,.mobile-ad,#mobile-ad,.m-ad,#m-ad,.popup,.ads,#ads,.advertisement,#advertisement,embed,object,.ad,.ad-container,.ad-wrap,#ad-wrap,.ad-box,#ad-box,#ad,.footer,#footer{display:none !important;pointer-events: none !important;}'];
+    let styleStr=['ins,iframe,frame,#guide-modal,#ad_iframe,.c835e-33_e,.float-right-daily,.exo_wrapper_show,.web-right-float-button,#exo-native-widget-5098390-adX3C,.float-right-image,.tui,.exo-native-widget,.exo-native-widget-outer-container,.group-notice,.bYtYBpFi,.tmwac,#announceinfo,.slide-ad,.recoBox2,.tuijian,.btnErrorW,.pHS5vbgQ_main_outstream,.vote-section,.root--26nWL,.bottomRight--h0VsQ,.slideAnimation--2ih2G,#comments,#comment_list,video,.comment-section,.banner_box,#opSOzAp,audio,#__copy,.subtitle-container,.ai-detection-feedback,.ad_float,.ad_list_top,#infoad,div[data-ad],.banner,.ad-body,.logo_box,.ad_encode,#ad_encode,#ad-body,#banner,.ad-video,#video-ad-ui,.copyright,.GoogleActiveViewInnerContainer,.adsbygoogle,.adsbygoogle-noablate.google-auto-placed,#ad-video,#ad-container,.adBlock,#adBlock,.ad-mob,#ad-mob,.mobile-ad,#mobile-ad,.m-ad,#m-ad,.popup,.ads,#ads,.advertisement,#advertisement,embed,object,.ad,.ad-container,.ad-wrap,#ad-wrap,.ad-box,#ad-box,#ad,.footer,#footer{display:none !important;pointer-events: none !important;}'];
     let bodyStr = '';
     let beginHeadStr = '';
     try {
@@ -165,8 +171,8 @@ if ($response.statusCode === 200 && (url.includes('html') || (type && type.inclu
                 if (/\/book\/\w+(-\w+)?(-\w+)?\.html/i.test(url)) {
                     html = html.replace(/<script\s*>[^<]*?<\/script>/g, '');
                 }
-            }else if(/https?:\/\/18comic\.(vip|ink)/.test(url)){
-                styleStr.push('.thewayhome,.top-nav,.div-bf-pv{display:none !important;pointer-events: none !important;}');
+            }else if(/https?:\/\/(18comic|jmcomic-zzz)\.(vip|ink|one)/.test(url)){
+                styleStr.push('#billboard-modal,.modal-backdrop,.thewayhome,.top-nav,.div-bf-pv{display:none !important;pointer-events: none !important;}');
                 settingCfg.block_target.push('a:has(img[src*="gif"])');
                 html=html.replace(/<a\b[^>]*>(?:(?!<\/a>).)*?<img\b[^>]*src=["'][^"']*\.gif[^"']*["'][^>]*>(?:(?!<\/a>).)*?<\/a>/gi,'');
                 html=html.replace(/<img.*?src\s*=\s*(['"])[^'"]*?\.gif[^'"]*?\1[^>]*?>/g,'');
@@ -220,7 +226,7 @@ if ($response.statusCode === 200 && (url.includes('html') || (type && type.inclu
         if (beginHeadStr) {
             html = html.replace(/<head[^>]*?>/, '<head>' + beginHeadStr);
         }
-        if (styleStr) {
+        if (styleStr && styleStr.length>0) {
             if (settingCfg.enableBgColor) {
                 styleStr.push('*{background-color: ' + settingCfg.bgColor + ' !important;background-image: none !important;color: ' + settingCfg.baseColor + ' !important; font-size: ' + settingCfg.fontSize + 'px !important;}');
             }
