@@ -1,4 +1,4 @@
-//version fsd40
+//version fsd41
 const url = $request.url;
 let type = $response.headers['Content-Type'] || $response.headers['content-type'];
 const stf_special_key = 'special';
@@ -131,7 +131,7 @@ if ($response.statusCode === 200 && (url.includes('html') || (type && type.inclu
         domains = domains.concat(settingCfg.domains);
     }
     const escapeRegExp = (str) => str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-    let styleStr = 'ins,iframe,frame,.tui,.exo-native-widget,.exo-native-widget-outer-container,.group-notice,.bYtYBpFi,.tmwac,#announceinfo,.slide-ad,.recoBox2,.tuijian,.btnErrorW,.pHS5vbgQ_main_outstream,.vote-section,.root--26nWL,.bottomRight--h0VsQ,.slideAnimation--2ih2G,#comments,#comment_list,video,.comment-section,.banner_box,#opSOzAp,audio,#__copy,.subtitle-container,.ai-detection-feedback,.ad_float,.ad_list_top,#infoad,div[data-ad],.banner,.ad-body,.logo_box,.ad_encode,#ad_encode,#ad-body,#banner,.ad-video,#video-ad-ui,.copyright,.GoogleActiveViewInnerContainer,.adsbygoogle,.adsbygoogle-noablate.google-auto-placed,#ad-video,#ad-container,.adBlock,#adBlock,.ad-mob,#ad-mob,.mobile-ad,#mobile-ad,.m-ad,#m-ad,.popup,.ads,#ads,.advertisement,#advertisement,embed,object,.ad,.ad-container,.ad-wrap,#ad-wrap,.ad-box,#ad-box,#ad,.footer,#footer{display:none !important;pointer-events: none !important;}';
+    let styleStr = 'ins,iframe,frame,.c835e-33_e,.web-right-float-button,.float-right-image,.tui,.exo-native-widget,.exo-native-widget-outer-container,.group-notice,.bYtYBpFi,.tmwac,#announceinfo,.slide-ad,.recoBox2,.tuijian,.btnErrorW,.pHS5vbgQ_main_outstream,.vote-section,.root--26nWL,.bottomRight--h0VsQ,.slideAnimation--2ih2G,#comments,#comment_list,video,.comment-section,.banner_box,#opSOzAp,audio,#__copy,.subtitle-container,.ai-detection-feedback,.ad_float,.ad_list_top,#infoad,div[data-ad],.banner,.ad-body,.logo_box,.ad_encode,#ad_encode,#ad-body,#banner,.ad-video,#video-ad-ui,.copyright,.GoogleActiveViewInnerContainer,.adsbygoogle,.adsbygoogle-noablate.google-auto-placed,#ad-video,#ad-container,.adBlock,#adBlock,.ad-mob,#ad-mob,.mobile-ad,#mobile-ad,.m-ad,#m-ad,.popup,.ads,#ads,.advertisement,#advertisement,embed,object,.ad,.ad-container,.ad-wrap,#ad-wrap,.ad-box,#ad-box,#ad,.footer,#footer{display:none !important;pointer-events: none !important;}';
     let bodyStr = '';
     let beginHeadStr = '';
     try {
@@ -172,8 +172,8 @@ if ($response.statusCode === 200 && (url.includes('html') || (type && type.inclu
                     html = html.replace(/<script\s*>[^<]*?<\/script>/g, '');
                 }
             }else if(/https?:\/\/18comic\.(vip|ink)/.test(url)){
-                styleStr +='.thewayhome,.top-nav,.div-bf-pv,.c835e-33_e,.float-right-daily,.web-right-float-button,.float-right-image{display:none !important;pointer-events: none !important;}';
-                settingCfg.enableBgColor=false;
+                styleStr +='.thewayhome,.top-nav,.div-bf-pv,.float-right-daily{display:none !important;pointer-events: none !important;}';
+                settingCfg.bgColor='#3b3f43';
                 settingCfg.block_target.push('a:has(img[src*="gif"])');
                 html=html.replace(/<a\b[^>]*>(?:(?!<\/a>).)*?<img\b[^>]*src=["'][^"']*\.gif[^"']*["'][^>]*>(?:(?!<\/a>).)*?<\/a>/gi,'');
                 html=html.replace(/<img.*?src\s*=\s*(['"])[^'"]*?\.gif[^'"]*?\1[^>]*?>/g,'');

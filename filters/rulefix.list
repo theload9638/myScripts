@@ -1,0 +1,6 @@
+# fix rule
+
+#httpdns
+IP-CIDR,203.119.206.9/24,reject
+
+
