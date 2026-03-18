@@ -9,7 +9,14 @@ host, v.adx.hubcloud.com.cn, reject
 host-suffix, bdstatic.com,reject
 host,a.magsrv.com,reject
 host,a.chnsrv.com,reject
-
+host-suffix, s4x1k5.vip, reject
+host,1820gc.sbbm8y.com,reject
+host,18e87c0802f91cf8cgc.0jphhh.com,reject
+host,18e87c0802f91cf8cgg.dpscx6.com,reject
+host-suffix,histats.com,reject
+host,21e87c0802f91cf8cgc.txmz0y.com,reject
+host,21e87c0802f91cf8cgg.lzicw0.com,reject
+host,www.googleadservices.com,reject
 
 host, pagead2.googlesyndication.com , reject
 host, fundingchoicesmessages.google.com,reject

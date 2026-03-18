@@ -1,4 +1,4 @@
-//version fsd43
+//version fsd44
 //use this with https://raw.githubusercontent.com/theload9638/myScripts/main/filters/block.list
 const url = $request.url;
 let type = $response.headers['Content-Type'] || $response.headers['content-type'];
@@ -52,6 +52,7 @@ if ($response.statusCode === 200 && (url.includes('html') || (type && type.inclu
     const newHeaders = { ...$response.headers };
     let domains = [
         'jnnmp1350.com',
+        'www.googleadservices.com',
         'demandingoverdriveunthread.com',
         'acquiredeceasedundress.com',
         'creative.xxxvjmp.com',
@@ -120,8 +121,6 @@ if ($response.statusCode === 200 && (url.includes('html') || (type && type.inclu
         'ad-body',
         '-ad',
         '-adv',
-        'Qtqi',
-        'ObJh',
         'javascript:void(0)',
         'popup',
         'collect',
