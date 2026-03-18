@@ -93,6 +93,10 @@ host, bundlemoviepumice.com , reject
 
 host-wildcard, p*-sign.douyinpic.com, reject
 host, advmonitor.tantanapp.com, reject
+host-suffix,pangolin-sdk-toutiao.com,reject
+host-suffix,gdt.qq.com,reject
+host,splash.bdstatic.com,reject
+host-suffix,gdtimg.com,reject
 host, sf3-fe-tos.pglstatp-toutiao.com, reject
 host, p66-ad.adkwai.com, reject
 host, adsmind.ugdtimg.com, reject
