@@ -7,12 +7,18 @@ host,mmgame.qpic.cn,reject
 host-wildcard,p*-ad.adukwai.com,reject
 host, v.adx.hubcloud.com.cn, reject
 host-suffix, bdstatic.com,reject
+host,a.magsrv.com,reject
+host,a.chnsrv.com,reject
+
 
 host, pagead2.googlesyndication.com , reject
+host, fundingchoicesmessages.google.com,reject
 host, img.doppiocdn.com, reject
 host, creative.xlivrdr.com,reject
 host, go.xlivrdr.com,reject
 host, analytics.google.com,reject
+host,imasdk.googleapis.com,reject
+host,assets.mintegral.com,reject
 host, demandingoverdriveunthread.com,reject
 host, acquiredeceasedundress.com,reject
 host, creative.xxxvjmp.com, reject
@@ -27,8 +33,13 @@ host, aplsof2fd.kyrvrybhsovashordoblarmek.com, reject
 host, jashd.zentaryovorvrybhstazvran.com , reject
 host, y.clarity.ms , reject
 host, yfihpfqfwa2.com, reject
+host,ad2.apx.appier.net,reject
 host, cd.ladsp.com , reject
+host, cdnpf.com,reject
+host,ad.holmesmind.com,reject
+host,cdn.holmesmind.com,reject
 host, media.pubfuture.com , reject
+host,securepubads.g.doubleclick.net,reject
 host, cdn.pubfuture-ad.com, reject
 host, jo.cashooshut.com, reject
 host, ad.a-ads.com , reject
@@ -36,7 +47,6 @@ host-suffix, txmz0y.com, reject
 host-suffix, lzicw0.com, reject
 host-suffix, 8tlzg5.com, reject
 host, jl00.jkugbfvh.icu, reject
-host, cdn.pubfuture-ad.com,reject
 host, ad.tagtoo.co , reject
 host, adc.tamedia.com.tw,reject
 host, 2.mis2662.cc, reject
