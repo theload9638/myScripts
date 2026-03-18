@@ -1,4 +1,4 @@
-//version fsd45
+//version fsd46
 //use this with https://raw.githubusercontent.com/theload9638/myScripts/main/filters/block.list
 const url = $request.url;
 let type = $response.headers['Content-Type'] || $response.headers['content-type'];
@@ -10,22 +10,22 @@ let defaultSetting = {
     'scroll_speed': 1.2,
     'scroll_delay': 2000,
     'block_times': 50,
-    'block_target':['IMG','VIDEO','IFRAME','OBJECT','EMBED','AUDIO','PICTURE','SOURCE','SVG','IMAGE','FRAME','INS'],
-    'block_selectors':['*[style*="opacity"]','*[style*="background"]','*[style*="z-index"]','*[style*="display"]','*[style*="margin: 0px"]','*[style*="padding: 0px"]'],
-    'prev_texts': ['上一章', '上一页', '上一章节', '上一篇','上一话'],
-    'next_texts': ['下一章', '下一页', '下一章节', '下一篇','下一话'],
+    'block_target': ['IMG', 'VIDEO', 'IFRAME', 'OBJECT', 'EMBED', 'AUDIO', 'PICTURE', 'SOURCE', 'SVG', 'IMAGE', 'FRAME', 'INS'],
+    'block_selectors': ['*[style*="opacity"]', '*[style*="background"]', '*[style*="z-index"]', '*[style*="display"]', '*[style*="margin: 0px"]', '*[style*="padding: 0px"]'],
+    'prev_texts': ['上一章', '上一页', '上一章节', '上一篇', '上一话'],
+    'next_texts': ['下一章', '下一页', '下一章节', '下一篇', '下一话'],
     'dir_texts': ['目录', '全部章节', '章节目录'],
     'pnd_doms': ['a', 'button', 'div'],
-    'fontSize':11,
-    'baseColor':'#e7e9eb',
-    'bgColor':'#242628',
-    'enableBgColor':true,
-    'domains':[],
-    'styleStr':'',
-    'bodyStr':'',
-    'debug':false,
-    'preBlock':400,
-    'enable_proxy':true
+    'fontSize': 11,
+    'baseColor': '#e7e9eb',
+    'bgColor': '#242628',
+    'enableBgColor': true,
+    'domains': [],
+    'styleStr': '',
+    'bodyStr': '',
+    'debug': false,
+    'preBlock': 400,
+    'enable_proxy': true
 };
 var settingCfg = defaultSetting;
 let dsJson = $prefs.valueForKey('qx-fw-dfs_');
@@ -43,9 +43,9 @@ if ($response.statusCode === 200 && (url.includes('html') || (type && type.inclu
         $done({});
         return;
     }
-    let htmLen=html.length;
-    if(htmLen<settingCfg.preBlock){
-        console.log(`pre block invalid html , size: ${htmLen} , content-length: ${$response.headers['Content-Length']||$response.headers['content-length']}`);
+    let htmLen = html.length;
+    if (htmLen < settingCfg.preBlock) {
+        console.log(`pre block invalid html , size: ${htmLen} , content-length: ${$response.headers['Content-Length'] || $response.headers['content-length']}`);
         $done({});
         return;
     }
@@ -126,11 +126,11 @@ if ($response.statusCode === 200 && (url.includes('html') || (type && type.inclu
         'collect',
         'analysis'
     ];
-    if(settingCfg.domains.length>0){
+    if (settingCfg.domains.length > 0) {
         domains = domains.concat(settingCfg.domains);
     }
     const escapeRegExp = (str) => str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-    let styleStr=['ins,iframe,frame,img[src*=".gif"],#guide-modal,#ad_iframe,.c835e-33_e,.float-right-daily,.exo_wrapper_show,.web-right-float-button,#exo-native-widget-5098390-adX3C,.float-right-image,.tui,.exo-native-widget,.exo-native-widget-outer-container,.group-notice,.bYtYBpFi,.tmwac,#announceinfo,.slide-ad,.recoBox2,.tuijian,.btnErrorW,.pHS5vbgQ_main_outstream,.vote-section,.root--26nWL,.bottomRight--h0VsQ,.slideAnimation--2ih2G,#comments,#comment_list,video,.comment-section,.banner_box,#opSOzAp,audio,#__copy,.subtitle-container,.ai-detection-feedback,.ad_float,.ad_list_top,#infoad,div[data-ad],.banner,.ad-body,.logo_box,.ad_encode,#ad_encode,#ad-body,#banner,.ad-video,#video-ad-ui,.copyright,.GoogleActiveViewInnerContainer,.adsbygoogle,.adsbygoogle-noablate.google-auto-placed,#ad-video,#ad-container,.adBlock,#adBlock,.ad-mob,#ad-mob,.mobile-ad,#mobile-ad,.m-ad,#m-ad,.popup,.ads,#ads,.advertisement,#advertisement,embed,object,.ad,.ad-container,.ad-wrap,#ad-wrap,.ad-box,#ad-box,#ad,.footer,#footer{display:none !important;pointer-events: none !important;}'];
+    let styleStr = ['ins,iframe,frame,a:has(img[src*="gif"]),img[src*=".gif"],#guide-modal,#ad_iframe,.c835e-33_e,.float-right-daily,.exo_wrapper_show,.web-right-float-button,#exo-native-widget-5098390-adX3C,.float-right-image,.tui,.exo-native-widget,.exo-native-widget-outer-container,.group-notice,.bYtYBpFi,.tmwac,#announceinfo,.slide-ad,.recoBox2,.tuijian,.btnErrorW,.pHS5vbgQ_main_outstream,.vote-section,.root--26nWL,.bottomRight--h0VsQ,.slideAnimation--2ih2G,#comments,#comment_list,video,.comment-section,.banner_box,#opSOzAp,audio,#__copy,.subtitle-container,.ai-detection-feedback,.ad_float,.ad_list_top,#infoad,div[data-ad],.banner,.ad-body,.logo_box,.ad_encode,#ad_encode,#ad-body,#banner,.ad-video,#video-ad-ui,.copyright,.GoogleActiveViewInnerContainer,.adsbygoogle,.adsbygoogle-noablate.google-auto-placed,#ad-video,#ad-container,.adBlock,#adBlock,.ad-mob,#ad-mob,.mobile-ad,#mobile-ad,.m-ad,#m-ad,.popup,.ads,#ads,.advertisement,#advertisement,embed,object,.ad,.ad-container,.ad-wrap,#ad-wrap,.ad-box,#ad-box,#ad,.footer,#footer{display:none !important;pointer-events: none !important;}'];
     let bodyStr = '';
     let beginHeadStr = '';
     try {
@@ -154,9 +154,6 @@ if ($response.statusCode === 200 && (url.includes('html') || (type && type.inclu
                 }
             } else if (/^https?:\/\/m\.diyibanzhu\.(me|rest)/.test(url)) {
                 settingCfg.auto_block_ad = true;
-                if (url.includes('action=article')) {
-                    styleStr.push('.header{display:none !important;pointer-events: none !important;}');
-                }
             } else if (url.includes('www.novel543.com')) {
                 if (/\/\d+(\/)?(dir)?$/.test(url)) {
                     styleStr.push('.mt-3,aside,.sidebar,.is-9{display:none !important;pointer-events: none !important;}');
@@ -170,15 +167,13 @@ if ($response.statusCode === 200 && (url.includes('html') || (type && type.inclu
                 if (/\/book\/\w+(-\w+)?(-\w+)?\.html/i.test(url)) {
                     html = html.replace(/<script\s*>[^<]*?<\/script>/g, '');
                 }
-            }else if(/https?:\/\/(18comic|jmcomic-zzz)\.(vip|ink|one)/.test(url)){
+            } else if (/https?:\/\/(18comic|jmcomic-zzz)\.(vip|ink|one)/.test(url)) {
                 styleStr.push('#billboard-modal,.modal-backdrop,.thewayhome,.top-nav,.div-bf-pv{display:none !important;pointer-events: none !important;}');
                 settingCfg.block_target.push('a:has(img[src*="gif"])');
-                html=html.replace(/<a\b[^>]*>(?:(?!<\/a>).)*?<img\b[^>]*src=["'][^"']*\.gif[^"']*["'][^>]*>(?:(?!<\/a>).)*?<\/a>/gi,'');
-                html=html.replace(/<img.*?src\s*=\s*(['"])[^'"]*?\.gif[^'"]*?\1[^>]*?>/g,'');
             }
         } else {
-            utf8Flag=false;
-            html=new TextDecoder(charset, { fatal: false, ignoreBOM: true }).decode(new Uint8Array($response.bodyBytes));
+            utf8Flag = false;
+            html = new TextDecoder(charset, { fatal: false, ignoreBOM: true }).decode(new Uint8Array($response.bodyBytes));
 
             styleStr.push('#Image,#onclickshowdiv,#smx_wrap,#aswift_9,#aswift_9_host{display:none !important;pointer-events: none !important;} .infos{color:#78867e !important;}');
             html = html.replace(charset, 'utf-8');
@@ -197,14 +192,16 @@ if ($response.statusCode === 200 && (url.includes('html') || (type && type.inclu
                 }
             }
         }
-        html = html.replace(/<(ins|object|embed|iframe|frame)[^>]*?>[\s\S]*?<\/\1>/gi, '');
+        if (html.includes('<iframe') ||html.includes('<ins') || html.includes('<embed') || html.includes('<object')) {
+            html = html.replace(/<(ins|object|embed|iframe|frame)[^>]*?>[\s\S]*?<\/\1>/gi, '');
+        }
         html = html.replace(/alert\(/g, "//");
 
-        domains.map(escapeRegExp).forEach(domain => {
-            html = html.replace(new RegExp(`<([a-zA-Z0-9]+)\\s+[^>]*?(src|href|class|id)\\s*=\\s*(['"])[^'"]*?${domain}[^'"]*?\\3[^>]*?>`, 'gi'), '<$1 style="display:none !important;pointer-events: none !important;">');
-        });
+        const domainsPattern = domains.map(escapeRegExp).join('|');
+        html = html.replace(new RegExp(`<([a-zA-Z0-9]+)\\s+[^>]*?(src|href|class|id)\\s*=\\s*(['"])[^'"]*?(?:${domainsPattern})[^'"]*?\\3[^>]*?>`, 'gi'), '<$1 style="display:none !important;pointer-events: none !important;">');
         html = html.replace(/<([a-zA-Z0-9]+)\s+[^>]*?(src|href)\s*=\s*(['"])[^'"]*?\/\/\d+[a-z]+\.[a-z]+(\.(cc|com|xyz|net|org):?)?[^'"]*?\3[^>]*?>/gi, '<$1 style="display:none !important;pointer-events: none !important;">');
-        if(settingCfg.enable_proxy){
+
+        if (settingCfg.enable_proxy) {
             configProxy();
         }
         try {
@@ -214,7 +211,7 @@ if ($response.statusCode === 200 && (url.includes('html') || (type && type.inclu
         } catch (e) {
             console.log('fail apply floaty window : ' + e.message);
         }
-        if(settingCfg.bodyStr){
+        if (settingCfg.bodyStr) {
             bodyStr += settingCfg.bodyStr;
         }
         if (bodyStr) {
@@ -224,21 +221,21 @@ if ($response.statusCode === 200 && (url.includes('html') || (type && type.inclu
         if (beginHeadStr) {
             html = html.replace(/<head[^>]*?>/, '<head>' + beginHeadStr);
         }
-        if (styleStr && styleStr.length>0) {
+        if (styleStr && styleStr.length > 0) {
             if (settingCfg.enableBgColor) {
                 styleStr.push('*{background-color: ' + settingCfg.bgColor + ' !important;background-image: none !important;color: ' + settingCfg.baseColor + ' !important; font-size: ' + settingCfg.fontSize + 'px !important;}');
             }
-            if(settingCfg.styleStr){
+            if (settingCfg.styleStr) {
                 styleStr.push(settingCfg.styleStr);
             }
-            const finallySty=styleStr.join('');
-            html = html.replace(/<\/head>/, '<style>'+finallySty+'</style></head>');
+            const finallySty = styleStr.join('');
+            html = html.replace(/<\/head>/, '<style>' + finallySty + '</style></head>');
         }
         newHeaders["Cross-Origin-Embedder-Policy"] = "unsafe-none";
         newHeaders["Cross-Origin-Opener-Policy"] = "unsafe-none";
         newHeaders["Cross-Origin-Resource-Policy"] = "cross-origin";
         newHeaders["X-Frame-Options"] = "DENY";
-        if(settingCfg.debug){
+        if (settingCfg.debug) {
             console.log(`\ncharset: ${charset} \n headers: ${JSON.stringify(newHeaders)}\n`);
         }
         if (!utf8Flag) {
@@ -256,23 +253,23 @@ if ($response.statusCode === 200 && (url.includes('html') || (type && type.inclu
     $done({});
     return;
 }
-function configProxy(){
+function configProxy() {
     let spObj = settingCfg[stf_special_key];
-    if(spObj && typeof spObj === 'object' && Object.keys(spObj).length>0){
+    if (spObj && typeof spObj === 'object' && Object.keys(spObj).length > 0) {
         let ul = new URL($request.url);
         let host = ul.host || ul.hostname;
         let curHost_obj = spObj[host];
-        if(curHost_obj && typeof curHost_obj==='object' && Object.keys(curHost_obj).length>0){
+        if (curHost_obj && typeof curHost_obj === 'object' && Object.keys(curHost_obj).length > 0) {
             let cfg_ks = Object.keys(defaultSetting);
             let px_cgd = false;
-            for(let nm of cfg_ks){
+            for (let nm of cfg_ks) {
                 let vl = curHost_obj[nm];
-                if(vl){
+                if (vl) {
                     px_cgd = true;
-                    settingCfg[nm]=vl;
+                    settingCfg[nm] = vl;
                 }
             }
-            if(settingCfg.debug && px_cgd){
+            if (settingCfg.debug && px_cgd) {
                 console.log(`config is changed by ${host}`);
             }
         }
@@ -282,7 +279,7 @@ function applyFloatyW(html) {
     let pnObj = calcPrvANex(html);
     calcFwSearchParam();
     let cn = '<div class="qx-qw qx-qw-right"><div class="qx-main"><span>K</span></div><div class="qx-btn qx-btn-prv"><span>上页</span></div><div class="qx-btn qx-btn-setting"><span>设置</span></div><div class="qx-btn qx-btn-dir"><span>目录</span></div><div class="qx-btn qx-btn-nxt"><span>下页</span></div></div>';
-    cn +=`<div class="qx-qw-setting-box"><div class="qx-qw-setting-layout"><div class="qx-qw-setting-head"><h3>设置</h3><button type="button"class="qx-fw-setting-close">×</button></div><div class="qx-qw-sl-box"><div class="qx-qw-setting-line"><span>自动下一章</span><input type="checkbox"${settingCfg.auto_nxt?' checked="1" ':' '}id="qxSetCkIP"><label for="qxSetCkIP"class="qxSetingtoggleSwitch"></label></div><div class="qx-qw-setting-line"><span>强力拦截广告</span><input type="checkbox"${settingCfg.auto_block_ad?' checked="1" ':' '}id="qxSetCkIP1"><label for="qxSetCkIP1"class="qxSetingtoggleSwitch"></label></div><div class="qx-qw-setting-line"><span>自动滚动</span><input type="checkbox"${settingCfg.auto_scroll?'checked="1"':''}id="qxSetCkIP2"><label for="qxSetCkIP2"class="qxSetingtoggleSwitch"></label></div><div class="qx-qw-setting-line"><button class="qx-qw-st-copy">复制源码</button></div></div><div class="qx-qw-setting-line"><span class="qx-qw-btn-close">关闭</span></div></div></div>`;
+    cn += `<div class="qx-qw-setting-box"><div class="qx-qw-setting-layout"><div class="qx-qw-setting-head"><h3>设置</h3><button type="button"class="qx-fw-setting-close">×</button></div><div class="qx-qw-sl-box"><div class="qx-qw-setting-line"><span>自动下一章</span><input type="checkbox"${settingCfg.auto_nxt ? ' checked="1" ' : ' '}id="qxSetCkIP"><label for="qxSetCkIP"class="qxSetingtoggleSwitch"></label></div><div class="qx-qw-setting-line"><span>强力拦截广告</span><input type="checkbox"${settingCfg.auto_block_ad ? ' checked="1" ' : ' '}id="qxSetCkIP1"><label for="qxSetCkIP1"class="qxSetingtoggleSwitch"></label></div><div class="qx-qw-setting-line"><span>自动滚动</span><input type="checkbox"${settingCfg.auto_scroll ? 'checked="1"' : ''}id="qxSetCkIP2"><label for="qxSetCkIP2"class="qxSetingtoggleSwitch"></label></div><div class="qx-qw-setting-line"><button class="qx-qw-st-copy">复制源码</button></div></div><div class="qx-qw-setting-line"><span class="qx-qw-btn-close">关闭</span></div></div></div>`;
     let scp = '<script>(function(){';
     scp += `let container=document.querySelector('.qx-qw');let settingContainer=document.querySelector('.qx-qw-setting-box');let ctCls=document.querySelector('.qx-qw-btn-close');ctCls.addEventListener('click',function(e){window.confirm("确定要关闭悬浮窗吗?")&&(container.style.display="none")});let settingCfg={'auto_nxt':${settingCfg.auto_nxt},'auto_block_ad':${settingCfg.auto_block_ad},'auto_scroll':${settingCfg.auto_scroll}};let nxt_timerId=null;let obv_nxt=null;const AutoScroller={speed:${settingCfg.scroll_speed},interval:16,delay:${settingCfg.scroll_delay},delayTimer:null,running:false,rafId:null,lastTime:0,start(options={}){if(this.running||this.delayTimer){return}if(options.speed){this.speed=options.speed}if(options.interval){this.interval=options.interval}if(options.delay!==undefined){this.delay=options.delay}this.delayTimer=setTimeout(()=>{this.running=true;this.lastTime=performance.now();this.loop()},this.delay)},stop(){this.running=false;if(this.rafId){cancelAnimationFrame(this.rafId);this.rafId=null}if(this.delayTimer){clearTimeout(this.delayTimer);this.delayTimer=null}},toggle(){(this.running||this.delayTimer)?this.stop():this.start()},setSpeed(newSpeed){this.speed=newSpeed},loop(){if(!this.running)return;const now=performance.now();const delta=now-this.lastTime;if(delta>=this.interval){this.lastTime=now;const scrollTop=window.scrollY;const maxScroll=document.documentElement.scrollHeight-window.innerHeight;if(scrollTop>=maxScroll){this.stop();return}window.scrollBy(0,this.speed)}this.rafId=requestAnimationFrame(()=>this.loop())}};if(settingCfg.auto_nxt){let cs='${pnObj.next}';if(typeof cs!="string"||cs==='undefined'||cs==='null'){}else{let nxt_btn=document.querySelector(cs);obv_nxt=new IntersectionObserver(changes=>{if(changes&&changes.length>0&&!nxt_timerId){let changeEntry=changes[0];if(changeEntry.isIntersecting){nxt_timerId=setTimeout(()=>{clearTimeout(nxt_timerId);nxt_btn&&nxt_btn.click()},500)}}},{threshold:1});if(nxt_btn){obv_nxt.observe(nxt_btn)}}}if(settingCfg.auto_scroll){AutoScroller.start()}`;
     scp += `const KillRender={initialize:false,running:false,rafId:null,count:0,times:${settingCfg.block_times},observer:null,TAGS:new Set(${JSON.stringify(settingCfg.block_target)}),SELECTORS:${JSON.stringify(settingCfg.block_selectors)},ALL_SELECTORS: [...${JSON.stringify(settingCfg.block_target)}, ...${JSON.stringify(settingCfg.block_selectors)}].join(','),removeIfTarget(node){if(node.nodeType!==1)return;if(this.TAGS.has(node.tagName)){node.remove();return}if(node.matches&&this.SELECTORS.some(sel=>node.matches(sel))){node.remove();return}if(node.querySelectorAll){node.querySelectorAll(this.ALL_SELECTORS).forEach(el=>el.remove())}},cleanStyleSheets(){for(const sheet of document.styleSheets){let rules;try{rules=sheet.cssRules}catch(e){continue}if(!rules)continue;for(let i=rules.length-1;i>=0;i--){const rule=rules[i];if(rule.style&&rule.style.backgroundImage&&rule.style.backgroundImage.includes('url')){rule.style.backgroundImage='none'}}}},sweep(){document.querySelectorAll(this.ALL_SELECTORS).forEach(el=>el.remove());this.cleanStyleSheets()},loop(){if(!this.running)return;this.sweep();this.count++;if(this.count>=this.times){this.stop();return}this.rafId=requestAnimationFrame(()=>this.loop())},initObserver(){this.observer=new MutationObserver(mutations=>{for(const m of mutations){for(const node of m.addedNodes){this.removeIfTarget(node)}}});this.observer.observe(document.documentElement,{childList:true,subtree:true})},hookDOMInsert(){const methods=['appendChild','insertBefore','replaceChild'];methods.forEach(method=>{const original=Node.prototype[method];Node.prototype[method]=function(...args){const node=args[0];if(node&&node.tagName&&KillRender.TAGS.has(node.tagName)){return node}return original.apply(this,args)}})},hookCanvas(){const originalGetContext=HTMLCanvasElement.prototype.getContext;HTMLCanvasElement.prototype.getContext=new Proxy(originalGetContext,{apply(target,thisArg,args){const type=args[0];if(type==='2d'||type==='webgl'||type==='webgl2'||type==='experimental-webgl'){return null}return Reflect.apply(target,thisArg,args)}})},hookDark(){const isAllowed=(url)=>{const targetUrl=new URL(url,window.location.href);const targetDomain=targetUrl.hostname;return window.location.hostname===targetDomain||targetDomain.endsWith('.'+window.location.hostname)};const originalOpen=window.open;window.open=function(url,...args){if(url&&isAllowed(url)){return originalOpen.call(window,url,...args)}return false};document.addEventListener('click',function(e){if(e.target.nodeName==='A'&&e.target.href){if(!isAllowed(e.target.href)){e.preventDefault();e.stopPropagation();e.target.remove()}}},true)},start(){if(this.running){return}if(!this.initialize){this.hookDark();this.hookDOMInsert();this.hookCanvas();this.initialize=true}this.running=true;this.initObserver();this.count=0;this.loop()},stop(){this.running=false;if(this.rafId){cancelAnimationFrame(this.rafId);this.rafId=null}if(this.observer){this.observer.disconnect();this.observer=null}}};`;
@@ -389,7 +386,7 @@ function calcQWStyle() {
     tmpStr += `#qxSetCkIP1:checked+.qxSetingtoggleSwitch::after{transform:translateX(100%);transition-duration:.2s;background-color:white}#qxSetCkIP1:checked+.qxSetingtoggleSwitch{background-color:rgb(148,118,255) !important;transition-duration:.2s}`;
     tmpStr += `#qxSetCkIP2{display:none !important}#qxSetCkIP2:checked+.qxSetingtoggleSwitch::after{transform:translateX(100%);transition-duration:.2s;background-color:white}#qxSetCkIP2:checked+.qxSetingtoggleSwitch{background-color:rgb(148,118,255) !important;transition-duration:.2s}`;
     tmpStr += `.qx-qw-st-copy{width:50%;min-height:25px;max-height:25px;padding:5px;border:none;outline:none;border-radius:0.4rem;cursor:pointer;text-transform:uppercase;background-color:rgb(14,14,26) !important;color:rgb(234,234,234) !important;font-weight:700;box-shadow:0px 0px 60px #1f4c65;-webkit-box-reflect:below 10px linear-gradient(to bottom,rgba(0,0,0,0.0),rgba(0,0,0,0.4))}`;
-    
+
     let v1 = size - 1;
     let v2 = 180 / v1;
     let v4 = 0;
