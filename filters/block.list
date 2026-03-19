@@ -7,6 +7,7 @@ host,mmgame.qpic.cn,reject
 host-wildcard,p*-ad.adukwai.com,reject
 host, v.adx.hubcloud.com.cn, reject
 host-suffix, bdstatic.com,reject
+host-suffix,realsrv.com,reject
 host,a.magsrv.com,reject
 host-suffix,chnsrv.com,reject
 host-suffix, s4x1k5.vip, reject
