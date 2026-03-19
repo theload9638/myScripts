@@ -1,5 +1,9 @@
-//version fsd47
-//https://raw.githubusercontent.com/theload9638/myScripts/main/filters/block.list
+/**
+ * version fsd48
+ * createBy： theload9638
+ * 配合使用 https://raw.githubusercontent.com/theload9638/myScripts/main/filters/block.list
+ * Quantumultx 网页去广告,支持部分小说/漫画,内置悬浮窗
+ */
 const url = $request.url;
 let type = $response.headers['Content-Type'] || $response.headers['content-type'];
 const stf_special_key = 'special';
@@ -167,7 +171,7 @@ if ($response.statusCode === 200 && (url.includes('html') || (type && type.inclu
                 if (/\/book\/\w+(-\w+)?(-\w+)?\.html/i.test(url)) {
                     html = html.replace(/<script\s*>[^<]*?<\/script>/g, '');
                 }
-            } else if (/https?:\/\/(18comic|jmcomic-zzz)\.(vip|ink|one)/.test(url)) {
+            } else if (/https?:\/\/(18comic|jmcomic-zzz)\.(vip|ink|one|org)/.test(url)) {
                 styleStr.push('#billboard-modal,.modal-backdrop,.thewayhome,.top-nav,.div-bf-pv{display:none !important;pointer-events: none !important;}');
             }
         } else {
