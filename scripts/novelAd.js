@@ -1,5 +1,5 @@
-//version fsd46
-//use this with https://raw.githubusercontent.com/theload9638/myScripts/main/filters/block.list
+//version fsd47
+//https://raw.githubusercontent.com/theload9638/myScripts/main/filters/block.list
 const url = $request.url;
 let type = $response.headers['Content-Type'] || $response.headers['content-type'];
 const stf_special_key = 'special';
@@ -152,7 +152,7 @@ if ($response.statusCode === 200 && (url.includes('html') || (type && type.inclu
                 if (url.includes('act=threadview')) {
                     html = html.replace(/<div\s*class=\"ad-container\">(.*?)<div\s*class=\"main-content\">/s, '<div class="main-content">');
                 }
-            } else if (/^https?:\/\/m\.diyibanzhu\.(me|rest)/.test(url)) {
+            } else if (url.includes('m.diyibanzhu')) {
                 settingCfg.auto_block_ad = true;
             } else if (url.includes('www.novel543.com')) {
                 if (/\/\d+(\/)?(dir)?$/.test(url)) {
@@ -169,7 +169,6 @@ if ($response.statusCode === 200 && (url.includes('html') || (type && type.inclu
                 }
             } else if (/https?:\/\/(18comic|jmcomic-zzz)\.(vip|ink|one)/.test(url)) {
                 styleStr.push('#billboard-modal,.modal-backdrop,.thewayhome,.top-nav,.div-bf-pv{display:none !important;pointer-events: none !important;}');
-                settingCfg.block_target.push('a:has(img[src*="gif"])');
             }
         } else {
             utf8Flag = false;
@@ -179,10 +178,10 @@ if ($response.statusCode === 200 && (url.includes('html') || (type && type.inclu
             html = html.replace(charset, 'utf-8');
             html = html.replace(/<script[^>]*?src=\"\/skin\/default\/js\/(tongji|googgg|goge|gls|socre|print_start|goooge)\.js\"[^>]*?>/g, '<>');
 
-            if (/^https?:\/\/(www\.)?tongrenquan\.org/.test(url)
-                || /^https?:\/\/tongrenshe\.cc/.test(url)
-                || /^https?:\/\/(www\.)?trxs\.cc/.test(url)
-                || /^https?:\/\/www\.qbtr\.cc/.test(url)
+            if (url.includes('tongrenquan.org')
+                || url.includes('tongrenshe.cc')
+                || url.includes('trxs.cc')
+                || url.includes('www.qbtr.cc')
             ) {
                 if (/[a-zA-Z_]+\/\d+\.html/.test(url)) {
                     html = html.replace(/<div\s*class=\"head\">(.*)?<div\s*class=\"readContent\">/s, '<div class="readContent">');
@@ -192,7 +191,7 @@ if ($response.statusCode === 200 && (url.includes('html') || (type && type.inclu
                 }
             }
         }
-        if (html.includes('<iframe') ||html.includes('<ins') || html.includes('<embed') || html.includes('<object')) {
+        if (html.includes('<iframe') || html.includes('<ins') || html.includes('<embed') || html.includes('<object')) {
             html = html.replace(/<(ins|object|embed|iframe|frame)[^>]*?>[\s\S]*?<\/\1>/gi, '');
         }
         html = html.replace(/alert\(/g, "//");
