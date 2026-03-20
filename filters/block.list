@@ -70,6 +70,7 @@ host,imasdk.googleapis.com,reject
 host,assets.mintegral.com,reject
 host, demandingoverdriveunthread.com,reject
 host, acquiredeceasedundress.com,reject
+host, www.clickadu.com, reject
 host, creative.xxxvjmp.com, reject
 host, jnnmp1350.com,reject
 host, www.googletagmanager.com , reject

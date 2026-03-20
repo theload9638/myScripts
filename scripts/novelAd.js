@@ -1,8 +1,9 @@
 /**
- * version fsd50
+ * version fsd51
  * createBy： theload9638
  * 配合使用 https://raw.githubusercontent.com/theload9638/myScripts/main/filters/block.list
  * Quantumultx|网页去广告,支持部分小说/漫画
+ * 配合settingCfg自定义页面去广告规则
  * 内置悬浮窗
  *   - 上页/目录/下页/设置
  *   - 支持自动向下滚动/自动下一页(部分页面)/强力杀广告
@@ -62,7 +63,6 @@ if ($response.statusCode === 200 && (url.includes('html') || (type && type.inclu
     let domains = [
         'jnnmp1350.com',
         'www.googleadservices.com',
-        'demandingoverdriveunthread.com',
         'acquiredeceasedundress.com',
         'creative.xxxvjmp.com',
         'img.doppiocdn.com',
@@ -84,7 +84,6 @@ if ($response.statusCode === 200 && (url.includes('html') || (type && type.inclu
         'ad.a-ads.com',
         'jo.cashooshut.com',
         'bundlemoviepumice.com',
-        'b.clarity.ms',
         'ad.parkvv.com',
         'go.mavrtracktor.com',
         'creative.mavrtracktor.com',
@@ -110,7 +109,6 @@ if ($response.statusCode === 200 && (url.includes('html') || (type && type.inclu
         '3e87c0802f91cf8cgg.lzicw0.com',
         'jl00.jkugbfvh.icu',
         '.tagtoo.co',
-        'y.clarity.ms',
         'pos.baidu.com',
         'wn.pos.baidu.com',
         'cpro.baidustatic.com',
@@ -246,7 +244,7 @@ if ($response.statusCode === 200 && (url.includes('html') || (type && type.inclu
             $done({ headers: newHeaders, body: html });
         }
     } catch (e) {
-        console.log(`novel adBlock Error: ${e.message}`);
+        console.log(`Run Error: ${e.message}`);
         $done({});
     }
 } else {
