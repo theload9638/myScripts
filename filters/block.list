@@ -1,11 +1,38 @@
 # ad or boring game web by dns clear
+# 使用分流直接从dns层面拦截所有广告
 
+
+host,a.pemsrv.com,reject
+host,go.reebr.com,reject
+host,go.rmhfrtnd.com,reject
+host,a.opoxv.com,reject
+host,s.opoxv.com,reject
+host-suffix,orbsrv.com,reject
+host,monkey.cszpra.com,reject
+host,fans.91selfie.com,reject
+host,tutu.ta76h13tz091bpcr.com,reject
+host,hongniu.ewytek.com,reject
+host,txdy.vsamhos.com,reject
+host,img.alicdn.com,reject
+host,l.erodalabs.com,reject
+host,frozenpayerpregnant.com,reject
+host,creative.bluetrafficstream.com,reject
+host,go.bluetrafficstream.com,reject
+host,poweredby.jads.co,reject
+host,adserver.juicyads.com,reject
+host,ads.juicyads.com,reject
+host,s.dszjza.com,reject
+host,darnobedienceupscale.com,reject
+host,chaseherbalpasty.com,reject
+host-suffix,ra12.xyz,reject
 host,mmgame.qpic.cn,reject
 
-#ad
-
+host,abe.sdhshut.com,reject
+host,star.xfztgxt.com,reject
+host,mobads.baidu.com,reject
+host,mobads-logs.baidu.com,reject
 host-wildcard,p*-ad.adukwai.com,reject
-host, v.adx.hubcloud.com.cn, reject
+host,v.adx.hubcloud.com.cn, reject
 host-suffix, bdstatic.com,reject
 host-suffix,realsrv.com,reject
 host,a.magsrv.com,reject

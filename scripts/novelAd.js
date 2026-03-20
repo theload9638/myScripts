@@ -1,8 +1,8 @@
 /**
- * version fsd48
+ * version fsd49
  * createBy： theload9638
  * 配合使用 https://raw.githubusercontent.com/theload9638/myScripts/main/filters/block.list
- * Quantumultx 网页去广告,支持部分小说/漫画,内置悬浮窗
+ * Quantumultx|网页去广告,支持部分小说/漫画,内置悬浮窗
  */
 const url = $request.url;
 let type = $response.headers['Content-Type'] || $response.headers['content-type'];

@@ -1,5 +1,10 @@
 # fix rule
 
+# 
+host-suffix,kuaishouzt.com,direct
+host,www.yckceo.com,proxy
+host,www.bing.com,direct
+
 #httpdns
 
 IP-CIDR,203.119.206.9/24,reject
