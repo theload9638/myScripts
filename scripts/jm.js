@@ -1,3 +1,6 @@
+/**
+ * Jm去广告,超级净化,支持App和网页版
+ */
 const url = $request.url;
 
 if (url.includes('/ad_template')) {

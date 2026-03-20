@@ -1,8 +1,13 @@
 /**
- * version fsd49
+ * version fsd50
  * createBy： theload9638
  * 配合使用 https://raw.githubusercontent.com/theload9638/myScripts/main/filters/block.list
- * Quantumultx|网页去广告,支持部分小说/漫画,内置悬浮窗
+ * Quantumultx|网页去广告,支持部分小说/漫画
+ * 内置悬浮窗
+ *   - 上页/目录/下页/设置
+ *   - 支持自动向下滚动/自动下一页(部分页面)/强力杀广告
+ *   - webStoragePreviewUI开发中
+ *   - webDebugUI开发中
  */
 const url = $request.url;
 let type = $response.headers['Content-Type'] || $response.headers['content-type'];
@@ -43,7 +48,7 @@ if (dsJson) {
 if ($response.statusCode === 200 && (url.includes('html') || (type && type.includes("text")))) {
     let html = $response.body;
     if (!html) {
-        console.log(`${url}  / result empty`);
+        console.log('result empty');
         $done({});
         return;
     }
@@ -90,7 +95,7 @@ if ($response.statusCode === 200 && (url.includes('html') || (type && type.inclu
         'www.interactivebrokers.com',
         'www.lovedate.cc',
         '29782a430255d79f2wap.jigool.org',
-        's.magsrv.com',
+        's.click.aliexpress.com',
         's3t3d2y1.afcdn.net',
         '29628kldxjjs.eyiyoxz.xyz',
         '29628odxjccp.nszzkeh.com',
@@ -106,7 +111,6 @@ if ($response.statusCode === 200 && (url.includes('html') || (type && type.inclu
         'jl00.jkugbfvh.icu',
         '.tagtoo.co',
         'y.clarity.ms',
-        'adc.tamedia.com.tw',
         'pos.baidu.com',
         'wn.pos.baidu.com',
         'cpro.baidustatic.com',
@@ -147,9 +151,7 @@ if ($response.statusCode === 200 && (url.includes('html') || (type && type.inclu
             charset = charset.trim();
         }
         if (/utf-?8/i.test(charset) || charset.toLowerCase().startsWith('utf')) {
-            if (url.includes('hlib.cc')) {
-                styleStr.push('#suggest,#rnlist,.container-xl{display:none !important;pointer-events: none !important;}');
-            } else if (/^https?:\/\/www\.uaa(.*?)\.com/.test(url)) {
+            if (/^https?:\/\/www\.uaa(.*?)\.com/.test(url)) {
                 styleStr.push('.balance_insufficient_dialog_box,.note_box,.foot_box,.shortcut_box,.swiper-wrapper,.swiper-button-prev,.swiper-button-next,.place_holder_box,.dmca_box{display:none !important;pointer-events: none !important;}');
             } else if (url.includes('www.cool18.com')) {
                 styleStr.push('.bottom-nav,.post-list,.view-gift,.view_tools_box{display:none !important;pointer-events: none !important;} a:link{color: #fcfafb; !important;}');
@@ -158,13 +160,6 @@ if ($response.statusCode === 200 && (url.includes('html') || (type && type.inclu
                 }
             } else if (url.includes('m.diyibanzhu')) {
                 settingCfg.auto_block_ad = true;
-            } else if (url.includes('www.novel543.com')) {
-                if (/\/\d+(\/)?(dir)?$/.test(url)) {
-                    styleStr.push('.mt-3,aside,.sidebar,.is-9{display:none !important;pointer-events: none !important;}');
-                } else if (/\/\d+\/w+\.html/.test(url)) {
-                    styleStr.push('img{display:none !important;pointer-events: none !important;}');
-                    html = html.replace(/<([a-zA-Z0-9]+)\s+[^>]*?(src|href|class|id)\s*=\s*(['"])[^'"]*?\/auth\/govip[^'"]*?\3[^>]*?>/gi, '<$1 style="display:none !important;pointer-events: none !important;">');
-                }
             } else if (url.includes('www.tongrenxsw.com')) {
                 domains.splice(domains.indexOf('popup'), 1);
                 styleStr.push('.headerW,.topM,.navM,.about,.introM,.aboutM,.conR,.navM2{display:none !important;pointer-events: none !important;}');
@@ -198,7 +193,10 @@ if ($response.statusCode === 200 && (url.includes('html') || (type && type.inclu
         if (html.includes('<iframe') || html.includes('<ins') || html.includes('<embed') || html.includes('<object')) {
             html = html.replace(/<(ins|object|embed|iframe|frame)[^>]*?>[\s\S]*?<\/\1>/gi, '');
         }
-        html = html.replace(/alert\(/g, "//");
+        if(html.includes("<noscript")){
+            html=html.replace(/<noscript[^>]*?>[\s\S]*?<\/noscript>/g,'');
+        }
+        html=html.replace(/\balert\s*\([^)]*\)/g,"(void 0)");
 
         const domainsPattern = domains.map(escapeRegExp).join('|');
         html = html.replace(new RegExp(`<([a-zA-Z0-9]+)\\s+[^>]*?(src|href|class|id)\\s*=\\s*(['"])[^'"]*?(?:${domainsPattern})[^'"]*?\\3[^>]*?>`, 'gi'), '<$1 style="display:none !important;pointer-events: none !important;">');
@@ -252,7 +250,7 @@ if ($response.statusCode === 200 && (url.includes('html') || (type && type.inclu
         $done({});
     }
 } else {
-    console.log(`${url} is ignored , content-type is ${type} , code = ${$response.statusCode}`);
+    console.log(`ignored,ContentType=${type},code=${$response.statusCode}`);
     $done({});
     return;
 }
