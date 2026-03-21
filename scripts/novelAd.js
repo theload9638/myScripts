@@ -1,5 +1,5 @@
 /**
- * version fsd57
+ * version fsd57.1
  * createBy： theload9638
  * 配合使用 https://raw.githubusercontent.com/theload9638/myScripts/main/filters/block.list
  * Quantumultx|网页去广告,支持部分小说/漫画
@@ -45,16 +45,16 @@ if ($response.statusCode === 200 && (url.includes('html') || (type && type.inclu
         $done({});
         return;
     }
+    let dsJson = $prefs.valueForKey('qx-fw-dfs_');
+    if (dsJson) {
+        let _sobj1=JSON.parse(dsJson);
+        settingCfg ={...defaultSetting,..._sobj1};
+    }
     let htmLen = html.length;
     if (htmLen < settingCfg.preBlock) {
         console.log(`pre block invalid html , size: ${htmLen} , content-length: ${$response.headers['Content-Length'] || $response.headers['content-length']}`);
         $done({});
         return;
-    }
-    let dsJson = $prefs.valueForKey('qx-fw-dfs_');
-    if (dsJson) {
-        let _sobj1=JSON.parse(dsJson);
-        settingCfg ={...defaultSetting,..._sobj1};
     }
     const newHeaders = { ...$response.headers };
     let domains = [
