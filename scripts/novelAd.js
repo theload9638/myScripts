@@ -1,5 +1,5 @@
 /**
- * version fsd55
+ * version fsd56
  * createBy： theload9638
  * 配合使用 https://raw.githubusercontent.com/theload9638/myScripts/main/filters/block.list
  * Quantumultx|网页去广告,支持部分小说/漫画
@@ -61,40 +61,20 @@ if ($response.statusCode === 200 && (url.includes('html') || (type && type.inclu
     }
     const newHeaders = { ...$response.headers };
     let domains = [
-        'jnnmp1350.com',
         'www.googleadservices.com',
-        'acquiredeceasedundress.com',
-        'creative.xxxvjmp.com',
         'img.doppiocdn.com',
-        'creative.xlivrdr.com',
-        'go.xlivrdr.com',
         '789free.fun',
         'www.missai.vip',
         'media.pubfuture.com',
-        'empire-night.com',
         'ad.a-ads.com',
-        'jo.cashooshut.com',
-        'bundlemoviepumice.com',
         'ad.parkvv.com',
-        'go.mavrtracktor.com',
-        'creative.mavrtracktor.com',
-        'guidepaparazzisurface.com',
-        'diagramjawlineunhappy.com',
         'img.doppiocdn.com',
-        'ttavej.com',
         'www.interactivebrokers.com',
         's.click.aliexpress.com',
         's3t3d2y1.afcdn.net',
-        'cdn.pubfuture-ad.com',
-        'hm.baidu.com',
-        'nsclick.baidu.com',
-        'ad.tagtoo.co',
+        'pubfuture-ad.com',
         'onead.onevision.com.tw',
-        'jl00.jkugbfvh.icu',
         '.tagtoo.co',
-        'pos.baidu.com',
-        'wn.pos.baidu.com',
-        'cpro.baidustatic.com',
         'banner',
         'ad-provider',
         'textad',
@@ -121,15 +101,10 @@ if ($response.statusCode === 200 && (url.includes('html') || (type && type.inclu
     const escapeRegExp = (str) => str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
     let styleStr = ['ins,iframe,frame,#onclickshowdiv,.adv-6park,.view_ad_incontent,#smx_wrap,#aswift_9,#aswift_9_host,.modal-backdrop,.place_holder_box,.dmca_box,a:has(img[src*="gif"]),#guide-modal,#ad_iframe,.c835e-33_e,.float-right-daily,.exo_wrapper_show,.web-right-float-button,#exo-native-widget-5098390-adX3C,.float-right-image,.tui,.exo-native-widget,.exo-native-widget-outer-container,.group-notice,.bYtYBpFi,.tmwac,#announceinfo,.slide-ad,.recoBox2,.tuijian,.btnErrorW,.pHS5vbgQ_main_outstream,.vote-section,.root--26nWL,.bottomRight--h0VsQ,.slideAnimation--2ih2G,#comments,#comment_list,video,.comment-section,.banner_box,#opSOzAp,audio,#__copy,.subtitle-container,.ai-detection-feedback,.ad_float,.ad_list_top,#infoad,div[data-ad],.banner,.ad-body,.logo_box,.ad_encode,#ad_encode,#ad-body,#banner,.ad-video,#video-ad-ui,.copyright,.GoogleActiveViewInnerContainer,.adsbygoogle,.adsbygoogle-noablate,.google-auto-placed,#ad-video,#ad-container,.adBlock,#adBlock,.ad-mob,#ad-mob,.mobile-ad,#mobile-ad,.m-ad,#m-ad,.popup,.ads,#ads,.advertisement,#advertisement,embed,object,.ad,.ad-container,.ad-wrap,#ad-wrap,.ad-box,#ad-box,#ad,.footer,#footer{display:none !important;pointer-events: none !important;}'];
     let bodyStr = '';
-    let beginHeadStr = '';
     try {
-        let rule = new RegExp(`<meta[^>]*?charset\\s*=\\s*(['"]?)([^>'"]+)(['"]?)`, 'gi');
-        let charsetRes = rule.exec(html);
-        let charset = 'utf8';
+        let charsetRes = /<meta[^>]*?charset\s*=\s*(['"]?)([^>'"]+)\1?/i.exec(html);
+        let charset=charsetRes?((charsetRes[2] || 'utf8').trim()):'utf8';
         let utf8Flag = true;
-        if (charsetRes) {
-            charset=(charsetRes[2] || 'utf8').trim();
-        }
         if (/utf-?8/i.test(charset) || charset.toLowerCase().startsWith('utf')) {
             if (url.includes('www.cool18.com')) {
                 styleStr.push('.bottom-nav,.post-list,.view-gift,.view_tools_box{display:none !important;pointer-events: none !important;} a:link{color: #fcfafb; !important;}');
@@ -140,10 +115,6 @@ if ($response.statusCode === 200 && (url.includes('html') || (type && type.inclu
                 settingCfg.auto_block_ad = true;
             } else if (url.includes('www.tongrenxsw.com')) {
                 domains.splice(domains.indexOf('popup'), 1);
-                styleStr.push('.headerW,.topM,.navM,.about,.introM,.aboutM,.conR,.navM2{display:none !important;pointer-events: none !important;}');
-                if (/\/book\/\w+(-\w+)?(-\w+)?\.html/i.test(url)) {
-                    html = html.replace(/<script\s*>[^<]*?<\/script>/g, '');
-                }
             } else if (/https?:\/\/(18comic|jmcomic-zzz)\.(vip|ink|one|org)/.test(url)) {
                 styleStr.push('#billboard-modal,.thewayhome,.top-nav,.div-bf-pv{display:none !important;pointer-events: none !important;}');
             }
@@ -161,7 +132,6 @@ if ($response.statusCode === 200 && (url.includes('html') || (type && type.inclu
                     html = html.replace(/<div\s*class=\"head\">(.*)?<div\s*class=\"readContent\">/s, '<div class="readContent">');
                 } else if (/[a-zA-Z_]+\/\d+\/\d+\.html/.test(url)) {
                     html = html.replace(/<div\s*class=\"head\">(.*)?<div\s*class=\"topReadContent\"([^>]*?)>/s, '<div class="topReadContent">');
-                    styleStr.push('.next_pre{display:none !important;pointer-events: none !important;}');
                 }
             }
         }
@@ -193,10 +163,6 @@ if ($response.statusCode === 200 && (url.includes('html') || (type && type.inclu
         if (bodyStr) {
             html = html.replace(/<\/body>/, bodyStr + '</body>');
         }
-
-        if (beginHeadStr) {
-            html = html.replace(/<head[^>]*?>/, '<head>' + beginHeadStr);
-        }
         if (styleStr && styleStr.length > 0) {
             if (settingCfg.enableBgColor) {
                 styleStr.push('*{background-color: ' + settingCfg.bgColor + ' !important;background-image: none !important;color: ' + settingCfg.baseColor + ' !important; font-size: ' + settingCfg.fontSize + 'px !important;}');
@@ -204,8 +170,7 @@ if ($response.statusCode === 200 && (url.includes('html') || (type && type.inclu
             if (settingCfg.styleStr) {
                 styleStr.push(settingCfg.styleStr);
             }
-            const finallySty = styleStr.join('');
-            html = html.replace(/<\/head>/, '<style>' + finallySty + '</style></head>');
+            html = html.replace(/<\/head>/, '<style>' +(styleStr.join(''))+ '</style></head>');
         }
         newHeaders["Cross-Origin-Embedder-Policy"] = "unsafe-none";
         newHeaders["Cross-Origin-Opener-Policy"] = "unsafe-none";
@@ -215,8 +180,7 @@ if ($response.statusCode === 200 && (url.includes('html') || (type && type.inclu
             console.log(`\ncharset: ${charset} \n headers: ${JSON.stringify(newHeaders)}\n`);
         }
         if (!utf8Flag) {
-            const utf8Bytes = new TextEncoder().encode(html);
-            $done({ headers: newHeaders, bodyBytes: utf8Bytes.buffer });
+            $done({ headers: newHeaders, bodyBytes: (new TextEncoder().encode(html)).buffer });
         } else {
             $done({ headers: newHeaders, body: html });
         }

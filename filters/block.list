@@ -1,6 +1,7 @@
 # ad or boring game web by dns clear
 # 使用分流直接从dns层面拦截所有广告/页面追踪脚本
 
+host,union.baidu.com,reject
 host,acscdn.com,reject
 host,u3y8v8u4.aucdn.net,reject
 host,ecs.tagtoo.co,reject
@@ -61,11 +62,11 @@ host-suffix,txmz0y.com,reject
 host-suffix,lzicw0.com,reject
 host,www.googleadservices.com,reject
 
+host,ttavej.com,reject
 host, pagead2.googlesyndication.com , reject
 host, fundingchoicesmessages.google.com,reject
 host, img.doppiocdn.com, reject
-host, creative.xlivrdr.com,reject
-host, go.xlivrdr.com,reject
+host-suffix, xlivrdr.com,reject
 host, analytics.google.com,reject
 host, pl28813130.effectivegatecpm.com,reject
 host,imasdk.googleapis.com,reject
@@ -103,6 +104,7 @@ host-suffix, txmz0y.com, reject
 host-suffix, lzicw0.com, reject
 host-suffix, 8tlzg5.com, reject
 host, jl00.jkugbfvh.icu, reject
+host, ejiwvof.icu, reject
 host, ad.tagtoo.co , reject
 host, uec.tagtoo.co, reject
 host, adc.tamedia.com.tw,reject
@@ -125,13 +127,12 @@ host, wn.pos.baidu.com,reject
 host, cpro.baidustatic.com,reject
 host, 3e87c0802f91cf8cgg.lzicw0.com, reject
 host, 29782a430255d79f2wap.jigool.org,reject
-host, go.mavrtracktor.com , reject
+host-suffix, mavrtracktor.com , reject
 host, s3t3d2y1.afcdn.net,reject
 host, guidepaparazzisurface.com,reject
 host, diagramjawlineunhappy.com , reject
 
 host, xbbb.org , reject
-host, creative.mavrtracktor.com, reject
 host, ey43.com , reject
 host, ad.parkvv.com, reject
 host, www.gstatic.com, reject
