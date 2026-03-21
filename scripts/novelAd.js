@@ -1,5 +1,5 @@
 /**
- * version fsd54
+ * version fsd55
  * createBy： theload9638
  * 配合使用 https://raw.githubusercontent.com/theload9638/myScripts/main/filters/block.list
  * Quantumultx|网页去广告,支持部分小说/漫画
@@ -68,17 +68,10 @@ if ($response.statusCode === 200 && (url.includes('html') || (type && type.inclu
         'img.doppiocdn.com',
         'creative.xlivrdr.com',
         'go.xlivrdr.com',
-        'wxc70.cc',
-        'jashd.zentaryovorvrybhstazvran.com',
         '789free.fun',
         'www.missai.vip',
-        '8tlzg5.com',
-        'txmz0y.com',
-        'lzicw0.com',
-        'cd.ladsp.com',
         'media.pubfuture.com',
         'empire-night.com',
-        'cdn.pubfuture-ad.com',
         'ad.a-ads.com',
         'jo.cashooshut.com',
         'bundlemoviepumice.com',
@@ -90,21 +83,13 @@ if ($response.statusCode === 200 && (url.includes('html') || (type && type.inclu
         'img.doppiocdn.com',
         'ttavej.com',
         'www.interactivebrokers.com',
-        'www.lovedate.cc',
-        '29782a430255d79f2wap.jigool.org',
         's.click.aliexpress.com',
         's3t3d2y1.afcdn.net',
-        '29628kldxjjs.eyiyoxz.xyz',
-        '29628odxjccp.nszzkeh.com',
         'cdn.pubfuture-ad.com',
-        '29920kldxjjs.dxzgwti.com',
         'hm.baidu.com',
         'nsclick.baidu.com',
-        'api.popin.cc',
         'ad.tagtoo.co',
         'onead.onevision.com.tw',
-        'googleads.g.doubleclick.net',
-        '3e87c0802f91cf8cgg.lzicw0.com',
         'jl00.jkugbfvh.icu',
         '.tagtoo.co',
         'pos.baidu.com',
@@ -134,7 +119,7 @@ if ($response.statusCode === 200 && (url.includes('html') || (type && type.inclu
         domains = domains.concat(settingCfg.domains);
     }
     const escapeRegExp = (str) => str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-    let styleStr = ['ins,iframe,frame,.place_holder_box,.dmca_box,a:has(img[src*="gif"]),#guide-modal,#ad_iframe,.c835e-33_e,.float-right-daily,.exo_wrapper_show,.web-right-float-button,#exo-native-widget-5098390-adX3C,.float-right-image,.tui,.exo-native-widget,.exo-native-widget-outer-container,.group-notice,.bYtYBpFi,.tmwac,#announceinfo,.slide-ad,.recoBox2,.tuijian,.btnErrorW,.pHS5vbgQ_main_outstream,.vote-section,.root--26nWL,.bottomRight--h0VsQ,.slideAnimation--2ih2G,#comments,#comment_list,video,.comment-section,.banner_box,#opSOzAp,audio,#__copy,.subtitle-container,.ai-detection-feedback,.ad_float,.ad_list_top,#infoad,div[data-ad],.banner,.ad-body,.logo_box,.ad_encode,#ad_encode,#ad-body,#banner,.ad-video,#video-ad-ui,.copyright,.GoogleActiveViewInnerContainer,.adsbygoogle,.adsbygoogle-noablate.google-auto-placed,#ad-video,#ad-container,.adBlock,#adBlock,.ad-mob,#ad-mob,.mobile-ad,#mobile-ad,.m-ad,#m-ad,.popup,.ads,#ads,.advertisement,#advertisement,embed,object,.ad,.ad-container,.ad-wrap,#ad-wrap,.ad-box,#ad-box,#ad,.footer,#footer{display:none !important;pointer-events: none !important;}'];
+    let styleStr = ['ins,iframe,frame,#onclickshowdiv,.adv-6park,.view_ad_incontent,#smx_wrap,#aswift_9,#aswift_9_host,.modal-backdrop,.place_holder_box,.dmca_box,a:has(img[src*="gif"]),#guide-modal,#ad_iframe,.c835e-33_e,.float-right-daily,.exo_wrapper_show,.web-right-float-button,#exo-native-widget-5098390-adX3C,.float-right-image,.tui,.exo-native-widget,.exo-native-widget-outer-container,.group-notice,.bYtYBpFi,.tmwac,#announceinfo,.slide-ad,.recoBox2,.tuijian,.btnErrorW,.pHS5vbgQ_main_outstream,.vote-section,.root--26nWL,.bottomRight--h0VsQ,.slideAnimation--2ih2G,#comments,#comment_list,video,.comment-section,.banner_box,#opSOzAp,audio,#__copy,.subtitle-container,.ai-detection-feedback,.ad_float,.ad_list_top,#infoad,div[data-ad],.banner,.ad-body,.logo_box,.ad_encode,#ad_encode,#ad-body,#banner,.ad-video,#video-ad-ui,.copyright,.GoogleActiveViewInnerContainer,.adsbygoogle,.adsbygoogle-noablate,.google-auto-placed,#ad-video,#ad-container,.adBlock,#adBlock,.ad-mob,#ad-mob,.mobile-ad,#mobile-ad,.m-ad,#m-ad,.popup,.ads,#ads,.advertisement,#advertisement,embed,object,.ad,.ad-container,.ad-wrap,#ad-wrap,.ad-box,#ad-box,#ad,.footer,#footer{display:none !important;pointer-events: none !important;}'];
     let bodyStr = '';
     let beginHeadStr = '';
     try {
@@ -143,8 +128,7 @@ if ($response.statusCode === 200 && (url.includes('html') || (type && type.inclu
         let charset = 'utf8';
         let utf8Flag = true;
         if (charsetRes) {
-            charset = charsetRes[2] || 'utf8';
-            charset = charset.trim();
+            charset=(charsetRes[2] || 'utf8').trim();
         }
         if (/utf-?8/i.test(charset) || charset.toLowerCase().startsWith('utf')) {
             if (url.includes('www.cool18.com')) {
@@ -161,26 +145,23 @@ if ($response.statusCode === 200 && (url.includes('html') || (type && type.inclu
                     html = html.replace(/<script\s*>[^<]*?<\/script>/g, '');
                 }
             } else if (/https?:\/\/(18comic|jmcomic-zzz)\.(vip|ink|one|org)/.test(url)) {
-                styleStr.push('#billboard-modal,.modal-backdrop,.thewayhome,.top-nav,.div-bf-pv{display:none !important;pointer-events: none !important;}');
+                styleStr.push('#billboard-modal,.thewayhome,.top-nav,.div-bf-pv{display:none !important;pointer-events: none !important;}');
             }
         } else {
             utf8Flag = false;
             html = new TextDecoder(charset, { fatal: false, ignoreBOM: true }).decode(new Uint8Array($response.bodyBytes));
 
-            styleStr.push('#Image,#onclickshowdiv,#smx_wrap,#aswift_9,#aswift_9_host{display:none !important;pointer-events: none !important;} .infos{color:#78867e !important;}');
             html = html.replace(charset, 'utf-8');
-            html = html.replace(/<script[^>]*?src=\"\/skin\/default\/js\/(tongji|googgg|goge|gls|socre|print_start|goooge)\.js\"[^>]*?>/g, '<>');
+            html = html.replace(/<script[^>]*?src\s*=(['"])\/skin\/default\/js\/(tongji|googgg|goge|gls|gde|socre|print_start|goooge)\.js\1[^>]*?>/g, '<script>');
 
-            if (url.includes('tongrenquan.org')
-                || url.includes('tongrenshe.cc')
-                || url.includes('trxs.cc')
-                || url.includes('www.qbtr.cc')
+            if (url.includes('tongrenquan.org') || url.includes('tongrenshe.cc')
+                || url.includes('trxs.cc') || url.includes('www.qbtr.cc')
             ) {
                 if (/[a-zA-Z_]+\/\d+\.html/.test(url)) {
                     html = html.replace(/<div\s*class=\"head\">(.*)?<div\s*class=\"readContent\">/s, '<div class="readContent">');
                 } else if (/[a-zA-Z_]+\/\d+\/\d+\.html/.test(url)) {
                     html = html.replace(/<div\s*class=\"head\">(.*)?<div\s*class=\"topReadContent\"([^>]*?)>/s, '<div class="topReadContent">');
-                    styleStr.push('.next_pre,.hotlist{display:none !important;pointer-events: none !important;}');
+                    styleStr.push('.next_pre{display:none !important;pointer-events: none !important;}');
                 }
             }
         }

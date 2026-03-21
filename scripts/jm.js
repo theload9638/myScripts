@@ -1,6 +1,4 @@
-/**
- * Jm去广告,超级净化,支持App和网页版
- */
+// Jm去广告,超级净化,支持App和网页版
 const url = $request.url;
 
 if (url.includes('/ad_template')) {
@@ -9,9 +7,7 @@ if (url.includes('/ad_template')) {
         html = html.replace(/<style>[^<]*?<\/style>/g, '');
         html = html.replace(/<script>.*?(?=ad_encode).*?<\/script>/gs, '');
         html = html.replace(/<a[^>]*?>[^<]*?<\/a>/g, '');
-        html = html.replace(/resizeAd\(\)\s*;/g, '');
         html = html.replace(/AD/g, '');
-        html = html.replace(/resizeAd\(\)\s+[^{}]/g,'');
     }
     $done({ body: html });
 } else if (url.includes('/chapter_view_template')) {

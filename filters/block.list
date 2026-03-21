@@ -50,14 +50,15 @@ host,v.adx.hubcloud.com.cn, reject
 host-suffix, bdstatic.com,reject
 host-suffix,realsrv.com,reject
 host-suffix,magsrv.com,reject
+host-suffix,adtrafficquality.google,reject
 host-suffix,chnsrv.com,reject
 host-suffix, s4x1k5.vip, reject
 host,1820gc.sbbm8y.com,reject
 host,18e87c0802f91cf8cgc.0jphhh.com,reject
 host,18e87c0802f91cf8cgg.dpscx6.com,reject
 host-suffix,histats.com,reject
-host,21e87c0802f91cf8cgc.txmz0y.com,reject
-host,21e87c0802f91cf8cgg.lzicw0.com,reject
+host-suffix,txmz0y.com.reject
+host-suffix,lzicw0.com,reject
 host,www.googleadservices.com,reject
 
 host, pagead2.googlesyndication.com , reject
@@ -66,12 +67,18 @@ host, img.doppiocdn.com, reject
 host, creative.xlivrdr.com,reject
 host, go.xlivrdr.com,reject
 host, analytics.google.com,reject
+host, pl28813130.effectivegatecpm.com,reject
 host,imasdk.googleapis.com,reject
 host,assets.mintegral.com,reject
 host, demandingoverdriveunthread.com,reject
 host, acquiredeceasedundress.com,reject
 host, www.clickadu.com, reject
+host, aqle3.com, reject
+host, adflycode.com, reject
 host, creative.xxxvjmp.com, reject
+host, od.henryslyceal.com, reject
+host, s.click.aliexpress.co,reject
+host-suffix, pubfuture.com, reject
 host, jnnmp1350.com,reject
 host, www.googletagmanager.com , reject
 host, www.google-analytics.com , reject
@@ -88,9 +95,8 @@ host, cd.ladsp.com , reject
 host, cdnpf.com,reject
 host,ad.holmesmind.com,reject
 host,cdn.holmesmind.com,reject
-host, media.pubfuture.com , reject
 host,securepubads.g.doubleclick.net,reject
-host, cdn.pubfuture-ad.com, reject
+host-suffix, pubfuture-ad.com, reject
 host, jo.cashooshut.com, reject
 host, ad.a-ads.com , reject
 host-suffix, txmz0y.com, reject
@@ -107,12 +113,17 @@ host, www.lovedate.cc , reject
 host, empire-night.com, reject
 host-suffix, clarity.ms , reject
 host, hm.baidu.com, reject
+host, 85117.net, reject
+host, a8w19.ppdchhmi.cc, reject
 host, www.interactivebrokers.com, reject
-host, 29920kldxjjs.dxzgwti.com, reject
+host-suffix, dxzgwti.com, reject
 host, nsclick.baidu.com,reject
+host, 29628kldxjjs.eyiyoxz.xyz,reject
+host, 29628odxjccp.nszzkeh.com, reject
 host, pos.baidu.com,reject
 host, wn.pos.baidu.com,reject
 host, cpro.baidustatic.com,reject
+host, 3e87c0802f91cf8cgg.lzicw0.com, reject
 host, 29782a430255d79f2wap.jigool.org,reject
 host, go.mavrtracktor.com , reject
 host, s3t3d2y1.afcdn.net,reject
