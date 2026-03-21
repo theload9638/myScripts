@@ -1,5 +1,5 @@
 /**
- * version fsd52
+ * version fsd54
  * createBy： theload9638
  * 配合使用 https://raw.githubusercontent.com/theload9638/myScripts/main/filters/block.list
  * Quantumultx|网页去广告,支持部分小说/漫画
@@ -69,11 +69,9 @@ if ($response.statusCode === 200 && (url.includes('html') || (type && type.inclu
         'creative.xlivrdr.com',
         'go.xlivrdr.com',
         'wxc70.cc',
-        'aplsof2fd.flirnapolfwemvrybhszorex.com',
         'jashd.zentaryovorvrybhstazvran.com',
         '789free.fun',
         'www.missai.vip',
-        'aplsof2fd.kyrvrybhsovashordoblarmek.com',
         '8tlzg5.com',
         'txmz0y.com',
         'lzicw0.com',
@@ -136,7 +134,7 @@ if ($response.statusCode === 200 && (url.includes('html') || (type && type.inclu
         domains = domains.concat(settingCfg.domains);
     }
     const escapeRegExp = (str) => str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-    let styleStr = ['ins,iframe,frame,a:has(img[src*="gif"]),#guide-modal,#ad_iframe,.c835e-33_e,.float-right-daily,.exo_wrapper_show,.web-right-float-button,#exo-native-widget-5098390-adX3C,.float-right-image,.tui,.exo-native-widget,.exo-native-widget-outer-container,.group-notice,.bYtYBpFi,.tmwac,#announceinfo,.slide-ad,.recoBox2,.tuijian,.btnErrorW,.pHS5vbgQ_main_outstream,.vote-section,.root--26nWL,.bottomRight--h0VsQ,.slideAnimation--2ih2G,#comments,#comment_list,video,.comment-section,.banner_box,#opSOzAp,audio,#__copy,.subtitle-container,.ai-detection-feedback,.ad_float,.ad_list_top,#infoad,div[data-ad],.banner,.ad-body,.logo_box,.ad_encode,#ad_encode,#ad-body,#banner,.ad-video,#video-ad-ui,.copyright,.GoogleActiveViewInnerContainer,.adsbygoogle,.adsbygoogle-noablate.google-auto-placed,#ad-video,#ad-container,.adBlock,#adBlock,.ad-mob,#ad-mob,.mobile-ad,#mobile-ad,.m-ad,#m-ad,.popup,.ads,#ads,.advertisement,#advertisement,embed,object,.ad,.ad-container,.ad-wrap,#ad-wrap,.ad-box,#ad-box,#ad,.footer,#footer{display:none !important;pointer-events: none !important;}'];
+    let styleStr = ['ins,iframe,frame,.place_holder_box,.dmca_box,a:has(img[src*="gif"]),#guide-modal,#ad_iframe,.c835e-33_e,.float-right-daily,.exo_wrapper_show,.web-right-float-button,#exo-native-widget-5098390-adX3C,.float-right-image,.tui,.exo-native-widget,.exo-native-widget-outer-container,.group-notice,.bYtYBpFi,.tmwac,#announceinfo,.slide-ad,.recoBox2,.tuijian,.btnErrorW,.pHS5vbgQ_main_outstream,.vote-section,.root--26nWL,.bottomRight--h0VsQ,.slideAnimation--2ih2G,#comments,#comment_list,video,.comment-section,.banner_box,#opSOzAp,audio,#__copy,.subtitle-container,.ai-detection-feedback,.ad_float,.ad_list_top,#infoad,div[data-ad],.banner,.ad-body,.logo_box,.ad_encode,#ad_encode,#ad-body,#banner,.ad-video,#video-ad-ui,.copyright,.GoogleActiveViewInnerContainer,.adsbygoogle,.adsbygoogle-noablate.google-auto-placed,#ad-video,#ad-container,.adBlock,#adBlock,.ad-mob,#ad-mob,.mobile-ad,#mobile-ad,.m-ad,#m-ad,.popup,.ads,#ads,.advertisement,#advertisement,embed,object,.ad,.ad-container,.ad-wrap,#ad-wrap,.ad-box,#ad-box,#ad,.footer,#footer{display:none !important;pointer-events: none !important;}'];
     let bodyStr = '';
     let beginHeadStr = '';
     try {
@@ -149,9 +147,7 @@ if ($response.statusCode === 200 && (url.includes('html') || (type && type.inclu
             charset = charset.trim();
         }
         if (/utf-?8/i.test(charset) || charset.toLowerCase().startsWith('utf')) {
-            if (/^https?:\/\/www\.uaa(.*?)\.com/.test(url)) {
-                styleStr.push('.balance_insufficient_dialog_box,.note_box,.foot_box,.shortcut_box,.swiper-wrapper,.swiper-button-prev,.swiper-button-next,.place_holder_box,.dmca_box{display:none !important;pointer-events: none !important;}');
-            } else if (url.includes('www.cool18.com')) {
+            if (url.includes('www.cool18.com')) {
                 styleStr.push('.bottom-nav,.post-list,.view-gift,.view_tools_box{display:none !important;pointer-events: none !important;} a:link{color: #fcfafb; !important;}');
                 if (url.includes('act=threadview')) {
                     html = html.replace(/<div\s*class=\"ad-container\">(.*?)<div\s*class=\"main-content\">/s, '<div class="main-content">');
@@ -166,9 +162,6 @@ if ($response.statusCode === 200 && (url.includes('html') || (type && type.inclu
                 }
             } else if (/https?:\/\/(18comic|jmcomic-zzz)\.(vip|ink|one|org)/.test(url)) {
                 styleStr.push('#billboard-modal,.modal-backdrop,.thewayhome,.top-nav,.div-bf-pv{display:none !important;pointer-events: none !important;}');
-            }else if(/^https?:\/\/www\.cdn(bea|sha|zack|ntr|gwc|hth|hjk)\.(org|cc|net|club)\//.test(url)){
-                html = html.replace(/resizeAd\(\)\s*;/g, '');
-                html = html.replace(/resizeAd\(\)\s+[^{}]/g,'');
             }
         } else {
             utf8Flag = false;
