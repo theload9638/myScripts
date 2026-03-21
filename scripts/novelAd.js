@@ -1,5 +1,5 @@
 /**
- * version fsd56
+ * version fsd57
  * createBy： theload9638
  * 配合使用 https://raw.githubusercontent.com/theload9638/myScripts/main/filters/block.list
  * Quantumultx|网页去广告,支持部分小说/漫画
@@ -38,14 +38,6 @@ let defaultSetting = {
     'enable_proxy': true
 };
 var settingCfg = defaultSetting;
-let dsJson = $prefs.valueForKey('qx-fw-dfs_');
-if (dsJson) {
-    let _sobj1 = JSON.parse(dsJson);
-    settingCfg = {
-        ...defaultSetting,
-        ..._sobj1
-    };
-}
 if ($response.statusCode === 200 && (url.includes('html') || (type && type.includes("text")))) {
     let html = $response.body;
     if (!html) {
@@ -58,6 +50,11 @@ if ($response.statusCode === 200 && (url.includes('html') || (type && type.inclu
         console.log(`pre block invalid html , size: ${htmLen} , content-length: ${$response.headers['Content-Length'] || $response.headers['content-length']}`);
         $done({});
         return;
+    }
+    let dsJson = $prefs.valueForKey('qx-fw-dfs_');
+    if (dsJson) {
+        let _sobj1=JSON.parse(dsJson);
+        settingCfg ={...defaultSetting,..._sobj1};
     }
     const newHeaders = { ...$response.headers };
     let domains = [
@@ -88,8 +85,8 @@ if ($response.statusCode === 200 && (url.includes('html') || (type && type.inclu
         'logo',
         'slide-ad',
         'ad-body',
-        '-ad',
         '-adv',
+        '-ad',
         'javascript:void(0)',
         'popup',
         'collect',
@@ -103,7 +100,7 @@ if ($response.statusCode === 200 && (url.includes('html') || (type && type.inclu
     let bodyStr = '';
     try {
         let charsetRes = /<meta[^>]*?charset\s*=\s*(['"]?)([^>'"]+)\1?/i.exec(html);
-        let charset=charsetRes?((charsetRes[2] || 'utf8').trim()):'utf8';
+        let charset = charsetRes ? ((charsetRes[2] || 'utf8').trim()) : 'utf8';
         let utf8Flag = true;
         if (/utf-?8/i.test(charset) || charset.toLowerCase().startsWith('utf')) {
             if (url.includes('www.cool18.com')) {
@@ -121,7 +118,6 @@ if ($response.statusCode === 200 && (url.includes('html') || (type && type.inclu
         } else {
             utf8Flag = false;
             html = new TextDecoder(charset, { fatal: false, ignoreBOM: true }).decode(new Uint8Array($response.bodyBytes));
-
             html = html.replace(charset, 'utf-8');
             html = html.replace(/<script[^>]*?src\s*=(['"])\/skin\/default\/js\/(tongji|googgg|goge|gls|gde|socre|print_start|goooge)\.js\1[^>]*?>/g, '<script>');
 
@@ -138,10 +134,10 @@ if ($response.statusCode === 200 && (url.includes('html') || (type && type.inclu
         if (html.includes('<iframe') || html.includes('<ins') || html.includes('<embed') || html.includes('<object')) {
             html = html.replace(/<(ins|object|embed|iframe|frame)[^>]*?>[\s\S]*?<\/\1>/gi, '');
         }
-        if(html.includes("<noscript")){
-            html=html.replace(/<noscript[^>]*?>[\s\S]*?<\/noscript>/g,'');
+        if (html.includes("<noscript")) {
+            html = html.replace(/<noscript[^>]*?>[\s\S]*?<\/noscript>/g, '');
         }
-        html=html.replace(/\balert\s*\([^)]*\)/g,"(void 0)");
+        html = html.replace(/\balert\s*\([^)]*\)/g, "(void 0)");
 
         const domainsPattern = domains.map(escapeRegExp).join('|');
         html = html.replace(new RegExp(`<([a-zA-Z0-9]+)\\s+[^>]*?(src|href|class|id)\\s*=\\s*(['"])[^'"]*?(?:${domainsPattern})[^'"]*?\\3[^>]*?>`, 'gi'), '<$1 style="display:none !important;pointer-events: none !important;">');
@@ -170,7 +166,7 @@ if ($response.statusCode === 200 && (url.includes('html') || (type && type.inclu
             if (settingCfg.styleStr) {
                 styleStr.push(settingCfg.styleStr);
             }
-            html = html.replace(/<\/head>/, '<style>' +(styleStr.join(''))+ '</style></head>');
+            html = html.replace(/<\/head>/, '<style>' + (styleStr.join('')) + '</style></head>');
         }
         newHeaders["Cross-Origin-Embedder-Policy"] = "unsafe-none";
         newHeaders["Cross-Origin-Opener-Policy"] = "unsafe-none";
