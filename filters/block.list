@@ -57,7 +57,7 @@ host,1820gc.sbbm8y.com,reject
 host,18e87c0802f91cf8cgc.0jphhh.com,reject
 host,18e87c0802f91cf8cgg.dpscx6.com,reject
 host-suffix,histats.com,reject
-host-suffix,txmz0y.com.reject
+host-suffix,txmz0y.com,reject
 host-suffix,lzicw0.com,reject
 host,www.googleadservices.com,reject
 
