@@ -64,14 +64,17 @@ host,www.googleadservices.com,reject
 
 host,ttavej.com,reject
 host, pagead2.googlesyndication.com , reject
+host, ade.googlesyndication.com,reject
 host, fundingchoicesmessages.google.com,reject
 host, img.doppiocdn.com, reject
+host, ad.doubleclick.net, reject
 host-suffix, xlivrdr.com,reject
 host, analytics.google.com,reject
 host, pl28813130.effectivegatecpm.com,reject
 host,imasdk.googleapis.com,reject
 host,assets.mintegral.com,reject
 host, demandingoverdriveunthread.com,reject
+host-suffix, aads.com,reject
 host, acquiredeceasedundress.com,reject
 host, www.clickadu.com, reject
 host, aqle3.com, reject
@@ -83,9 +86,7 @@ host-suffix, pubfuture.com, reject
 host, jnnmp1350.com,reject
 host, www.googletagmanager.com , reject
 host, www.google-analytics.com , reject
-host, 789free.fun,reject
-host, ads.exoclick.com,reject
-host,syndication.exoclick.com,reject
+host-suffix, exoclick.com,reject
 host, wxc70.cc, reject
 host, aplsof2fd.flirnapolfwemvrybhszorex.com, reject
 host, aplsof2fd.kyrvrybhsovashordoblarmek.com, reject
@@ -119,6 +120,7 @@ host, 85117.net, reject
 host, a8w19.ppdchhmi.cc, reject
 host, www.interactivebrokers.com, reject
 host-suffix, dxzgwti.com, reject
+host, static-proxy.strpst.com, reject
 host, nsclick.baidu.com,reject
 host, 29628kldxjjs.eyiyoxz.xyz,reject
 host, 29628odxjccp.nszzkeh.com, reject

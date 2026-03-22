@@ -1,5 +1,5 @@
 /**
- * version fsd57.1
+ * version fsd57.2
  * createBy： theload9638
  * 配合使用 https://raw.githubusercontent.com/theload9638/myScripts/main/filters/block.list
  * Quantumultx|网页去广告,支持部分小说/漫画
@@ -7,8 +7,7 @@
  * 内置悬浮窗
  *   - 上页/目录/下页/设置
  *   - 支持自动向下滚动/自动下一页(部分页面)/强力杀广告
- *   - webStoragePreviewUI开发中
- *   - webDebugUI开发中
+ *   - 未来计划：webStoragePreviewUI / webDebugUI /...
  */
 const url = $request.url;
 let type = $response.headers['Content-Type'] || $response.headers['content-type'];
@@ -22,8 +21,8 @@ let defaultSetting = {
     'block_times': 50,
     'block_target': ['IMG', 'VIDEO', 'IFRAME', 'OBJECT', 'EMBED', 'AUDIO', 'PICTURE', 'SOURCE', 'SVG', 'IMAGE', 'FRAME', 'INS'],
     'block_selectors': ['*[style*="opacity"]', '*[style*="background"]', '*[style*="z-index"]', '*[style*="display"]', '*[style*="margin: 0px"]', '*[style*="padding: 0px"]'],
-    'prev_texts': ['上一章', '上一页', '上一章节', '上一篇', '上一话'],
-    'next_texts': ['下一章', '下一页', '下一章节', '下一篇', '下一话'],
+    'prev_texts': ['上一章', '上一页', '上一章节', '上一话', '上一篇'],
+    'next_texts': ['下一章', '下一页', '下一章节', '下一话', '下一篇'],
     'dir_texts': ['目录', '全部章节', '章节目录'],
     'pnd_doms': ['a', 'button', 'div'],
     'fontSize': 11,
@@ -37,7 +36,7 @@ let defaultSetting = {
     'preBlock': 400,
     'enable_proxy': true
 };
-var settingCfg = defaultSetting;
+var settingCfg={};
 if ($response.statusCode === 200 && (url.includes('html') || (type && type.includes("text")))) {
     let html = $response.body;
     if (!html) {
@@ -47,8 +46,15 @@ if ($response.statusCode === 200 && (url.includes('html') || (type && type.inclu
     }
     let dsJson = $prefs.valueForKey('qx-fw-dfs_');
     if (dsJson) {
-        let _sobj1=JSON.parse(dsJson);
-        settingCfg ={...defaultSetting,..._sobj1};
+        try{
+            let _sobj1=JSON.parse(dsJson);
+            settingCfg ={...defaultSetting,..._sobj1};
+        }catch(e){
+            console.log('parse config error : '+ e.message);
+            settingCfg={...defaultSetting};
+        }
+    }else{
+        settingCfg={...defaultSetting};
     }
     let htmLen = html.length;
     if (htmLen < settingCfg.preBlock) {
@@ -58,78 +64,34 @@ if ($response.statusCode === 200 && (url.includes('html') || (type && type.inclu
     }
     const newHeaders = { ...$response.headers };
     let domains = [
-        'www.googleadservices.com',
-        'img.doppiocdn.com',
-        '789free.fun',
-        'www.missai.vip',
-        'media.pubfuture.com',
-        'ad.a-ads.com',
-        'ad.parkvv.com',
-        'img.doppiocdn.com',
-        'www.interactivebrokers.com',
-        's.click.aliexpress.com',
-        's3t3d2y1.afcdn.net',
-        'pubfuture-ad.com',
-        'onead.onevision.com.tw',
-        '.tagtoo.co',
-        'banner',
-        'ad-provider',
-        'textad',
-        'adBlock',
-        'javlib',
-        '_ad',
-        'ads',
-        '/ad',
-        '/ad-',
-        '_adv',
-        'logo',
-        'slide-ad',
-        'ad-body',
-        '-adv',
-        '-ad',
-        'javascript:void(0)',
+        'banner','ad-provider','textad','adBlock',
+        'javlib','_ad','ads','/ad','logo',
+        'ad-body','-ad','javascript:void(0)',
         'popup',
-        'collect',
-        'analysis'
+        'collect','analysis'
     ];
-    if (settingCfg.domains.length > 0) {
+    if (Array.isArray(settingCfg.domains) && settingCfg.domains.length > 0) {
         domains = domains.concat(settingCfg.domains);
     }
     const escapeRegExp = (str) => str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-    let styleStr = ['ins,iframe,frame,#onclickshowdiv,.adv-6park,.view_ad_incontent,#smx_wrap,#aswift_9,#aswift_9_host,.modal-backdrop,.place_holder_box,.dmca_box,a:has(img[src*="gif"]),#guide-modal,#ad_iframe,.c835e-33_e,.float-right-daily,.exo_wrapper_show,.web-right-float-button,#exo-native-widget-5098390-adX3C,.float-right-image,.tui,.exo-native-widget,.exo-native-widget-outer-container,.group-notice,.bYtYBpFi,.tmwac,#announceinfo,.slide-ad,.recoBox2,.tuijian,.btnErrorW,.pHS5vbgQ_main_outstream,.vote-section,.root--26nWL,.bottomRight--h0VsQ,.slideAnimation--2ih2G,#comments,#comment_list,video,.comment-section,.banner_box,#opSOzAp,audio,#__copy,.subtitle-container,.ai-detection-feedback,.ad_float,.ad_list_top,#infoad,div[data-ad],.banner,.ad-body,.logo_box,.ad_encode,#ad_encode,#ad-body,#banner,.ad-video,#video-ad-ui,.copyright,.GoogleActiveViewInnerContainer,.adsbygoogle,.adsbygoogle-noablate,.google-auto-placed,#ad-video,#ad-container,.adBlock,#adBlock,.ad-mob,#ad-mob,.mobile-ad,#mobile-ad,.m-ad,#m-ad,.popup,.ads,#ads,.advertisement,#advertisement,embed,object,.ad,.ad-container,.ad-wrap,#ad-wrap,.ad-box,#ad-box,#ad,.footer,#footer{display:none !important;pointer-events: none !important;}'];
+    let styleStr = ['ins,iframe,frame,#billboard-modal,#onclickshowdiv,.adv-6park,.view_ad_incontent,#smx_wrap,#aswift_9,#aswift_9_host,.modal-backdrop,.place_holder_box,.dmca_box,a:has(img[src*="gif"]),#guide-modal,#ad_iframe,.c835e-33_e,.float-right-daily,.exo_wrapper_show,.web-right-float-button,#exo-native-widget-5098390-adX3C,.float-right-image,.tui,.exo-native-widget,.exo-native-widget-outer-container,.group-notice,.bYtYBpFi,.tmwac,#announceinfo,.slide-ad,#slide-ad,.recoBox2,.tuijian,.btnErrorW,.pHS5vbgQ_main_outstream,.vote-section,.root--26nWL,.bottomRight--h0VsQ,.slideAnimation--2ih2G,#comments,#comment_list,video,.comment-section,.banner_box,#opSOzAp,audio,#__copy,.subtitle-container,.ai-detection-feedback,.ad_float,.ad_list_top,#infoad,div[data-ad],.banner,.ad-body,.logo_box,.ad_encode,#ad_encode,#ad-body,#banner,.ad-video,#video-ad-ui,.copyright,.GoogleActiveViewInnerContainer,.adsbygoogle,.adsbygoogle-noablate,.google-auto-placed,#ad-video,#ad-container,.adBlock,#adBlock,.ad-mob,#ad-mob,.mobile-ad,#mobile-ad,.m-ad,#m-ad,.popup,.ads,#ads,.advertisement,#advertisement,embed,object,.ad,.ad-container,.ad-wrap,#ad-wrap,.ad-box,#ad-box,#ad,.footer,#footer{display:none !important;pointer-events: none !important;}'];
     let bodyStr = '';
     try {
         let charsetRes = /<meta[^>]*?charset\s*=\s*(['"]?)([^>'"]+)\1?/i.exec(html);
         let charset = charsetRes ? ((charsetRes[2] || 'utf8').trim()) : 'utf8';
         let utf8Flag = true;
         if (/utf-?8/i.test(charset) || charset.toLowerCase().startsWith('utf')) {
-            if (url.includes('www.cool18.com')) {
-                styleStr.push('.bottom-nav,.post-list,.view-gift,.view_tools_box{display:none !important;pointer-events: none !important;} a:link{color: #fcfafb; !important;}');
-                if (url.includes('act=threadview')) {
-                    html = html.replace(/<div\s*class=\"ad-container\">(.*?)<div\s*class=\"main-content\">/s, '<div class="main-content">');
-                }
-            } else if (url.includes('m.diyibanzhu')) {
+            if (url.includes('m.diyibanzhu')) {
                 settingCfg.auto_block_ad = true;
             } else if (url.includes('www.tongrenxsw.com')) {
                 domains.splice(domains.indexOf('popup'), 1);
             } else if (/https?:\/\/(18comic|jmcomic-zzz)\.(vip|ink|one|org)/.test(url)) {
-                styleStr.push('#billboard-modal,.thewayhome,.top-nav,.div-bf-pv{display:none !important;pointer-events: none !important;}');
+                styleStr.push('.thewayhome,.top-nav,.div-bf-pv{display:none !important;pointer-events: none !important;}');
             }
         } else {
             utf8Flag = false;
             html = new TextDecoder(charset, { fatal: false, ignoreBOM: true }).decode(new Uint8Array($response.bodyBytes));
             html = html.replace(charset, 'utf-8');
-            html = html.replace(/<script[^>]*?src\s*=(['"])\/skin\/default\/js\/(tongji|googgg|goge|gls|gde|socre|print_start|goooge)\.js\1[^>]*?>/g, '<script>');
-
-            if (url.includes('tongrenquan.org') || url.includes('tongrenshe.cc')
-                || url.includes('trxs.cc') || url.includes('www.qbtr.cc')
-            ) {
-                if (/[a-zA-Z_]+\/\d+\.html/.test(url)) {
-                    html = html.replace(/<div\s*class=\"head\">(.*)?<div\s*class=\"readContent\">/s, '<div class="readContent">');
-                } else if (/[a-zA-Z_]+\/\d+\/\d+\.html/.test(url)) {
-                    html = html.replace(/<div\s*class=\"head\">(.*)?<div\s*class=\"topReadContent\"([^>]*?)>/s, '<div class="topReadContent">');
-                }
-            }
         }
         if (html.includes('<iframe') || html.includes('<ins') || html.includes('<embed') || html.includes('<object')) {
             html = html.replace(/<(ins|object|embed|iframe|frame)[^>]*?>[\s\S]*?<\/\1>/gi, '');
@@ -138,9 +100,7 @@ if ($response.statusCode === 200 && (url.includes('html') || (type && type.inclu
             html = html.replace(/<noscript[^>]*?>[\s\S]*?<\/noscript>/g, '');
         }
         html = html.replace(/\balert\s*\([^)]*\)/g, "(void 0)");
-
-        const domainsPattern = domains.map(escapeRegExp).join('|');
-        html = html.replace(new RegExp(`<([a-zA-Z0-9]+)\\s+[^>]*?(src|href|class|id)\\s*=\\s*(['"])[^'"]*?(?:${domainsPattern})[^'"]*?\\3[^>]*?>`, 'gi'), '<$1 style="display:none !important;pointer-events: none !important;">');
+        html = html.replace(new RegExp(`<([a-zA-Z0-9]+)\\s+[^>]*?(src|href|class|id)\\s*=\\s*(['"])[^'"]*?(?:${(domains.map(escapeRegExp).join('|'))})[^'"]*?\\3[^>]*?>`, 'gi'), '<$1 style="display:none !important;pointer-events: none !important;">');
         html = html.replace(/<([a-zA-Z0-9]+)\s+[^>]*?(src|href)\s*=\s*(['"])[^'"]*?\/\/\d+[a-z]+\.[a-z]+(\.(cc|com|xyz|net|org):?)?[^'"]*?\3[^>]*?>/gi, '<$1 style="display:none !important;pointer-events: none !important;">');
 
         if (settingCfg.enable_proxy) {
