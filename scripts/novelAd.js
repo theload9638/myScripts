@@ -1,5 +1,5 @@
 /**
- * version fsd57.3
+ * version fsd57.4
  * createBy： theload9638
  * 配合使用 https://raw.githubusercontent.com/theload9638/myScripts/main/filters/block.list
  * Quantumultx|网页去广告,支持部分小说/漫画
@@ -95,6 +95,7 @@ if ($response.statusCode === 200 && (url.includes('html') || (type && type.inclu
             if(type.includes(charset)){
                 newHeaders['Content-Type']=type.replace(charset,'utf-8');
             }
+            bodyStr+=`<script>for(let i of document.forms){i.acceptCharset='${charset}';}</script>`;
         }
         if (html.includes('<iframe') || html.includes('<ins') || html.includes('<embed') || html.includes('<object')) {
             html = html.replace(/<(ins|object|embed|iframe|frame)[^>]*?>[\s\S]*?<\/\1>/gi, '');
