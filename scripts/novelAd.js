@@ -1,5 +1,5 @@
 /**
- * version fsd57.2
+ * version fsd57.3
  * createBy： theload9638
  * 配合使用 https://raw.githubusercontent.com/theload9638/myScripts/main/filters/block.list
  * Quantumultx|网页去广告,支持部分小说/漫画
@@ -10,7 +10,7 @@
  *   - 未来计划：webStoragePreviewUI / webDebugUI /...
  */
 const url = $request.url;
-let type = $response.headers['Content-Type'] || $response.headers['content-type'];
+let type = $response.headers['Content-Type'];
 const stf_special_key = 'special';
 let defaultSetting = {
     'auto_nxt': true,
@@ -92,6 +92,9 @@ if ($response.statusCode === 200 && (url.includes('html') || (type && type.inclu
             utf8Flag = false;
             html = new TextDecoder(charset, { fatal: false, ignoreBOM: true }).decode(new Uint8Array($response.bodyBytes));
             html = html.replace(charset, 'utf-8');
+            if(type.includes(charset)){
+                newHeaders['Content-Type']=type.replace(charset,'utf-8');
+            }
         }
         if (html.includes('<iframe') || html.includes('<ins') || html.includes('<embed') || html.includes('<object')) {
             html = html.replace(/<(ins|object|embed|iframe|frame)[^>]*?>[\s\S]*?<\/\1>/gi, '');
