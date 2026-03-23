@@ -1,7 +1,18 @@
 # ad or boring game web by dns clear
 # 使用分流直接从dns层面拦截所有广告/页面追踪脚本
 
+host, h.trace.qq.com, reject
+host, pgdt.gtimg.cn, reject
+host, pgdt.gtimg.com, reject
+host, game.eve.mdt.qq.com, reject
+host-suffix, oth.eve.mdt.qq.com, reject
+host-suffix, yfanads.com, reject
 host-suffix,e.kuaishou.com,reject
+
+host,t1t1.com,reject
+host,53zbv723.com,reject
+host,sdfa90523w3213j32h.t9r3a7z.cc,reject
+host,dy.qtorvreotxvaxuimbatromdal.com,reject
 host,union.baidu.com,reject
 host,acscdn.com,reject
 host,u3y8v8u4.aucdn.net,reject

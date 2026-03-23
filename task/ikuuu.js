@@ -19,7 +19,7 @@ if (vals !== undefined) {
                     let suc1 = res.filter(i => i.status === 'fulfilled').map(i => i.value);
                     let f1 = res.filter(i => i.status === 'rejected').map(i => i.reason);;
                     let f2 = suc1.filter(i => !i.headers.hasOwnProperty('Set-Cookie')).map(msg => {
-                        return { error: `登录失败,请检查网络状态`, opts: { email: msg.opts.email,host }, type: 'login' };
+                        return { error: `登录失败,请检查网络状态`, opts: { email: msg.opts.email, host }, type: 'login' };
                     });
                     if (suc1.length !== objKeys.length || f2.length > 0 || f1.length > 0) {
                         let f3 = [...f1, ...f2];
@@ -58,7 +58,7 @@ if (vals !== undefined) {
                                     return {
                                         error: 'sign error',
                                         type: 'sign',
-                                        opts: { email: i ,host}
+                                        opts: { email: i, host }
                                     }
                                 });
                             }
@@ -68,7 +68,7 @@ if (vals !== undefined) {
             }
         } finally {
             if (failed && failed.length > 0) {
-                console.log('任务执行失败:' + failed.map(i =>{
+                console.log('任务执行失败:' + failed.map(i => {
                     return `${i.type}-${i.opts.host}-${i.opts.email}-${i.error}`
                 }).join('\n'));
             }
@@ -101,8 +101,8 @@ function post(req, opts = null, timeout = 5000, type = 'api') {
 }
 
 function loginUp(host, email, passwd) {
-    let tm = ''+Date.now();
-    let bd = `host=${host}&email=${encodeURIComponent(email)}&passwd=${encodeURIComponent(passwd)}&code=&captcha_result[lot_number]=&captcha_result[captcha_output]=&captcha_result[pass_token]=captcha_result[gen_time]=${tm.substring(0,10)}&pageLoadedAt=${tm}`;
+    let tm = '' + Date.now();
+    let bd = `host=${host}&email=${encodeURIComponent(email)}&passwd=${encodeURIComponent(passwd)}&code=&captcha_result[lot_number]=&captcha_result[captcha_output]=&captcha_result[pass_token]=captcha_result[gen_time]=${tm.substring(0, 10)}&pageLoadedAt=${tm}`;
     const req = {
         url: `https://${host}/auth/login`,
         method: 'POST',
@@ -130,19 +130,19 @@ function loginUp(host, email, passwd) {
             email: encodeURIComponent(email),
             passwd: encodeURIComponent(passwd),
             code: undefined,
-            captcha_result:{
+            captcha_result: {
                 lot_number: '',
-                captcha_output:'',
-                pass_token:'',
-                gen_time:''
+                captcha_output: '',
+                pass_token: '',
+                gen_time: ''
             },
-            pageLoadedAt:Date.now()
+            pageLoadedAt: Date.now()
         },
         opts: {
             redirection: false
         }
     };
-    return post(req, { email,host }, 6000, 'login');
+    return post(req, { email, host }, 6000, 'login');
 }
 function signUp(host, emailKey, ck) {
     const req = {
@@ -159,10 +159,31 @@ function signUp(host, emailKey, ck) {
             'X-Requested-With': 'XMLHttpRequest'
         }
     };
-    return post(req, { email: emailKey,host }, undefined, 'sign');
+    return post(req, { email: emailKey, host }, undefined, 'sign');
 }
 
-
+function getCookie(key='ikuuu') {
+    const url = $request.url;
+    if (url.includes('/user/profile')) {
+        const e = $request.headers['Cookie'];
+        const emailKey = (e.split(';')[0]).split('=')[1].replace('%40', '@');
+        if ($prefs.setValueForKey(e, emailKey)) {
+            $notify('获取Cookie成功', '', `key=${emailKey}`);
+            let obj = $prefs.valueForKey(key);
+            if (obj === undefined) {
+                $prefs.setValueForKey(emailKey, key);
+            } else {
+                const arr = obj.split('&');
+                if (!arr.includes(emailKey)) {
+                    obj = obj + '&' + emailKey;
+                    $prefs.setValueForKey(obj, key);
+                }
+            }
+        } else {
+            $notify('获取Cookie失败', 'error', '请检查脚本');
+        }
+    }
+}
 
 
 
