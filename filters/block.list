@@ -1,6 +1,7 @@
 # ad or boring game web by dns clear
 # 使用分流直接从dns层面拦截所有广告/页面追踪脚本
 
+host-suffix,e.kuaishou.com,reject
 host,union.baidu.com,reject
 host,acscdn.com,reject
 host,u3y8v8u4.aucdn.net,reject

@@ -4,7 +4,7 @@
  * 配合使用 https://raw.githubusercontent.com/theload9638/myScripts/main/filters/block.list
  * Quantumultx|网页去广告,支持部分小说/漫画
  * 配合settingCfg自定义页面去广告规则
- * 内置悬浮窗
+ * 内置悬浮窗(残血版)
  *   - 上页/目录/下页/设置
  *   - 支持自动向下滚动/自动下一页(部分页面)/强力杀广告
  *   - 未来计划：webStoragePreviewUI / webDebugUI /...
