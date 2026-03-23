@@ -1,6 +1,14 @@
 # ad or boring game web by dns clear
 # 使用分流直接从dns层面拦截所有广告/页面追踪脚本
 
+host, sf1-scmcdn-tos.pstatp.com, reject
+host-suffix, pemsrv.com, reject
+host, pimg.pichost.top, reject
+host, sp0.baidu.com,reject
+host, bartererfaxtingling.com,reject
+host, holahupa.com, reject
+host, a2put.chinaz.com,reject
+
 host, h.trace.qq.com, reject
 host, pgdt.gtimg.cn, reject
 host, pgdt.gtimg.com, reject
@@ -27,7 +35,6 @@ host,s.click.aliexpress.com,reject
 host,t.ssp.hinet.net,reject
 host,ad-specs.guoshipartners.com,reject
 host,pixel.omnisegment.com,reject
-host,a.pemsrv.com,reject
 host,go.reebr.com,reject
 host,go.rmhfrtnd.com,reject
 host,bcp.crwdcntrl.net,reject
