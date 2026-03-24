@@ -3,6 +3,12 @@
 
 
 host-suffix,kuaishouzt.com,direct
+host, ocsp.globalsign.com, direct
+host, cdn.ynuf.aliapp.org, direct
+host, effect.snssdk.com, direct
+host, ichannel.snssdk.com, direct
+host, tnc3-bjlgy.snssdk.com, direct
+
 host,www.yckceo.com,proxy
 host,jmcomic-zzz.one,proxy
 host,jmcomic-zzz.org,proxy

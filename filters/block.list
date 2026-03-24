@@ -1,6 +1,36 @@
 # ad or boring game web by dns clear
 # 使用分流直接从dns层面拦截所有广告/页面追踪脚本
 
+host, p6-ad-sign.byteimg.com, reject
+host, p9-ad-sign.byteimg.com, reject
+host, i.snssdk.com, reject
+ip-cidr, 49.71.37.101/32, reject
+ip-cidr, 117.71.105.23/32, reject
+ip-cidr, 218.94.207.205/32, reject
+ip-cidr, 117.92.229.188/32, reject
+ip-cidr, 101.36.166.16/32, reject
+ip-cidr, 180.96.2.114/32, reject
+host, dig.bdurl.net, reject
+host-suffix, zijieapi.com, reject
+host, activity-ag.awemeughun.com, reject
+host, mcs.snssdk.com, reject
+host, tnc3-alisc1.snssdk.com, reject
+host, security-lq.snssdk.com, reject
+host, tnc3-aliec2.snssdk.com, reject
+host, is.snssdk.com, reject
+host, msync-im1-vip6-std.easemob.com, reject
+host, apd-pcdnwxlogin.teg.tencent-cloud.net, reject
+host, api.iegadp.qq.com, reject
+host, sf3-ttcdn-tos.pstatp.com, reject
+host-suffix, pglstatp-toutiao.com, reject
+host-wildcard, *default.ixigua.com, reject
+host, v6-novelapp.ixigua.com, reject
+host-wildcard, *novelapp.ixigua.com, reject
+host-suffix, byteorge.com, reject
+host-suffix, bytegoofy.com, reject
+host-suffix, bytedance.com, reject
+
+host, umami.diveng.xyz, reject
 host, sf1-scmcdn-tos.pstatp.com, reject
 host-suffix, pemsrv.com, reject
 host, pimg.pichost.top, reject
@@ -85,7 +115,7 @@ host-suffix,txmz0y.com,reject
 host-suffix,lzicw0.com,reject
 host,www.googleadservices.com,reject
 
-host,ttavej.com,reject
+host, ttavej.com,reject
 host, pagead2.googlesyndication.com , reject
 host, ade.googlesyndication.com,reject
 host, fundingchoicesmessages.google.com,reject
@@ -115,12 +145,11 @@ host, aplsof2fd.flirnapolfwemvrybhszorex.com, reject
 host, aplsof2fd.kyrvrybhsovashordoblarmek.com, reject
 host, jashd.zentaryovorvrybhstazvran.com , reject
 host, yfihpfqfwa2.com, reject
-host,ad2.apx.appier.net,reject
+host, ad2.apx.appier.net,reject
 host, cd.ladsp.com , reject
 host, cdnpf.com,reject
 host,ad.holmesmind.com,reject
 host,cdn.holmesmind.com,reject
-host,securepubads.g.doubleclick.net,reject
 host-suffix, pubfuture-ad.com, reject
 host, jo.cashooshut.com, reject
 host, ad.a-ads.com , reject
@@ -162,7 +191,7 @@ host, ey43.com , reject
 host, ad.parkvv.com, reject
 host, www.gstatic.com, reject
 host, fonts.googleapis.com, reject
-host, googleads.g.doubleclick.net, reject
+host-suffix,g.doubleclick.net, reject
 
 host, fonts.gstatic.cn, reject
 host, *.gstatic.com , reject
@@ -176,7 +205,6 @@ host-suffix,pangolin-sdk-toutiao.com,reject
 host-suffix,gdt.qq.com,reject
 host,splash.bdstatic.com,reject
 host-suffix,gdtimg.com,reject
-host, sf3-fe-tos.pglstatp-toutiao.com, reject
 host, p66-ad.adkwai.com, reject
 host, adsmind.ugdtimg.com, reject
 host, pgdt.ugdtimg.com, reject

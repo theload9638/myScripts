@@ -79,6 +79,7 @@ if (vals !== undefined) {
     console.log('ikuuu执行任务失败,请提供用户凭证');
     $done();
 }
+
 function toCastFail(failedList, rowList) {
     if (!!failedList && failedList.length > 0) {
         return [...failedList.map(i => i.opts.email)];
