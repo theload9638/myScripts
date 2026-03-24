@@ -12,7 +12,7 @@
   #开屏
 ^https?:\/\/magev6\.if\.qidian\.com\/argus\/api\/v4\/client\/getsplashscreen\? url reject-200
   #图标/banner/弹窗广告
-^https?:\/\/magev6\.if\.qidian\.com\/argus\/api\/(v1|v2|v4)\/(bookshelf|adv|client|popup|freshman|dailyrecommend)\/(getHoverAdv|getad|getadvlistbatch|getsplashscreen|batchget|iosad|freshmanGuidePopup|getdailyrecommend|getTopOperation) url reject-200
+^https?:\/\/magev6\.if\.qidian\.com\/argus\/api\/(v1|v2|v4)\/(bookshelf|adv|client|popup|freshman|dailyrecommend)\/(getHoverAdv|getad|getadvlistbatch|getsplashscreen|batchget|iosad|freshmanGuidePopup|getdailyrecommend|getTopOperation) url reject-dict
   #我的净化
 ^https:\/\/magev6\.if\.qidian\.com\/argus\/api\/v3\/user\/getaccountpage url script-response-body https://raw.githubusercontent.com/theload9638/myScripts/main/scripts/qd.js
   #弹窗广告配置
