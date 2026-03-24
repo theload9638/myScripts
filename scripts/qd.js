@@ -1,3 +1,36 @@
+/*
+# !name=起点净化
+# !author=theload9638
+
+****************
+
+[rewrite_local]
+
+#qidian
+  #猜你喜欢
+^https?:\/\/magev6\.if\.qidian\.com\/argus\/api\/v1\/dailyrecommend\/recommendBook\? url reject-dict
+  #开屏
+^https?:\/\/magev6\.if\.qidian\.com\/argus\/api\/v4\/client\/getsplashscreen\? url reject-200
+  #图标/banner/弹窗广告
+^https?:\/\/magev6\.if\.qidian\.com\/argus\/api\/(v1|v2|v4)\/(bookshelf|adv|client|popup|freshman|dailyrecommend)\/(getHoverAdv|getad|getadvlistbatch|getsplashscreen|batchget|iosad|freshmanGuidePopup|getdailyrecommend|getTopOperation) url reject-200
+  #我的净化
+^https:\/\/magev6\.if\.qidian\.com\/argus\/api\/v3\/user\/getaccountpage url script-response-body https://raw.githubusercontent.com/theload9638/myScripts/main/scripts/qd.js
+  #弹窗广告配置
+^https?:\/\/magev6\.if\.qidian\.com\/argus\/api\/v1\/client\/getconf url script-response-body https://raw.githubusercontent.com/theload9638/myScripts/main/scripts/qd.js
+^https?:\/\/magev6\.if\.qidian\.com\/argus\/api\/v1\/client\/getconfSpecify url jsonjq-response-body '.Data.AdvideoPositionConfig=[]'
+  #更新配置
+^https?:\/\/magev6\.if\.qidian\.com\/argus\/api\/v1\/client\/iOSUpdateNew url jsonjq-response-body '.Data.ForceUpdate=0'
+  #发现净化
+^https:?\/\/magev6\.if\.qidian\.com\/argus\/api\/v1\/user\/getsimplediscover url script-response-body https://raw.githubusercontent.com/theload9638/myScripts/main/scripts/qd.js
+^https:?\/\/magev6\.if\.qidian\.com\/argus\/api\/v1\/discovery/getdiscoverpagefeeds url jsonjq-response-body '.|del(.Data.AdvItem)|del(.Data.BroadCasts)'
+  #章节净化
+^https?:\/\/magev6\.if\.qidian\.com\/argus\/api\/v1\/assembly\/toolbar url jsonjq-response-body '.|del(.Data.Toolbar.Adv)'
+
+[mitm]
+hostname = magev6.if.qidian.com
+
+*/
+
 const url = $request.url;
 
 if(url.includes('/v3/user/getaccountpage')){
