@@ -1,12 +1,12 @@
 /**
- * version fsd57.13
+ * version fsd57.14
  * createBy： theload9638
  * 配合使用 https://raw.githubusercontent.com/theload9638/myScripts/main/filters/block.list
  * Quantumultx|网页去广告,支持部分小说/漫画
  * 配合settingCfg自定义页面去广告规则
  * 内置悬浮窗(残血版)
  *   - 上页/目录/下页/设置
- *   - 支持自动向下滚动/自动下一页(部分页面)/强力杀广告
+ *   - 支持自动向下滚动/自动下一页(部分页面)/强力杀广告(1.0)
  *   - 未来计划：webStoragePreviewUI / webDebugUI /...
  */
 const url = $request.url;
@@ -64,16 +64,14 @@ if ($response.statusCode === 200 && (url.includes('html') || (type && type.inclu
     }
     const newHeaders = { ...$response.headers };
     let domains = [
-        'banner','textad','adBlock',
-        'javlib','_ad','ads','/ad','logo',
-        'ad-body','-ad','javascript:void(0)',
-        'popup','collect','analysis'
+        'banner','textad','adBlock','javlib','_ad','ads','/ad','logo',
+        'ad-body','-ad','javascript:void(0)','popup','collect','analysis'
     ];
     if (Array.isArray(settingCfg.domains) && settingCfg.domains.length > 0) {
         domains = domains.concat(settingCfg.domains);
     }
     const escapeRegExp = (str) => str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-    let styleStr = ['ins,iframe,frame,[rel*="noopener"],*[data-show],.div-bf-pv, #popadv_popmenu,.popadv_popmenu,#popadv_code,.popadv_code,#billboard-modal,#onclickshowdiv,.adv-6park,.view_ad_incontent,#smx_wrap,#aswift_9,#aswift_9_host,.modal-backdrop,.place_holder_box,.dmca_box,a:has(img[src*="gif"]),#guide-modal,#ad_iframe,.c835e-33_e,.float-right-daily,.exo_wrapper_show,.web-right-float-button,#exo-native-widget-5098390-adX3C,.float-right-image,.tui,.exo-native-widget,.exo-native-widget-outer-container,.group-notice,.bYtYBpFi,.tmwac,#announceinfo,.slide-ad,#slide-ad,.recoBox2,.tuijian,.btnErrorW,.pHS5vbgQ_main_outstream,.vote-section,.root--26nWL,.bottomRight--h0VsQ,.slideAnimation--2ih2G,#comments,#comment_list,video,.comment-section,.banner_box,#opSOzAp,audio,#__copy,.subtitle-container,.ai-detection-feedback,.ad_float,.ad_list_top,#infoad,div[data-ad],.banner,.ad-body,.logo_box,.ad_encode,#ad_encode,#ad-body,#banner,.ad-video,#video-ad-ui,.copyright,.GoogleActiveViewInnerContainer,.adsbygoogle,.adsbygoogle-noablate,.google-auto-placed,#ad-video,#ad-container,.adBlock,#adBlock,.ad-mob,#ad-mob,.mobile-ad,#mobile-ad,.m-ad,#m-ad,.popup,.ads,#ads,.advertisement,#advertisement,embed,object,.ad,.ad-container,.ad-wrap,#ad-wrap,.ad-box,#ad-box,#ad,.footer,#footer{display:none !important;pointer-events: none !important;}'];
+    let styleStr = ['ins,iframe,frame,[rel*="noopener"],*[data-show],.div-bf-pv, .a_d_sidebar,#a_d_sidebar,#popadv_popmenu,.popadv_popmenu,#popadv_code,.popadv_code,#billboard-modal,#onclickshowdiv,.adv-6park,.view_ad_incontent,#smx_wrap,#aswift_9,#aswift_9_host,.modal-backdrop,.place_holder_box,.dmca_box,a:has(img[src*="gif"]),#guide-modal,#ad_iframe,.c835e-33_e,.float-right-daily,.exo_wrapper_show,.web-right-float-button,#exo-native-widget-5098390-adX3C,.float-right-image,.tui,.exo-native-widget,.exo-native-widget-outer-container,.group-notice,.bYtYBpFi,.tmwac,#announceinfo,.slide-ad,#slide-ad,.recoBox2,.tuijian,.btnErrorW,.pHS5vbgQ_main_outstream,.vote-section,.root--26nWL,.bottomRight--h0VsQ,.slideAnimation--2ih2G,#comments,#comment_list,video,.comment-section,.banner_box,#opSOzAp,audio,#__copy,.subtitle-container,.ai-detection-feedback,.ad_float,.ad_list_top,#infoad,div[data-ad],.banner,.ad-body,.logo_box,.ad_encode,#ad_encode,#ad-body,#banner,.ad-video,#video-ad-ui,.copyright,.GoogleActiveViewInnerContainer,.adsbygoogle,.adsbygoogle-noablate,.google-auto-placed,#ad-video,#ad-container,.adBlock,#adBlock,.ad-mob,#ad-mob,.mobile-ad,#mobile-ad,.m-ad,#m-ad,.popup,.ads,#ads,.advertisement,#advertisement,embed,object,.ad,.ad-container,.ad-wrap,#ad-wrap,.ad-box,#ad-box,#ad,.footer,#footer{display:none !important;pointer-events: none !important;}'];
     let bodyStr = '';
     try {
         let charsetRes = /<meta[^>]*?charset\s*=\s*(['"]?)([^>'"]+)\1?/i.exec(html);
@@ -90,7 +88,7 @@ if ($response.statusCode === 200 && (url.includes('html') || (type && type.inclu
             if(type.includes(charset)){
                 newHeaders['Content-Type']=type.replace(charset,'utf-8');
             }
-            bodyStr+=`<script>for(let i of document.forms){i.acceptCharset='${charset}';}</script>`;
+            bodyStr+=`<script>for(let i of document.forms){if(!i.acceptCharset){i.acceptCharset='${charset}'}}</script>`;
         }
         if (html.includes('<iframe') || html.includes('<ins') || html.includes('<embed') || html.includes('<object')) {
             html = html.replace(/<(ins|object|embed|iframe|frame)[^>]*?>[\s\S]*?<\/\1>/gi, '');
