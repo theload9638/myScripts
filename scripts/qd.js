@@ -10,7 +10,7 @@
   #猜你喜欢
 ^https?:\/\/(magev6|h5)\.if\.qidian\.com\/argus\/api\/v1\/dailyrecommend\/recommendBook url reject-dict
   #开屏
-^https?:\/\/(magev6|h5)\.if\.qidian\.com\/argus\/api\/v4\/client\/getsplashscreen url reject-200
+^https?:\/\/(magev6|h5)\.if\.qidian\.com\/argus\/api\/v4\/client\/getsplashscreen url reject
   #广告
 ^https?:\/\/(magev6|h5)\.if\.qidian\.com\/argus\/api\/v2\/video\/adv url reject-200
 ^https?:\/\/(magev6|h5)\.if\.qidian\.com\/argus\/api\/(v1|v2)\/(bookshelf|client|adv)\/(getHoverAdv|iosad|getadvlistbatch|getad|getadvlist) url reject
