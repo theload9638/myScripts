@@ -1,5 +1,10 @@
-#msb 解锁
+/*
 
+# !name = msb 解锁
+# !desc = 解锁视频播放
+# !author = theload9638
+
+[rewrite_local]
 ^https?:\/\/gateway\.mashibing\.com\/edu-market\/app\/advertisement\/info url reject-dict
 ^https?:\/\/gateway\.mashibing\.com\/edu-market\/admin\/float\/advertisement\/info url reject-dict
   #更新
@@ -30,5 +35,9 @@
   #问题查看
 ^https?:\/\/gateway\.mashibing\.com\/edu-qa\/(question|user)\/(hasQuestionPermission|isQaTeacherOrAssistant) url jsonjq-response-body '.data=true'
 
+[mitm]
 hostname = gateway.mashibing.com
+
+
+ */
 

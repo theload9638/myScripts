@@ -8,6 +8,7 @@ host, api-fd.dutils.com, direct
 host, iects.doglobal.net, direct
 host, icanhazip.com, direct
 
+host-suffix,kskwai.com,direct
 host-suffix,kuaishouzt.com,direct
 host, ocsp.globalsign.com, direct
 host, cdn.ynuf.aliapp.org, direct

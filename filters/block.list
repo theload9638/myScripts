@@ -1,6 +1,7 @@
 # ad or boring game web by dns clear
 # 使用分流直接从dns层面拦截所有广告/页面追踪脚本
 
+ip-cidr, 120.232.222.19/32, reject
 host, ads-img-qc.xhscdn.com, reject
 host, ads-video-al.xhscdn.com, reject
 host, ads-video-qc.xhscdn.com, reject
@@ -201,9 +202,8 @@ host, diagramjawlineunhappy.com , reject
 host, xbbb.org , reject
 host, ey43.com , reject
 host, ad.parkvv.com, reject
-host, www.gstatic.com, reject
 host, fonts.googleapis.com, reject
-host-suffix,g.doubleclick.net, reject
+host-suffix,doubleclick.net, reject
 
 host, fonts.gstatic.cn, reject
 host, *.gstatic.com , reject

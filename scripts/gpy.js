@@ -1,5 +1,10 @@
-# gpy 解锁
+/*
 
+# !name = gpy 解锁
+# !desc = 解锁视频播放
+# !author = theload9638
+
+[rewrite_local]
   #更新
 ^https?:\/\/ke\.gupaoedu\.cn\/.*\/api\/ke\/app\/checkUpdate url jsonjq-response-body '.data.forced=false'
   #banner
@@ -12,4 +17,9 @@
   #内推显示
 ^https?:\/\/ke\.gupaoedu\.cn\/.*\/api\/ke\/user\/(?=.*simpleInfo) url jsonjq-response-body '.data.isVip=1|.data.inviteAuth=1'
 
+[mitm]
 hostname = ke.gupaoedu.cn
+
+
+
+ */
