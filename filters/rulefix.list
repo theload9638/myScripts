@@ -1,6 +1,12 @@
 # fix rule
 # 规则修正
 
+#flylu
+host, devs-data.dutils.com, direct
+host, api-fc.dutils.com, direct
+host, api-fd.dutils.com, direct
+host, iects.doglobal.net, direct
+host, icanhazip.com, direct
 
 host-suffix,kuaishouzt.com,direct
 host, ocsp.globalsign.com, direct

@@ -1,6 +1,12 @@
 # ad or boring game web by dns clear
 # 使用分流直接从dns层面拦截所有广告/页面追踪脚本
 
+host, ads-img-qc.xhscdn.com, reject
+host, ads-video-al.xhscdn.com, reject
+host, ads-video-qc.xhscdn.com, reject
+host, t-ads.xiaohongshu.com, reject
+
+host-suffix, etoolads.cn , reject
 host, log1.cmpassport.com, reject
 host, unitelogreport.reader.qq.com ,reject
 host, webcast3-open-lf.douyin.com , reject

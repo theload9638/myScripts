@@ -1,8 +1,12 @@
-#!name=Jm去广告
-#!desc=jm mini clear 99% ad , supports app and web ,超级净化,支持App和网页版
-# createBy： theload9638
+/*
+# !name=Jm去广告
+# !desc=jm mini clear 99% ad , supports app and web ,超级净化,支持App和网页版
+# !author=theload9638
 # 配合使用 https://raw.githubusercontent.com/theload9638/myScripts/main/filters/block.list 
 
+************************************
+
+[rewrite_local]
   # ad and comic_ad
 ^https?:\/\/www\.cdn(bea|sha|zack|ntr|gwc|hth|hjk)\.(org|cc|net|club)\/ad_template url reject-200
 ^https?:\/\/www\.cdn(bea|sha|zack|ntr|gwc|hth|hjk)\.(org|cc|net|club)\/chapter_view_template url script-response-body https://raw.githubusercontent.com/theload9638/myScripts/main/scripts/novel.js
@@ -24,5 +28,8 @@
 
 ^https?:\/\/(18comic|jmcomic-zzz)\.(vip|ink|one|org) text/html url-and-header script-response-body https://raw.githubusercontent.com/theload9638/myScripts/main/scripts/novel.js
 
-
+[mitm]
 hostname = syndication.realsrv.com,a.realsrv.com,jmcomic-zzz.one,jmcomic-zzz.org,18comic.ink,18comic.vip,www.cdnbea.org,www.cdnsha.org,www.cdnzack.cc,www.cdnntr.cc,www.cdnhth.club,www.cdngwc.cc,www.cdngwc.club,www.cdngwc.net,www.cdnhjk.cc,cdn-msp*.jmapiproxy*.*,cn-appdata.jmapiproxy*.cc,cdn-msp*.jmdanjonproxy*.*,cdn-msp*.18comic.*,tencent.jmdanjonproxy.xyz,s.chnsrv.com,a.chnsrv.com
+
+
+*/
