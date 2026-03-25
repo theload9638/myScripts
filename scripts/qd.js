@@ -52,7 +52,6 @@ if(url.includes('/user/getaccountpage')){
     delete bd['Data']['AudioGuide'];
     delete bd['Data']['ActivityIcon'];
     delete bd['Data']['BookShelfBottomIcons'];
-    delete bd['Data']['AudioConfig']['AudioUnLoginGuide'];
     bd['Data']['RemoveAllNotificationsOnTap']='1';
     bd['Data']['BusinessSplashCoolDownTime']='0';
     bd['Data']['AdVideoPositionConfig']=[];
