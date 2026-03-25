@@ -1,6 +1,7 @@
 # ad or boring game web by dns clear
 # 使用分流直接从dns层面拦截所有广告/页面追踪脚本
 
+host, content-open.douyin.com , reject
 host, game.str.mdt.qq.com, reject
 host, p6-ad-sign.byteimg.com, reject
 host, p9-ad-sign.byteimg.com, reject
