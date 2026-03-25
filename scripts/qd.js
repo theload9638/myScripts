@@ -13,10 +13,10 @@
 ^https?:\/\/(magev6|h5)\.if\.qidian\.com\/argus\/api\/v4\/client\/getsplashscreen url reject-200
   #广告
 ^https?:\/\/(magev6|h5)\.if\.qidian\.com\/argus\/api\/v2\/video\/adv url reject-200
-^https?:\/\/(magev6|h5)\.if\.qidian\.com\/argus\/api\/(v1|v2)\/(bookshelf|client|adv)\/(getHoverAdv|iosad|getadvlistbatch|getad|getadvlist) url reject-200
+^https?:\/\/(magev6|h5)\.if\.qidian\.com\/argus\/api\/(v1|v2)\/(bookshelf|client|adv)\/(getHoverAdv|iosad|getadvlistbatch|getad|getadvlist) url reject
   #弹窗/卡片
-^https?:\/\/(magev6|h5)\.if\.qidian\.com\/argus\/api\/v1\/(popup|booksquare|freshman|bookshelf|dailyrecommend)\/(batchget|getfloatcard|freshmanGuidePopup|getTopOperation|getdailyrecommend) url reject-dict
-^https?:\/\/(magev6|h5)\.if\.qidian\.com\/argus\/api\/v1\/widget\/getContent url reject-dict
+^https?:\/\/(magev6|h5)\.if\.qidian\.com\/argus\/api\/v1\/popup\/batchget url jsonjq-response-body '.Data.PopupList=[]'
+^https?:\/\/(magev6|h5)\.if\.qidian\.com\/argus\/api\/v1\/(bookshelf|freshman|popup|booksquare|freshman|bookshelf|dailyrecommend)\/(getTopOperation|freshmanGuidePopup|getfloatcard|getdailyrecommend) url jsonjq-response-body '{"Message":"未命中策略","Result":-452000}'
   #我的净化
 ^https:\/\/(magev6|h5)\.if\.qidian\.com\/argus\/api\/v3\/user\/getaccountpage url script-response-body https://raw.githubusercontent.com/theload9638/myScripts/main/scripts/qd.js
   #弹窗广告配置
