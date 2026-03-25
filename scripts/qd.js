@@ -10,7 +10,7 @@
   #猜你喜欢
 ^https?:\/\/(magev6|h5)\.if\.qidian\.com\/argus\/api\/v1\/dailyrecommend\/recommendBook url reject-dict
   #每日导读
-^https?:\/\/(magev6|h5)\.if\.qidian\.com\/argus\/api\/v1\/dailyrecommend\/getdailyrecommend url jsonjq-response-body '{"Message":"未命中策略","Result":-452000}'
+^https?:\/\/(magev6|h5)\.if\.qidian\.com\/argus\/api\/v2\/dailyrecommend\/getdailyrecommend url reject-dict
   #开屏
 ^https?:\/\/(magev6|h5)\.if\.qidian\.com\/argus\/api\/v4\/client\/getsplashscreen url jsonjq-response-body '{"Message":"未命中策略","Result":-452000}'
   #广告
