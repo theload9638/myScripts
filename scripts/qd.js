@@ -40,11 +40,7 @@ hostname = magev6.if.qidian.com,h5.if.qidian.com
 */
 
 const url = $request.url;
-if (!$response.body) {
-  $done({});
-  return;
-}
-if (url.includes('/user/getaccountpage')) {
+if (url.includes('/getaccountpage')) {
   let body = JSON.parse($response.body);
   let v1 = ['游戏中心', '卡牌广场', '周边商城'];
   let v2 = ['我发布的', '关注收藏', '我的全订', '浏览记录'];
@@ -52,6 +48,12 @@ if (url.includes('/user/getaccountpage')) {
   body['Data']['FunctionButtonList'] = body['Data']['FunctionButtonList'].filter(i => v2.includes(i['Name']));
   body['Data']['BottomButtonList'] = body['Data']['BottomButtonList'].filter(i => i['Name'].includes('帮助'));
   body['Data']['Member']['SubTitle'] = '';
+  body['Data']['AccountBalance']['YdFreeBalance']=999;
+  body['Data']['AccountBalance']['YdBalance']=999;
+  body['Data']['AccountBalance']['QdFreeBalance']=999;
+  body['Data']['AccountBalance']['QdBalance']=999;
+  body['Data']['AccountBalance']['Coupon']=999;
+  body['Data']['AccountBalance']['NewCoupon']=999;
   $done({ body: JSON.stringify(body) });
 } else if (url.includes('/v1/client/getconf')) {
   let bd = JSON.parse($response.body);
@@ -84,6 +86,4 @@ if (url.includes('/user/getaccountpage')) {
   bd['Data']['PushSwitchPopData']['ShowPop']=0;
   bd['Data']['MemberFlag']=1;
   $done({ body: JSON.stringify(bd) });
-}else {
-  $done({});
 }
