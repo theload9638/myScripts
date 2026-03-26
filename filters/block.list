@@ -17,8 +17,8 @@ host-wildcard, webcast*-open-lf.douyin.com , reject
 host, content-open.douyin.com , reject
 host, game.str.mdt.qq.com, reject
 host-wildcard, p*-ad-sign.byteimg.com, reject
-host-keword, pangolin-sdk-toutiao, reject
-host-keword, pglstatp-toutiao, reject
+host-keyword,pangolin-sdk-toutiao,reject
+host-keyword,pglstatp-toutiao,reject
 
 host, i.snssdk.com, reject
 host, i-lq-snssdk.com, reject
