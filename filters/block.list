@@ -12,6 +12,7 @@ host-suffix, etoolads.cn , reject
 host, log1.cmpassport.com, reject
 host, unitelogreport.reader.qq.com ,reject
 host, webcast3-open-lf.douyin.com , reject
+host, webcast5-open-lf.douyin.com , reject
 host, content-open.douyin.com , reject
 host, game.str.mdt.qq.com, reject
 host, p6-ad-sign.byteimg.com, reject
