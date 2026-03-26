@@ -11,12 +11,13 @@ host, t-ads.xiaohongshu.com, reject
 host-suffix, etoolads.cn , reject
 host, log1.cmpassport.com, reject
 host, unitelogreport.reader.qq.com ,reject
-host, webcast3-open-lf.douyin.com , reject
-host, webcast5-open-lf.douyin.com , reject
+host-wildcard, webcast*-open-lf.douyin.com , reject
 host, content-open.douyin.com , reject
 host, game.str.mdt.qq.com, reject
-host, p6-ad-sign.byteimg.com, reject
-host, p9-ad-sign.byteimg.com, reject
+host-wildcard, p*-ad-sign.byteimg.com, reject
+host-suffix,pangolin-sdk-toutiao.com,reject
+host-suffix,pangolin-sdk-toutiao1.com,reject
+
 host, i.snssdk.com, reject
 host, i-lq-snssdk.com, reject
 ip-cidr, 49.71.37.101/32, reject
@@ -215,7 +216,6 @@ host, bundlemoviepumice.com , reject
 
 host-wildcard, p*-sign.douyinpic.com, reject
 host, advmonitor.tantanapp.com, reject
-host-suffix,pangolin-sdk-toutiao.com,reject
 host-suffix,gdt.qq.com,reject
 host,splash.bdstatic.com,reject
 host-suffix,gdtimg.com,reject
