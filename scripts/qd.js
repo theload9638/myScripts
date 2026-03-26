@@ -59,7 +59,7 @@ if (url.includes('/user/getaccountpage')) {
   delete bd['Data']['AudioGuide'];
   delete bd['Data']['ActivityIcon'];
   delete bd['Data']['BookShelfBottomIcons'];
-  delete bd['Data']['AudioConfig']['AudioUnLoginGuide'];
+  delete bd.Data?.AudioConfig?.AudioUnLoginGuide;
   bd['Data']['RemoveAllNotificationsOnTap'] = '1';
   bd['Data']['BusinessSplashCoolDownTime'] = '0';
   bd['Data']['AdVideoPositionConfig'] = [];
@@ -67,7 +67,7 @@ if (url.includes('/user/getaccountpage')) {
   bd['Data']['EnableSearchUser'] = '1';
   bd['Data']['IsFreeReadingUser'] = true;
   bd['Data']['SplashScreenRoundCount'] = 0;
-  bd['cloudSetting']['ReadPageVideoTimes'] = '0';
+  bd.Data?.cloudSetting?.ReadPageVideoTimes='0';
   $done({ body: JSON.stringify(bd) });
 } else if (url.includes('/checkin/getcurrentweekcheckininfo')) {
   let bd = JSON.parse($response.body);
@@ -78,14 +78,12 @@ if (url.includes('/user/getaccountpage')) {
   bd['Data']['IsMember']=1;
   bd['Data']['FreeRecheckChanceUsed']=0;
   bd['Data']['Balance']=9999;
-
   $done({ body: JSON.stringify(bd) });
 }else if(url.includes('/checkin/simpleinfo')){
   let bd = JSON.parse($response.body);
   bd['Data']['PushSwitchPopData']['ShowPop']=0;
   bd['Data']['MemberFlag']=1;
   $done({ body: JSON.stringify(bd) });
-}
-else {
+}else {
   $done({});
 }
