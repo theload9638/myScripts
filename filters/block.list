@@ -6,9 +6,6 @@ host,loggw-ex.alipay.com,reject
 host,loggw.alipay.com,reject
 host,loggw.alipay.com.cn,reject
 host,loggw.alipaydns.com,reject
-host,h-adashx.ut.ele.me,reject
-host,adashx.m.taobao.com,reject
-host,h-adashx.ut.taobao.com,reject
 
 host, ys.yuewen.com ,reject
 ip-cidr, 120.232.222.19/32, reject
