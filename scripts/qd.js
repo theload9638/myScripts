@@ -30,6 +30,8 @@
 ^https?:\/\/(magev6|h5)\.if\.qidian\.com\/argus\/api\/v1\/assembly\/toolbar url jsonjq-response-body '.|del(.Data.Toolbar.Adv)'
   #签到
 ^https?:\/\/(magev6|h5)\.if\.qidian\.com\/argus\/api\/v3/checkin\/getcurrentweekcheckininfo url script-response-body https://raw.githubusercontent.com/theload9638/myScripts/main/scripts/qd.js
+  #页信息
+^https?:\/\/(magev6|h5)\.if\.qidian\.com\/argus\/api\/v3/midpage\/pageinfo url jsonjq-response-body '{"Message":"","Result":-280015}'
 
 [mitm]
 hostname = magev6.if.qidian.com,h5.if.qidian.com

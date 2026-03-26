@@ -8,7 +8,18 @@ host,loggw.alipay.com.cn,reject
 host,loggw.alipaydns.com,reject
 host-wildcard,log*-applog-lf.fqnovel.com,reject
 host-wildcard,rtlog*-applog-lf.fqnovel.com,reject
+host,rmonitor.qq.com,reject
+host,p.s.360.cn,reject
+host,aeventlog.beacon.qq.com,reject
+host,alog.umeng.com,reject
+host,ulogs.umeng.com,reject
+host,applog.uc.cn,reject
+host,applog.ucdns.uc.cn,reject
+host,errlog.umeng.com,reject
+host,log.tbs.qq.com,reject
 
+host, rtbcallback.sigmob.cn,reject
+host, track.sigmob.cn,reject
 host, ys.yuewen.com ,reject
 ip-cidr, 120.232.222.19/32, reject
 host, ads-img-qc.xhscdn.com, reject
@@ -27,6 +38,10 @@ host, game.str.mdt.qq.com, reject
 host-wildcard, p*-ad-sign.byteimg.com, reject
 host-keyword,pangolin-sdk-toutiao,reject
 host-keyword,pglstatp-toutiao,reject
+host,toblog.ctobsnssdk.com,reject
+host,pangolin.snssdk.com,reject
+host,mssdk.volces.com,reject
+host,bds.snssdk.com,reject
 
 host, i.snssdk.com, reject
 host, i-lq-snssdk.com, reject
@@ -84,6 +99,7 @@ host,53zbv723.com,reject
 host,sdfa90523w3213j32h.t9r3a7z.cc,reject
 host,dy.qtorvreotxvaxuimbatromdal.com,reject
 host,union.baidu.com,reject
+host,union.baidu.cn,reject
 host,acscdn.com,reject
 host,u3y8v8u4.aucdn.net,reject
 host,ecs.tagtoo.co,reject
