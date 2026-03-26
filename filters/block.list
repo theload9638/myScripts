@@ -6,6 +6,8 @@ host,loggw-ex.alipay.com,reject
 host,loggw.alipay.com,reject
 host,loggw.alipay.com.cn,reject
 host,loggw.alipaydns.com,reject
+host-wildcard,log*-applog-lf.fqnovel.com,reject
+host-wildcard,rtlog*-applog-lf.fqnovel.com,reject
 
 host, ys.yuewen.com ,reject
 ip-cidr, 120.232.222.19/32, reject
@@ -35,6 +37,7 @@ ip-cidr, 117.92.229.188/32, reject
 ip-cidr, 101.36.166.16/32, reject
 ip-cidr, 180.96.2.114/32, reject
 host, dig.bdurl.net, reject
+host, dig.zjurl.cn , reject
 host-suffix, zijieapi.com, reject
 host, activity-ag.awemeughun.com, reject
 host, mcs.snssdk.com, reject
