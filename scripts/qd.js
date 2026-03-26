@@ -52,12 +52,6 @@ if (url.includes('/user/getaccountpage')) {
   body['Data']['FunctionButtonList'] = body['Data']['FunctionButtonList'].filter(i => v2.includes(i['Name']));
   body['Data']['BottomButtonList'] = body['Data']['BottomButtonList'].filter(i => i['Name'].includes('帮助'));
   body['Data']['Member']['SubTitle'] = '';
-  body['Data']['AccountBalance']['YdFreeBalance']=999;
-  body['Data']['AccountBalance']['YdBalance']=999;
-  body['Data']['AccountBalance']['QdFreeBalance']=999;
-  body['Data']['AccountBalance']['QdBalance']=999;
-  body['Data']['AccountBalance']['Coupon']=999;
-  body['Data']['AccountBalance']['NewCoupon']=999;
   $done({ body: JSON.stringify(body) });
 } else if (url.includes('/v1/client/getconf')) {
   let bd = JSON.parse($response.body);
