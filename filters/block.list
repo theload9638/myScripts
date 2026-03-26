@@ -3,6 +3,7 @@
 
 host, devs-data.dutils.com, reject
 host-wildcard, api-*.dutils.com, reject
+host,log-auth.flysleep.cn,reject
 
 host,game.weixin.qq.com,reject
 host,gdfp.gifshow.com,reject
