@@ -7,6 +7,7 @@ host, ads-img-qc.xhscdn.com, reject
 host, ads-video-al.xhscdn.com, reject
 host, ads-video-qc.xhscdn.com, reject
 host, t-ads.xiaohongshu.com, reject
+host-suffix,oceanengine.com,reject
 
 host-suffix, etoolads.cn , reject
 host, log1.cmpassport.com, reject
@@ -15,8 +16,8 @@ host-wildcard, webcast*-open-lf.douyin.com , reject
 host, content-open.douyin.com , reject
 host, game.str.mdt.qq.com, reject
 host-wildcard, p*-ad-sign.byteimg.com, reject
-host-suffix,pangolin-sdk-toutiao.com,reject
-host-suffix,pangolin-sdk-toutiao1.com,reject
+host-keword, pangolin-sdk-toutiao, reject
+host-keword, pglstatp-toutiao, reject
 
 host, i.snssdk.com, reject
 host, i-lq-snssdk.com, reject
@@ -30,15 +31,15 @@ host, dig.bdurl.net, reject
 host-suffix, zijieapi.com, reject
 host, activity-ag.awemeughun.com, reject
 host, mcs.snssdk.com, reject
-host, tnc3-alisc1.snssdk.com, reject
+host-wildcard,tnc*-alisc*.snssdk.com,reject
 host, security-lq.snssdk.com, reject
-host, tnc3-aliec2.snssdk.com, reject
+
 host, is.snssdk.com, reject
 host, msync-im1-vip6-std.easemob.com, reject
 host, apd-pcdnwxlogin.teg.tencent-cloud.net, reject
 host, api.iegadp.qq.com, reject
 host, sf3-ttcdn-tos.pstatp.com, reject
-host-suffix, pglstatp-toutiao.com, reject
+
 host-wildcard, *default.ixigua.com, reject
 host, v6-novelapp.ixigua.com, reject
 host-wildcard, *novelapp.ixigua.com, reject
