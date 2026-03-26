@@ -14,8 +14,8 @@
   #开屏
 ^https?:\/\/(magev6|h5)\.if\.qidian\.com\/argus\/api\/v4\/client\/getsplashscreen url jsonjq-response-body '.Data.List=[]|.Data.SplashTime=0|.Data.ShowTimes=0'
   #广告
-^https?:\/\/(magev6|h5)\.if\.qidian\.com\/argus\/api\/v2\/video\/adv url reject-200
-^https?:\/\/(magev6|h5)\.if\.qidian\.com\/argus\/api\/(v1|v2)\/(bookshelf|client|adv)\/(getHoverAdv|iosad|getadvlistbatch|getad|getadvlist) url reject-200
+^https?:\/\/(magev6|h5)\.if\.qidian\.com\/argus\/api\/v2\/video\/adv url reject
+^https?:\/\/(magev6|h5)\.if\.qidian\.com\/argus\/api\/(v1|v2)\/(bookshelf|client|adv)\/(getHoverAdv|iosad|getadvlistbatch|getad|getadvlist) url reject
   #弹窗/卡片
 ^https?:\/\/(magev6|h5)\.if\.qidian\.com\/argus\/api\/v1\/popup\/batchget url jsonjq-response-body '.Data.PopupList=[]'
 ^https?:\/\/(magev6|h5)\.if\.qidian\.com\/argus\/api\/v1\/(bookshelf|freshman|popup|booksquare|freshman|bookshelf)\/(getTopOperation|freshmanGuidePopup|getfloatcard) url jsonjq-response-body '{"Message":"未命中策略","Result":-452000}'
@@ -33,6 +33,7 @@
   #签到
 ^https?:\/\/(magev6|h5)\.if\.qidian\.com\/argus\/api\/v3/checkin\/getcurrentweekcheckininfo url script-response-body https://raw.githubusercontent.com/theload9638/myScripts/main/scripts/qd.js
 ^https?:\/\/(magev6|h5)\.if\.qidian\.com\/argus\/api\/v2/checkin\/simpleinfo url script-response-body https://raw.githubusercontent.com/theload9638/myScripts/main/scripts/qd.js
+
 [mitm]
 hostname = magev6.if.qidian.com,h5.if.qidian.com
 
@@ -51,7 +52,8 @@ if (url.includes('/user/getaccountpage')) {
   body['Data']['FunctionButtonList'] = body['Data']['FunctionButtonList'].filter(i => v2.includes(i['Name']));
   body['Data']['BottomButtonList'] = body['Data']['BottomButtonList'].filter(i => i['Name'].includes('帮助'));
   body['Data']['Member']['SubTitle'] = '';
-  delete body['Data']['AccountBalance']['RechargeAd'];
+  body['Data']['AccountBalance']['YdFreeBalance']=9999;
+  body['Data']['AccountBalance']['QdFreeBalance']=9999;
   $done({ body: JSON.stringify(body) });
 } else if (url.includes('/v1/client/getconf')) {
   let bd = JSON.parse($response.body);
