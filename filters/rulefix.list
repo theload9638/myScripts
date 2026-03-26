@@ -2,9 +2,6 @@
 # 规则修正
 
 #flylu
-host, devs-data.dutils.com, direct
-host, api-fc.dutils.com, direct
-host, api-fd.dutils.com, direct
 host, iects.doglobal.net, direct
 host, icanhazip.com, direct
 
@@ -27,6 +24,13 @@ host,gsa.apple.com,proxy
 
 #httpdns
 
+host,httpdnsmultiapi.meituan.com,reject
+host,httpdnsmultiapivip.meituan.com,reject
+host-suffix,httpdns.qcloud.com,reject
+host-suffix,httpdns.aliyuncs.com,reject
+host-suffix,dns.wechat.com,reject
+host-suffix,dns.alidns.com,reject
+host,dl.txcdns.com,reject
 IP-CIDR,203.119.206.9/32,reject
 IP-CIDR,203.119.204.80/32,reject
 

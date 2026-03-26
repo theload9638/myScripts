@@ -1,6 +1,24 @@
 # ad or boring game web by dns clear
 # 使用分流直接从dns层面拦截所有广告/页面追踪/日志
 
+host, devs-data.dutils.com, reject
+host, api-fc.dutils.com, reject
+host, api-fd.dutils.com, reject
+
+host,game.weixin.qq.com,reject
+host,gdfp.gifshow.com,reject
+host,log-sdk.gifshow.com,reject
+host,ad.partner.gifshow.com,reject
+host,ulog-sdk.gifshow.com,reject
+host-suffix,safebrowsing.apple,reject
+host,notes-analytics-events.apple.com,reject
+host-suffix,adjust.com,reject
+host, upc.zztfly.com, reject
+host, cfgc.zztfly.com, reject
+host, log-auth.zztfly.com, reject
+host, cdn-api-auth.zztfly.com, reject
+host, ads.cup.com.cn, reject
+
 #日志隐私
 host,loggw-ex.alipay.com,reject
 host,loggw.alipay.com,reject
@@ -17,7 +35,15 @@ host,applog.uc.cn,reject
 host,applog.ucdns.uc.cn,reject
 host,errlog.umeng.com,reject
 host,log.tbs.qq.com,reject
+host,resolver.dingtalk.com,reject
+host,mum.m.alibaba.com,reject
+host,analytics.126.net,reject
 
+host,open.kwaizt.com,reject
+host,safebrowsing.googleapis.com,reject
+host,ogads-pa.googleapis.com,reject
+host,growth-pa.googleapis.com,reject
+host,ogads-pa.clients6.google.com,reject
 host, rtbcallback.sigmob.cn,reject
 host, track.sigmob.cn,reject
 host, ys.yuewen.com ,reject
@@ -42,6 +68,7 @@ host,toblog.ctobsnssdk.com,reject
 host,pangolin.snssdk.com,reject
 host,mssdk.volces.com,reject
 host,bds.snssdk.com,reject
+host,extlog.snssdk.com,reject
 
 host, i.snssdk.com, reject
 host, i-lq-snssdk.com, reject
@@ -64,6 +91,9 @@ host, msync-im1-vip6-std.easemob.com, reject
 host, apd-pcdnwxlogin.teg.tencent-cloud.net, reject
 host, api.iegadp.qq.com, reject
 host, sf3-ttcdn-tos.pstatp.com, reject
+host, ext.baidu.com,reject
+host, dnet.mb.qq.com,reject
+host, mime.baidu.com,reject
 
 host-suffix, advlion.com,reject
 host-wildcard, *default.ixigua.com, reject
@@ -93,6 +123,7 @@ host, game.eve.mdt.qq.com, reject
 host-suffix, oth.eve.mdt.qq.com, reject
 host-suffix, yfanads.com, reject
 host-suffix,e.kuaishou.com,reject
+host-suffix,e.kuaishou.cn,reject
 
 host,t1t1.com,reject
 host,53zbv723.com,reject
@@ -139,11 +170,11 @@ host-suffix,ra12.xyz,reject
 host,mmgame.qpic.cn,reject
 host,arkrecode8.ero-labs.info,reject
 
+host,tracking.purchasely.io,reject
 host,abe.sdhshut.com,reject
 host,star.xfztgxt.com,reject
 host,mobads.baidu.com,reject
 host,mobads-logs.baidu.com,reject
-host-wildcard,p*-ad.adukwai.com,reject
 host,v.adx.hubcloud.com.cn, reject
 host-suffix, bdstatic.com,reject
 host-suffix,realsrv.com,reject
@@ -242,6 +273,9 @@ host, ey43.com , reject
 host, ad.parkvv.com, reject
 host, fonts.googleapis.com, reject
 host-suffix,doubleclick.net, reject
+host,usug.baidu.com,reject
+host,haoma.baidu.com,reject
+host,acs.m.taobao.com,reject
 
 host, fonts.gstatic.cn, rejectt
 host, tpc.googlesyndication.com, reject
@@ -251,15 +285,16 @@ host-wildcard, p*-sign.douyinpic.com, reject
 host, advmonitor.tantanapp.com, reject
 host-suffix,gdt.qq.com,reject
 host-suffix,gdtimg.com,reject
-host, p66-ad.adkwai.com, reject
+host-wildcard, p*-ad.adkwai.com, reject
 host, adsmind.ugdtimg.com, reject
 host, pgdt.ugdtimg.com, reject
 host, tracelog-debug.aiclk.com, reject
 host, ads.adfunlink.com, reject
-host, p2-lm.adukwai.com, reject
+host-suffix, adukwai.com,reject
 ip-cidr, 118.212.136.211/32, reject
 ip-cidr, 117.168.151.76/32, reject
 ip-cidr, 120.203.230.22/32, reject
+host-suffix,mi.gdt.qq.com,reject
 
 host,resource.ad-scope.com.cn,reject
 host,mobads-pre-config.cdn.bcebos.com,reject
