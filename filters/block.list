@@ -8,6 +8,7 @@ host, ads-video-al.xhscdn.com, reject
 host, ads-video-qc.xhscdn.com, reject
 host, t-ads.xiaohongshu.com, reject
 host-suffix,oceanengine.com,reject
+host,ad.wanchuweilai.com,reject
 
 host-suffix, etoolads.cn , reject
 host, log1.cmpassport.com, reject
@@ -40,6 +41,7 @@ host, apd-pcdnwxlogin.teg.tencent-cloud.net, reject
 host, api.iegadp.qq.com, reject
 host, sf3-ttcdn-tos.pstatp.com, reject
 
+host-suffix, advlion.com,reject
 host-wildcard, *default.ixigua.com, reject
 host, v6-novelapp.ixigua.com, reject
 host-wildcard, *novelapp.ixigua.com, reject
@@ -148,6 +150,7 @@ host-suffix, aads.com,reject
 host, acquiredeceasedundress.com,reject
 host, www.clickadu.com, reject
 host, aqle3.com, reject
+host, afd.baidu.com, reject
 host, adflycode.com, reject
 host, creative.xxxvjmp.com, reject
 host, od.henryslyceal.com, reject
@@ -176,26 +179,32 @@ host-suffix, 8tlzg5.com, reject
 host, jl00.jkugbfvh.icu, reject
 host, ejiwvof.icu, reject
 host, ad.tagtoo.co , reject
+host-suffix,wwads.cn,reject
+host, ads.vamaker.com, reject
 host, uec.tagtoo.co, reject
+host, cm.masky.biddingx.com, reject
 host, adc.tamedia.com.tw,reject
 host, 2.mis2662.cc, reject
 host, api.popin.cc, reject
 host, onead.onevision.com.tw, reject
+host, strip.taobaocdn.com, reject
 host, www.lovedate.cc , reject
+host, cb.baidu.com, reject
 host, empire-night.com, reject
 host-suffix, clarity.ms , reject
 host, hm.baidu.com, reject
 host, 85117.net, reject
 host, a8w19.ppdchhmi.cc, reject
+host, entry.baidu.com,reject
 host, www.interactivebrokers.com, reject
 host-suffix, dxzgwti.com, reject
+
 host, static-proxy.strpst.com, reject
 host, nsclick.baidu.com,reject
 host, 29628kldxjjs.eyiyoxz.xyz,reject
 host, 29628odxjccp.nszzkeh.com, reject
-host, pos.baidu.com,reject
-host, wn.pos.baidu.com,reject
-host, cpro.baidustatic.com,reject
+host-suffix, pos.baidu.com,reject
+host-suffix, baidustatic.com,reject
 host, 3e87c0802f91cf8cgg.lzicw0.com, reject
 host, 29782a430255d79f2wap.jigool.org,reject
 host-suffix, mavrtracktor.com , reject
@@ -209,16 +218,13 @@ host, ad.parkvv.com, reject
 host, fonts.googleapis.com, reject
 host-suffix,doubleclick.net, reject
 
-host, fonts.gstatic.cn, reject
-host, *.gstatic.com , reject
+host, fonts.gstatic.cn, rejectt
 host, tpc.googlesyndication.com, reject
 host, bundlemoviepumice.com , reject
-
 
 host-wildcard, p*-sign.douyinpic.com, reject
 host, advmonitor.tantanapp.com, reject
 host-suffix,gdt.qq.com,reject
-host,splash.bdstatic.com,reject
 host-suffix,gdtimg.com,reject
 host, p66-ad.adkwai.com, reject
 host, adsmind.ugdtimg.com, reject
