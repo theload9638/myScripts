@@ -2,8 +2,7 @@
 # 使用分流直接从dns层面拦截所有广告/页面追踪/日志
 
 host, devs-data.dutils.com, reject
-host, api-fc.dutils.com, reject
-host, api-fd.dutils.com, reject
+host-wildcard, api-*.dutils.com, reject
 
 host,game.weixin.qq.com,reject
 host,gdfp.gifshow.com,reject
