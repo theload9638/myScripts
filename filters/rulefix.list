@@ -1,6 +1,11 @@
 # fix rule
 # 规则修正
 
+host-wildcard,tnc*-alisc*.zijieapi.com,direct
+host-wildcard,tnc*-bjlgy*.zijieapi.com,direct
+host-wildcard,tnc*-alisc*.snssdk.com,direct
+host-wildcard,tnc*-bjlgy*.snssdk.com,direct
+
 #flylu
 host, iects.doglobal.net, direct
 host, icanhazip.com, direct
@@ -55,7 +60,7 @@ HOST,httpdnsvip.meituan.com,reject
 HOST,httpsdns.baidu.com,reject
 HOST,lofter.httpdns.c.163.com,reject
 HOST,music.httpdns.c.163.com,reject
-HOST-SUFFIX,httpdns.pro,reject
+HOST-suffix,httpdns.pro,reject
 IP-CIDR,101.124.19.122/32,reject
 IP-CIDR,101.91.140.124/32,reject
 IP-CIDR,101.91.140.224/32,reject

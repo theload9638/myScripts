@@ -95,7 +95,6 @@ host, dig.zjurl.cn , reject
 host-suffix, zijieapi.com, reject
 host, activity-ag.awemeughun.com, reject
 host, mcs.snssdk.com, reject
-host-wildcard,tnc*-alisc*.snssdk.com,reject
 host, security-lq.snssdk.com, reject
 
 host, is.snssdk.com, reject
@@ -168,7 +167,6 @@ host,fans.91selfie.com,reject
 host,tutu.ta76h13tz091bpcr.com,reject
 host,hongniu.ewytek.com,reject
 host,txdy.vsamhos.com,reject
-host,img.alicdn.com,reject
 host,l.erodalabs.com,reject
 host,frozenpayerpregnant.com,reject
 host,creative.bluetrafficstream.com,reject
@@ -285,7 +283,6 @@ host, fonts.googleapis.com, reject
 host-suffix,doubleclick.net, reject
 host,usug.baidu.com,reject
 host,haoma.baidu.com,reject
-host,acs.m.taobao.com,reject
 
 host, fonts.gstatic.cn, rejectt
 host-suffix, googlesyndication.com, reject
