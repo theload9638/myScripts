@@ -5,7 +5,6 @@
 host, iects.doglobal.net, direct
 host, icanhazip.com, direct
 
-host, px.effirst.com,direct
 host, ad.12306.cn, direct
 host-suffix,kskwai.com,direct
 host-suffix,kuaishouzt.com,direct

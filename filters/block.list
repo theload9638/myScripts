@@ -5,6 +5,11 @@ host, devs-data.dutils.com, reject
 host-wildcard, api-*.dutils.com, reject
 host,log-auth.flysleep.cn,reject
 host-suffix,beizi.biz,reject
+host-suffix,mrktmtrcs.net,reject
+host,waust.at,reject
+host,mc.yandex.ru,reject
+host,attractivereception.com,reject
+host,jcdn.tsyndicate.com,reject
 
 host,game.weixin.qq.com,reject
 host,gdfp.gifshow.com,reject
@@ -21,6 +26,10 @@ host, cdn-api-auth.zztfly.com, reject
 host, ads.cup.com.cn, reject
 
 #日志隐私
+host, px.effirst.com,reject
+host, log-global.aliyuncs.com,reject
+host, px.wpk.quark.cn,reject
+host,app-analytics-services.com,reject
 host,datagw-edge.alipay.com,reject
 host,loggw-ex.alipay.com,reject
 host,loggw.alipay.com,reject
