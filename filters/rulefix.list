@@ -36,6 +36,7 @@ host-suffix,dns.wechat.com,reject
 host-suffix,dns.alidns.com,reject
 host,dl.txcdns.com,reject
 IP-CIDR,203.119.206.9/32,reject
+IP-CIDR,203.119.206.8/32,reject
 IP-CIDR,203.119.204.80/32,reject
 
 HOST,dns.jd.com,reject
