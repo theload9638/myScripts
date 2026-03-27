@@ -295,7 +295,6 @@ host-suffix, adukwai.com,reject
 ip-cidr, 118.212.136.211/32, reject
 ip-cidr, 117.168.151.76/32, reject
 ip-cidr, 120.203.230.22/32, reject
-host-suffix,mi.gdt.qq.com,reject
 
 host,resource.ad-scope.com.cn,reject
 host,mobads-pre-config.cdn.bcebos.com,reject
