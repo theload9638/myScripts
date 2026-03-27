@@ -13,10 +13,10 @@
   # 广告/视频/游戏
 ^https?:\/\/www\.cdn(bea|sha|zack|ntr|gwc|hth|hjk)\.(org|cc|net|club)\/(advertise|allgames|videos|advertise_all|ad_content_all) url reject-dict
   #logo
-^https?:\/\/(cdn-msp(\d)*|cn-appdata|tencent)\.(jmapiproxy|jmdanjonproxy|18comic)(\d)*\.(cc|vip|xyz|ink|vip)\/media\/logo url reject-200
+//^https?:\/\/(cdn-msp(\d)*|cn-appdata|tencent)\.(jmapiproxy|jmdanjonproxy|18comic)(\d)*\.(cc|vip|xyz|ink|vip)\/media\/logo url reject-200
   # banner/floatAd
-^https?:\/\/(cdn-msp(\d)*|cn-appdata|tencent)\.(jmapiproxy|jmdanjonproxy|18comic)(\d)*\.(cc|vip|xyz|ink|vip)\/static\/resources\/images url reject-200
-^https?:\/\/(cdn-msp(\d)*|cn-appdata|tencent)\.(jmapiproxy|jmdanjonproxy|18comic)(\d)*\.(cc|vip|xyz|ink|vip)\/static\/resources\/files\/(.*)?\.gif url reject-200
+//^https?:\/\/(cdn-msp(\d)*|cn-appdata|tencent)\.(jmapiproxy|jmdanjonproxy|18comic)(\d)*\.(cc|vip|xyz|ink|vip)\/static\/resources\/images url reject-200
+//^https?:\/\/(cdn-msp(\d)*|cn-appdata|tencent)\.(jmapiproxy|jmdanjonproxy|18comic)(\d)*\.(cc|vip|xyz|ink|vip)\/static\/resources\/files\/(.*)?\.gif url reject-200
 ^https?:\/\/(s|syndication)\.(chnsrv|realsrv)\.com\/v1\/api\.php url response-body "zones":\[.+\],"renderers":\{.+\} response-body "zones":[],"renderers":{}
 ^https?:\/\/a\.(chnsrv|realsrv)\.com\/ url reject-200
 
@@ -24,8 +24,8 @@
 
 # web - kill all ad
 
-^https?:\/\/(18comic|jmcomic-zzz)\.(vip|ink|one|org)/static\/resources\/images url reject-200
-^https?:\/\/(18comic|jmcomic-zzz)\.(vip|ink|one|org)\/static\/resources\/files\/(.*)?\.gif url reject-200
+//^https?:\/\/(18comic|jmcomic-zzz)\.(vip|ink|one|org)/static\/resources\/images url reject-200
+//^https?:\/\/(18comic|jmcomic-zzz)\.(vip|ink|one|org)\/static\/resources\/files\/(.*)?\.gif url reject-200
 
 ^https?:\/\/(18comic|jmcomic-zzz)\.(vip|ink|one|org) text/html url-and-header script-response-body https://raw.githubusercontent.com/theload9638/myScripts/main/scripts/novel.js
 
