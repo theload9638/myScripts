@@ -1,6 +1,8 @@
 # ad or boring game web by dns clear
 # 使用分流直接从dns层面拦截所有广告/页面追踪/日志
 
+
+host-suffix,tuvhcf.com,reject
 host,t-ads.xiaohongshu.com,reject
 ip-cidr,104.20.29.203/32,reject
 host,rtbcallback.sigmob.cn,reject

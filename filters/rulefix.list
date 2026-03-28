@@ -1,6 +1,8 @@
 # fix rule
 # 规则修正
 
+host-suffix,ynuf.aliapp.org,direct
+
 host-wildcard,tnc*-alisc*.zijieapi.com,direct
 host-wildcard,tnc*-bjlgy*.zijieapi.com,direct
 host-wildcard,tnc*-alisc*.snssdk.com,direct
@@ -37,6 +39,7 @@ host-suffix,dns.alidns.com,reject
 host,dl.txcdns.com,reject
 IP-CIDR,203.119.206.9/32,reject
 IP-CIDR,203.119.206.8/32,reject
+IP-CIDR,203.119.238.194/32,reject
 IP-CIDR,203.119.204.80/32,reject
 
 HOST,dns.jd.com,reject
