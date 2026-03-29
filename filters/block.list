@@ -13,6 +13,10 @@ host,mon.toutiaocloud.com,reject
 # httpdns
 host-keyword,httpdns,reject
 host-keyword,httpsdns,reject
+USER-AGENT,"httpdns*",reject
+USER-AGENT,"httpsdns*",reject
+USER-AGENT,"Httpdns*",reject
+USER-AGENT,"Httpsdns*",reject
 host,resolver.mi.xiaomi.com,reject
 host,apidns.kwd.inkuai.com,reject
 host,httpdns.browser.miui.com,reject
