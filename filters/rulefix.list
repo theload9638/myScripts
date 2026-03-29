@@ -5,8 +5,10 @@ host-suffix,ynuf.aliapp.org,direct
 
 host-wildcard,tnc*-alisc*.zijieapi.com,direct
 host-wildcard,tnc*-bjlgy*.zijieapi.com,direct
+host-wildcard,tnc*-aliec*.zijieapi.com,direct
 host-wildcard,tnc*-alisc*.snssdk.com,direct
 host-wildcard,tnc*-bjlgy*.snssdk.com,direct
+host-wildcard,tnc*-aliec*.snssdk.com,direct
 
 host, iects.doglobal.net, direct
 host, icanhazip.com, direct
