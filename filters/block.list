@@ -18,6 +18,8 @@ host-wildcard,ec*-core-lq.ecombdapi.com,reject
 host-wildcard,ec*-core-lf.ecombdapi.com,reject
 host-wildcard,ec*-core-hl.ecombdapi.com,reject
 host-wildcard,isaas*-normal-lf.ecombdapi.com,reject
+host,monitor.geetest.com,reject
+host,log.geetest.com,reject
 
 # httpdns
 host-keyword,httpdns,reject
@@ -227,6 +229,7 @@ host,resource.ad-scope.com.cn,reject
 host,adsmind.ugdtimg.com,reject
 host,ads.vamaker.com,reject
 host,sf3-ttcdn-tos.pstatp.com,reject
+host,ad.alimama.com,reject
 host,log-global.aliyuncs.com,reject
 host,wxc70.cc,reject
 host,cr.adsappier.com,reject
