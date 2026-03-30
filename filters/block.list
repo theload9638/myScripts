@@ -7,14 +7,21 @@ host-wildcard,mon*-misc-lf.fqnovel.com,reject
 host-wildcard,mon*-misc.fqnovel.com,reject
 host,lf-normal-gr-sourcecdn.bytegecko.com,reject
 host,lf-webcast-gr-sourcecdn.bytegecko.com,reject
+host,lf-dy-sourcecdn-tos.bytegecko.com,reject
 host,mon.toutiaocloud.net,reject
 host,mon.toutiaocloud.com,reject
 host-wildcard,p*-webcast.douyinpic.com,reject
 host-wildcard,ecom*-normal-lf.ecombdapi.com,reject
 host-wildcard,ecom*-normal-lq.ecombdapi.com,reject
+host-wildcard,ecom*-normal-hl.ecombdapi.com,reject
 host-wildcard,ec*-core-lq.ecombdapi.com,reject
 host-wildcard,ec*-core-lf.ecombdapi.com,reject
+host-wildcard,ec*-core-hl.ecombdapi.com,reject
 host-wildcard,isaas*-normal-lf.ecombdapi.com,reject
+host-wildcard,api*-normal-lf.fqnovel.com,reject
+host-wildcard,api*-normal-lq.fqnovel.com,reject
+host-wildcard,api*-normal-hl.fqnovel.com,reject
+host-wildcard,api*-normal-sinfonlinec.fqnovel.com,reject
 
 # httpdns
 host-keyword,httpdns,reject
