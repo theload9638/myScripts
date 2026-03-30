@@ -41,7 +41,8 @@ hostname = magev6.if.qidian.com,h5.if.qidian.com
 const url = $request.url;
 try {
   if (!$response.body) {
-    $done({});
+      $done({});
+      return;
   }
   let bd = JSON.parse($response.body);
   if (url.includes('/v1/client/getconf')) {
@@ -49,7 +50,7 @@ try {
     delete bd['Data']['AudioGuide'];
     delete bd['Data']['ActivityIcon'];
     delete bd['Data']['BookShelfBottomIcons'];
-    if (bd.Data.AudioConfig.AudioUnLoginGuide) {
+    if (bd.Data?.AudioConfig?.AudioUnLoginGuide) {
       delete bd.Data.AudioConfig.AudioUnLoginGuide;
     }
     bd['Data']['RemoveAllNotificationsOnTap'] = '1';
