@@ -18,10 +18,6 @@ host-wildcard,ec*-core-lq.ecombdapi.com,reject
 host-wildcard,ec*-core-lf.ecombdapi.com,reject
 host-wildcard,ec*-core-hl.ecombdapi.com,reject
 host-wildcard,isaas*-normal-lf.ecombdapi.com,reject
-host-wildcard,api*-normal-lf.fqnovel.com,reject
-host-wildcard,api*-normal-lq.fqnovel.com,reject
-host-wildcard,api*-normal-hl.fqnovel.com,reject
-host-wildcard,api*-normal-sinfonlinec.fqnovel.com,reject
 
 # httpdns
 host-keyword,httpdns,reject
