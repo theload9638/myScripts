@@ -39,7 +39,8 @@ hostname = magev6.if.qidian.com,h5.if.qidian.com
 */
 
 const url = $request.url;
-if (url.includes('/v1/client/getconf')) {
+try{
+  if (url.includes('/v1/client/getconf')) {
   let bd = JSON.parse($response.body);
   delete bd['Data']['ActivityPopup'];
   delete bd['Data']['AudioGuide'];
@@ -64,4 +65,9 @@ if (url.includes('/v1/client/getconf')) {
   bd['Data']['IsMember']=1;
   bd['Data']['FreeRecheckChanceUsed']=0;
   $done({ body: JSON.stringify(bd) });
+}
+}catch(e){
+  console.log('error: '+e.message);
+}finally{
+  $done({});
 }
