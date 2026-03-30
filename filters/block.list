@@ -20,6 +20,13 @@ host-wildcard,ec*-core-hl.ecombdapi.com,reject
 host-wildcard,isaas*-normal-lf.ecombdapi.com,reject
 host,monitor.geetest.com,reject
 host,log.geetest.com,reject
+host,push-ads-cn.heytapmobi.com,reject
+host,static.ads-twitter.com,reject
+host,ads-bidder-api.twitter.com,reject
+host,ads-api.x.com,reject
+host,ads.x.com,reject
+host,pttptt.cc,reject
+host,broadcast.chat.bilibili.com,reject
 
 # httpdns
 host-keyword,httpdns,reject
