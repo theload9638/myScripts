@@ -27,6 +27,14 @@ host,ads-api.x.com,reject
 host,ads.x.com,reject
 host,pttptt.cc,reject
 host,broadcast.chat.bilibili.com,reject
+host-suffix,fivecdm.com,reject
+host,i-adq.mediation.unity3d.com,reject
+host,i-sdk.mediation.unity3d.com,reject
+host,iap.unity3d.com,reject
+host,icon-uap.iads.unity3d.com,reject
+host,img-dyn-uap.iads.unity3d.com,reject
+host,img-uap.iads.unity3d.com,reject
+host,www.analytics.unity3d.com,reject
 
 # httpdns
 host-keyword,httpdns,reject
@@ -11482,7 +11490,6 @@ host-suffix,firmerberyl.help,reject
 host-suffix,mnrdqnowjoajc.store,reject
 host-suffix,ntkmmopjrpqdx.store,reject
 host-suffix,fgzjcspcnzrhf.store,reject
-host-suffix,configv2.unityads.unity3d.com,reject
 host-suffix,f33h4uni7ufk79q.cfd,reject
 host-suffix,byssinsuzukiepochs.cfd,reject
 host-suffix,dakirbump.qpon,reject
