@@ -39,35 +39,35 @@ hostname = magev6.if.qidian.com,h5.if.qidian.com
 */
 
 const url = $request.url;
-try{
+try {
   if (url.includes('/v1/client/getconf')) {
-  let bd = JSON.parse($response.body);
-  delete bd['Data']['ActivityPopup'];
-  delete bd['Data']['AudioGuide'];
-  delete bd['Data']['ActivityIcon'];
-  delete bd['Data']['BookShelfBottomIcons'];
-  delete bd.Data?.AudioConfig?.AudioUnLoginGuide;
-  bd['Data']['RemoveAllNotificationsOnTap'] = '1';
-  bd['Data']['BusinessSplashCoolDownTime'] = '0';
-  bd['Data']['AdVideoPositionConfig'] = [];
-  bd['Data']['ClientLocalNotify2'] = [];
-  bd['Data']['EnableSearchUser'] = '1';
-  bd['Data']['IsFreeReadingUser'] = true;
-  bd['Data']['SplashScreenRoundCount'] = 0;
-  bd.Data?.cloudSetting?.ReadPageVideoTimes='0';
-  $done({ body: JSON.stringify(bd) });
-} else if (url.includes('/checkin/getcurrentweekcheckininfo')) {
-  let bd = JSON.parse($response.body);
-  bd['Data']['AdvEnable']=0;
-  bd['Data']['PushSwitchPopData']['ShowPop']=0;
-  bd['Data']['ReCheckInCardCount']=99;
-  bd['Data']['ReCheckPrice']=0;
-  bd['Data']['IsMember']=1;
-  bd['Data']['FreeRecheckChanceUsed']=0;
-  $done({ body: JSON.stringify(bd) });
-}
-}catch(e){
-  console.log('error: '+e.message);
-}finally{
+    let bd = JSON.parse($response.body);
+    delete bd['Data']['ActivityPopup'];
+    delete bd['Data']['AudioGuide'];
+    delete bd['Data']['ActivityIcon'];
+    delete bd['Data']['BookShelfBottomIcons'];
+    delete bd.Data?.AudioConfig?.AudioUnLoginGuide;
+    bd['Data']['RemoveAllNotificationsOnTap'] = '1';
+    bd['Data']['BusinessSplashCoolDownTime'] = '0';
+    bd['Data']['AdVideoPositionConfig'] = [];
+    bd['Data']['ClientLocalNotify2'] = [];
+    bd['Data']['EnableSearchUser'] = '1';
+    bd['Data']['IsFreeReadingUser'] = true;
+    bd['Data']['SplashScreenRoundCount'] = 0;
+    bd.Data?.cloudSetting?.ReadPageVideoTimes = '0';
+    $done({ body: JSON.stringify(bd) });
+  } else if (url.includes('/checkin/getcurrentweekcheckininfo')) {
+    let bd = JSON.parse($response.body);
+    bd['Data']['AdvEnable'] = 0;
+    bd['Data']['PushSwitchPopData']['ShowPop'] = 0;
+    bd['Data']['ReCheckInCardCount'] = 99;
+    bd['Data']['ReCheckPrice'] = 0;
+    bd['Data']['IsMember'] = 1;
+    bd['Data']['FreeRecheckChanceUsed'] = 0;
+    $done({ body: JSON.stringify(bd) });
+  }
+} catch (e) {
+  console.log('error: ' + e.message);
+} finally {
   $done({});
 }
