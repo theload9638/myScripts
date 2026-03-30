@@ -1,5 +1,5 @@
 /**
- * version fsd57.16
+ * version fsd57.17
  * createBy： theload9638
  * 配合使用 https://raw.githubusercontent.com/theload9638/myScripts/main/filters/block.list
  * Quantumultx|网页去广告,支持部分小说/漫画
@@ -10,6 +10,7 @@
  *   - 未来计划：webStoragePreviewUI / webDebugUI /...
  */
 const url = $request.url;
+const cfg_key='qx-fw-dfs_';
 let type = $response.headers['Content-Type'];
 const stf_special_key = 'special';
 let defaultSetting = {
@@ -20,7 +21,7 @@ let defaultSetting = {
     'scroll_delay': 2000,
     'block_times': 50,
     'block_target': ['IMG', 'VIDEO', 'IFRAME', 'OBJECT', 'EMBED', 'AUDIO', 'PICTURE', 'SOURCE', 'SVG', 'IMAGE', 'FRAME', 'INS'],
-    'block_selectors': ['*[style*="background"]', '*[style*="display"]','*[style*="opacity"]','*[style*="margin: 0"]', '*[style*="z-index"]','*[style*="padding: 0"]','a[href]:not([href^="/"])'],
+    'block_selectors': ['*[style*="background"]', '*[style*="display"]', '*[style*="opacity"]', '*[style*="margin: 0"]', '*[style*="z-index"]', '*[style*="padding: 0"]', 'a[href]:not([href^="/"])'],
     'prev_texts': ['上一章', '上一页', '上一章节', '上一话', '上一篇'],
     'next_texts': ['下一章', '下一页', '下一章节', '下一话', '下一篇'],
     'dir_texts': ['目录', '全部章节', '章节目录'],
@@ -33,10 +34,10 @@ let defaultSetting = {
     'styleStr': '',
     'bodyStr': '',
     'debug': false,
-    'preBlock': 400,
+    'preBlock': 350,
     'enable_proxy': true
 };
-var settingCfg={};
+var settingCfg = {};
 if ($response.statusCode === 200 && (url.includes('html') || (type && type.includes("text")))) {
     let html = $response.body;
     if (!html) {
@@ -44,17 +45,17 @@ if ($response.statusCode === 200 && (url.includes('html') || (type && type.inclu
         $done({});
         return;
     }
-    let dsJson = $prefs.valueForKey('qx-fw-dfs_');
+    let dsJson = $prefs.valueForKey(cfg_key);
     if (dsJson) {
-        try{
-            let _sobj1=JSON.parse(dsJson);
-            settingCfg ={...defaultSetting,..._sobj1};
-        }catch(e){
-            console.log('parse config error and now use default config : '+ e.message);
-            settingCfg={...defaultSetting};
+        try {
+            let _sobj1 = JSON.parse(dsJson);
+            settingCfg = { ...defaultSetting, ..._sobj1 };
+        } catch (e) {
+            console.log('merge conf err: ' + e.message);
+            settingCfg = { ...defaultSetting };
         }
-    }else{
-        settingCfg={...defaultSetting};
+    } else {
+        settingCfg = { ...defaultSetting };
     }
     let htmLen = html.length;
     if (htmLen < settingCfg.preBlock) {
@@ -64,8 +65,8 @@ if ($response.statusCode === 200 && (url.includes('html') || (type && type.inclu
     }
     const newHeaders = { ...$response.headers };
     let domains = [
-        'banner','textad','adBlock','javlib','_ad','ads','/ad','logo','ad_','adv_',
-        'ad-','-ad','javascript:void(0)','popup','collect','analysis','analytics','tracker'
+        'banner', 'textad', 'adBlock', 'javlib', '_ad', 'ads', '/ad', 'logo', 'ad_', 'adv_',
+        'ad-', '-ad', 'javascript:void(0)', 'popup', 'collect', 'analysis', 'analytics', 'tracker'
     ];
     if (Array.isArray(settingCfg.domains) && settingCfg.domains.length > 0) {
         domains = domains.concat(settingCfg.domains);
@@ -75,54 +76,37 @@ if ($response.statusCode === 200 && (url.includes('html') || (type && type.inclu
     let bodyStr = '';
     try {
         let charsetRes = /<meta[^>]*?charset\s*=\s*(['"]?)([^>'"]+)\1?/i.exec(html);
-        let charset = charsetRes ? ((charsetRes[2] || 'utf8').trim()) : 'utf8';
-        let utf8Flag = true;
-        if (/utf-?8/i.test(charset) || charset.toLowerCase().startsWith('utf')) {
-            if (url.includes('m.diyibanzhu')) {
-                settingCfg.auto_block_ad = true;
-            } 
-        } else {
-            utf8Flag = false;
+        let charset = charsetRes?.[2]?.trim() || 'utf8';
+        let utf8Flag = /^utf/i.test(charset);
+        if (!utf8Flag) {
             html = new TextDecoder(charset, { fatal: false, ignoreBOM: true }).decode(new Uint8Array($response.bodyBytes));
             html = html.replace(charset, 'utf-8');
-            if(type.includes(charset)){
-                newHeaders['Content-Type']=type.replace(charset,'utf-8');
-            }
-            bodyStr+=`<script>for(let i of document.forms){if(!i.acceptCharset){i.acceptCharset='${charset}'}}</script>`;
+            if (type.includes(charset)) { newHeaders['Content-Type']=type.replace(charset, 'utf-8'); }
+            bodyStr += `<script>for(let i of document.forms){if(!i.acceptCharset){i.acceptCharset='${charset}'}}</script>`;
         }
         if (html.includes('<iframe') || html.includes('<ins') || html.includes('<embed') || html.includes('<object')) {
             html = html.replace(/<(ins|object|embed|iframe|frame)[^>]*?>[\s\S]*?<\/\1>/gi, '');
         }
-        if (html.includes("<noscript")) {
-            html = html.replace(/<noscript[^>]*?>[\s\S]*?<\/noscript>/g, '');
-        }
+        if (html.includes("<noscript")) { html = html.replace(/<noscript[^>]*?>[\s\S]*?<\/noscript>/g, ''); }
         html = html.replace(/\balert\s*\([^)]*\)/g, "(void 0)");
         html = html.replace(new RegExp(`<([a-zA-Z0-9]+)\\s+[^>]*?(src|href|class|id)\\s*=\\s*(['"])[^'"]*?(?:${(domains.map(escapeRegExp).join('|'))})[^'"]*?\\3[^>]*?>`, 'gi'), '<$1 style="display:none !important;pointer-events: none !important;">');
-        html = html.replace(/<([a-zA-Z0-9]+)\s+[^>]*?(src|href)\s*=\s*(['"])[^'"]*?\/\/\d+[a-z]+\.[a-z]+(\.(cc|com|xyz|net|org):?)?[^'"]*?\3[^>]*?>/gi, '<$1 style="display:none !important;pointer-events: none !important;">');
-
         if (settingCfg.enable_proxy) {
-            configProxy();
+            configProxy(url);
         }
         try {
             let fyobj = applyFloatyW(html);
             bodyStr += fyobj.bodyStr;
             styleStr.push(fyobj.styleStr);
         } catch (e) {
-            console.log('fail apply floaty window : ' + e.message);
+            console.log('fail apply floatyWindow : ' + e.message);
         }
-        if (settingCfg.bodyStr) {
-            bodyStr += settingCfg.bodyStr;
-        }
-        if (bodyStr) {
-            html = html.replace(/<\/body>/, bodyStr + '</body>');
-        }
+        if (settingCfg.bodyStr){bodyStr +=settingCfg.bodyStr;}
+        if (bodyStr) {html=html.replace(/<\/body>/, bodyStr + '</body>');}
         if (styleStr && styleStr.length > 0) {
             if (settingCfg.enableBgColor) {
                 styleStr.push('*{background-color: ' + settingCfg.bgColor + ' !important;background-image: none !important;color: ' + settingCfg.baseColor + ' !important; font-size: ' + settingCfg.fontSize + 'px !important;}');
             }
-            if (settingCfg.styleStr) {
-                styleStr.push(settingCfg.styleStr);
-            }
+            if (settingCfg.styleStr) { styleStr.push(settingCfg.styleStr); }
             html = html.replace(/<\/head>/, '<style>' + (styleStr.join('')) + '</style></head>');
         }
         newHeaders["Cross-Origin-Embedder-Policy"] = "unsafe-none";
@@ -130,7 +114,7 @@ if ($response.statusCode === 200 && (url.includes('html') || (type && type.inclu
         newHeaders["Cross-Origin-Resource-Policy"] = "cross-origin";
         newHeaders["X-Frame-Options"] = "DENY";
         if (settingCfg.debug) {
-            console.log(`\ncharset: ${charset} \n headers: ${JSON.stringify(newHeaders)}\n`);
+            console.log(`\ncharset: ${charset} \n headers: \n${JSON.stringify(newHeaders)}\n`);
         }
         if (!utf8Flag) {
             $done({ headers: newHeaders, bodyBytes: (new TextEncoder().encode(html)).buffer });
@@ -138,34 +122,67 @@ if ($response.statusCode === 200 && (url.includes('html') || (type && type.inclu
             $done({ headers: newHeaders, body: html });
         }
     } catch (e) {
-        console.log(`error: ${e.message}`);
+        console.log(`err : ${e.message}`);
         $done({});
     }
 } else {
     console.log(`ignored= ${type} ${$response.statusCode}`);
     $done({});
-    return;
 }
-function configProxy() {
-    let spObj = settingCfg[stf_special_key];
-    if (spObj && typeof spObj === 'object' && Object.keys(spObj).length > 0) {
-        let ul = new URL($request.url);
-        let host = ul.host || ul.hostname;
-        let curHost_obj = spObj[host];
-        if (curHost_obj && typeof curHost_obj === 'object' && Object.keys(curHost_obj).length > 0) {
-            let cfg_ks = Object.keys(defaultSetting);
-            let px_cgd = false;
-            for (let nm of cfg_ks) {
-                let vl = curHost_obj[nm];
-                if (vl) {
-                    px_cgd = true;
-                    settingCfg[nm] = vl;
+function configProxy(url) {
+    let compiledSpecialRules = [];
+    function initSpecialRules() {
+        let sp = settingCfg[stf_special_key];
+        if (!sp) return;
+        if (!Array.isArray(sp)) {
+            sp = Object.keys(sp).map(k => ({
+                match: k,
+                config: sp[k]
+            }));
+        }
+        compiledSpecialRules = sp.map(rule => {
+            let matcher = rule.match;
+            let type = 'includes';
+            if (matcher instanceof RegExp) {
+                type = 'regex';
+            } else if (typeof matcher === 'string') {
+                if (matcher.startsWith('regex:')) {
+                    type = 'regex';
+                    matcher = new RegExp(matcher.slice(6));
+                } else if (matcher.includes('*')) {
+                    type = 'wildcard';
+                    matcher = new RegExp('^' + matcher.replace(/\./g, '\\.').replace(/\*/g, '.*') + '$');
                 }
             }
-            if (settingCfg.debug && px_cgd) {
-                console.log(`config is changed by ${host}`);
+            return {
+                type,
+                matcher,
+                config: rule.config
+            };
+        });
+    }
+    initSpecialRules();
+    function matchSpecialConfig(url) {
+        for (let rule of compiledSpecialRules) {
+            let hit = false;
+            if (rule.type === 'includes') {
+                hit = url.includes(rule.matcher);
+            } else {
+                hit = rule.matcher.test(url);
             }
+            if (hit) return rule.config;
         }
+        return null;
+    }
+    let cfg = matchSpecialConfig(url);
+    if (!cfg) return;
+    let changed = false;
+    for (let k in cfg) {
+        settingCfg[k] = cfg[k];
+        changed = true;
+    }
+    if (settingCfg.debug && changed) {
+        console.log(`config matched: ${url}`);
     }
 }
 function applyFloatyW(html) {
@@ -187,8 +204,8 @@ function applyFloatyW(html) {
     };
 }
 function calcFwSearchParam() {
-    if ($request.url.includes('?')) {
-        let am = new URL($request.url);
+    if (url.includes('?')) {
+        let am = new URL(url);
         if (am.searchParams.size > 0) {
             let sfchanged = false;
             const flagCkS = (str) => str === 'true';
@@ -204,9 +221,9 @@ function calcFwSearchParam() {
                 sfchanged = true;
                 settingCfg.auto_scroll = flagCkS(am.searchParams.get('auto_scroll'));
             }
-            if (sfchanged) {
+            if (settingCfg.debug && sfchanged) {
                 console.log('change setting');
-                $prefs.setValueForKey(JSON.stringify(settingCfg), 'qx-fw-dfs_');
+                $prefs.setValueForKey(JSON.stringify(settingCfg),cfg_key);
             }
         }
     }
@@ -262,7 +279,6 @@ function calcPrvANex(html) {
         dir: dirSelector
     }
 }
-
 function calcQWStyle() {
     let size = 4;
     let tmpStr = ".qx-qw{all:initial;--size:48px;--itemSize:36px;background:transparent !important;border-radius:50%;position:fixed;z-index:9999;top:50%;transform:translateY(-50%);width:var(--size);height:var(--size);display:flex;justify-content:center;align-items:center}.qx-qw-left{left:3px;right:'auto'}.qx-qw-right{right:3px;left:'auto'}";
