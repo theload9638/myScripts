@@ -5,7 +5,7 @@
  #!version=3.1.1
 
 [mitm]
-hostname = api-wink.meitumv.com,api-sub.meitu.com,h5api-winkcut.meitu.com
+hostname = api-wink.meitumv.com,api-sub.meitu.com,h5api-winkcut.meitu.com,api.account.meitu.com,titan-h5.meitu.com
 
 [rewrite_local]
 # wink
@@ -18,8 +18,14 @@ hostname = api-wink.meitumv.com,api-sub.meitu.com,h5api-winkcut.meitu.com
 ^https?:\/\/api-wink\.meitumv\.com\/common\/interact\.json url script-response-body https://raw.githubusercontent.com/theload9638/myScripts/main/scripts/wink.js
 ^https?:\/\/api-wink\.meitumv\.com\/user\/coin_info\.json url jsonjq-response-body '.data.vip_type=1|.data.show_coin=9999999|.data.coin=9999999'
 ^https?:\/\/api-wink\.meitumv\.com\/user\/show\.json url jsonjq-response-body '.data.coin=9999999|.data.friendship_status=1|.data.vip_type=1|.data.show_coin=9999999'
+
 ^https?:\/\/h5api-winkcut\.meitu\.com\/friends_pay\/index\.json url jsonjq-response-body '.data.banner_list=[]'
 ^https?:\/\/h5api-winkcut\.meitu\.com\/activity\/ai_draw\.json url jsonjq-response-body 'walk(if type == "object" and has("is_vip") then .is_vip=0 else . end)|.data.func_detail.free_list=999999|.data.func_detail.total_num=999999|.data.func_detail.price=0|.data.func_detail.use_num=0|.data.force_login=0|.data.is_vip=2|.data.coin_balance=999999'
+^https?:\/\/h5api-winkcut\.meitu\.com\/activity\/ai_general_quality\.json url jsonjq-response-body '.data.is_vip=1|.data.style_list=[.data.style_list[]|.goods_info.commodity_config.count=99999|.total_num=99999|.free_num=99999|.enable_audio=0]'
+^https?:\/\/h5api-winkcut\.meitu\.com\/activity\/ai_live\.json url jsonjq-response-body '.data.is_vip=1|.data.free_num=99999|.data.total_num=99999|.data.goods_info.commodity_config.count=99999|.data.style_list=[.data.style_list[]|.commodity_config.count=99999|.total_num=99999|.free_num=99999|.enable_audio=0]'
+
+^https?:\/\/api\.account\.meitu\.com\/statistics url reject-200
+^https?:\/\/titan-h5\.meitu\.com\/wink-cut\/aigc url reject-200
 */
 
 const url = $request.url;

@@ -38,6 +38,7 @@
 ^https?:\/\/(magev6|h5)\.if\.qidian\.com\/argus\/api\/v2\/booksearch\/shareWordReport url reject-200
   #我的
 ^https?:\/\/(magev6|h5)\.if\.qidian\.com\/argus\/api\/v3\/user\/getaccountpage url script-response-body https://raw.githubusercontent.com/theload9638/myScripts/main/scripts/qd.js
+
 [mitm]
 hostname = magev6.if.qidian.com,h5.if.qidian.com
 
