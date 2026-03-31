@@ -20,7 +20,7 @@ hostname = api-wink.meitumv.com,api-sub.meitu.com,h5api-winkcut.meitu.com,wink-m
 ^https?:\/\/api-wink\.meitumv\.com\/user\/show\.json url jsonjq-response-body '.data.coin=9999999|.data.friendship_status=1|.data.vip_type=1|.data.show_coin=9999999'
 ^https?:\/\/h5api-winkcut\.meitu\.com\/friends_pay\/index\.json url jsonjq-response-body '.data.banner_list=[]'
 ^https?:\/\/h5api-winkcut\.meitu\.com\/activity\/ai_draw\.json url jsonjq-response-body 'walk(if type == "object" and has("is_vip") then .is_vip=0 else . end)|.data.func_detail.free_list=999999|.data.func_detail.total_num=999999|.data.func_detail.price=0|.data.func_detail.use_num=0|.data.force_login=0|.data.is_vip=2|.data.coin_balance=999999'
-^https?:\/\/wink-material\.meitudata\.com\/.*(?:.mp4) reject-200
+^https?:\/\/wink-material\.meitudata\.com\/ reject-200
 */
 
 const url = $request.url;
