@@ -1,10 +1,11 @@
 /*
  #!name=wink 增强
  #!author=theload9638
+ #!desc=本地解锁+功能增强
  #!version=3.1.1
 
 [mitm]
-hostname = api-wink.meitumv.com,api-sub.meitu.com,h5api-winkcut.meitu.com,web-rabbit.meitustat.com
+hostname = api-wink.meitumv.com,api-sub.meitu.com,h5api-winkcut.meitu.com,wink-material.meitudata.com
 
 [rewrite_local]
 # wink
@@ -19,8 +20,7 @@ hostname = api-wink.meitumv.com,api-sub.meitu.com,h5api-winkcut.meitu.com,web-ra
 ^https?:\/\/api-wink\.meitumv\.com\/user\/show\.json url jsonjq-response-body '.data.coin=9999999|.data.friendship_status=1|.data.vip_type=1|.data.show_coin=9999999'
 ^https?:\/\/h5api-winkcut\.meitu\.com\/friends_pay\/index\.json url jsonjq-response-body '.data.banner_list=[]'
 ^https?:\/\/h5api-winkcut\.meitu\.com\/activity\/ai_draw\.json url jsonjq-response-body 'walk(if type == "object" and has("is_vip") then .is_vip=0 else . end)|.data.func_detail.free_list=999999|.data.func_detail.total_num=999999|.data.func_detail.price=0|.data.func_detail.use_num=0|.data.force_login=0|.data.is_vip=2|.data.coin_balance=999999'
-^https?:\/\/web-rabbit.meitustat.com\/report url reject-200
-^https?:\/\/datafinder-rabbit.meitustat.com\/ url reject
+^https?:\/\/wink-material\.meitudata\.com\/.*(?:.mp4) reject-200
 */
 
 const url = $request.url;
@@ -39,11 +39,13 @@ try {
             delete bd.data.save_rec_popup_list; // 移除弹窗
         }
         if (bd.data.hasOwnProperty('switch')) {
-            const s = bd.data.switch;
+            let s = bd.data.switch;
+            s.enable_home_backdrop_new_manager.switch=0;
             s.join_vip_intercept_dialog_banner.switch = 0; // 关闭banner
             s.music_download.switch = 1; // 开启音乐下载
             s.vip_sub_config_register.switch = 0;
-            s.cloud_introduction_video.switch=0;
+            s.cloud_introduction_video={switch:0};
+            s.ad_channel_enable.switch=0;
             s.formula_apply_report.switch=0;
             s.cia_memory.switch=1;
             s.live_wallpaper_tip_h5.switch = 0; // 关闭动态壁纸设置提示

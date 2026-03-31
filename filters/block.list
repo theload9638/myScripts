@@ -37,6 +37,8 @@ host,img-uap.iads.unity3d.com,reject
 host,www.analytics.unity3d.com,reject
 host,web-rabbit.meitustat.com,reject
 host,datafinder-rabbit.meitustat.com,reject
+host,push.meitu.com,reject
+host,stat.meitudata.com,reject
 
 # httpdns
 host-keyword,httpdns,reject
