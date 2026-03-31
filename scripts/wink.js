@@ -1,7 +1,7 @@
 /*
- #!name=wink 净化解锁
+ #!name=wink 增强
  #!author=theload9638
- #!version=
+ #!version=3.1.1
 
 [mitm]
 hostname = api-wink.meitumv.com,api-sub.meitu.com,h5api-winkcut.meitu.com,web-rabbit.meitustat.com
@@ -18,7 +18,9 @@ hostname = api-wink.meitumv.com,api-sub.meitu.com,h5api-winkcut.meitu.com,web-ra
 ^https?:\/\/api-wink\.meitumv\.com\/user\/coin_info\.json url jsonjq-response-body '.data.vip_type=1|.data.show_coin=9999999|.data.coin=9999999'
 ^https?:\/\/api-wink\.meitumv\.com\/user\/show\.json url jsonjq-response-body '.data.coin=9999999|.data.friendship_status=1|.data.vip_type=1|.data.show_coin=9999999'
 ^https?:\/\/h5api-winkcut\.meitu\.com\/friends_pay\/index\.json url jsonjq-response-body '.data.banner_list=[]'
+^https?:\/\/h5api-winkcut\.meitu\.com\/activity\/ai_draw\.json url jsonjq-response-body 'walk(if type == "object" and has("is_vip") then .is_vip=0 else . end)|.data.func_detail.free_list=999999|.data.func_detail.total_num=999999|.data.func_detail.price=0|.data.func_detail.use_num=0|.data.force_login=0|.data.is_vip=2|.data.coin_balance=999999'
 ^https?:\/\/web-rabbit.meitustat.com\/report url reject-200
+^https?:\/\/datafinder-rabbit.meitustat.com\/ url reject
 */
 
 const url = $request.url;
@@ -34,24 +36,37 @@ try {
     }
     if (url.includes('/common/interact.json')) {
         if (bd.data.save_rec_popup_list) {
-            bd.data.save_rec_popup_list = {}; // 移除弹窗
+            delete bd.data.save_rec_popup_list; // 移除弹窗
         }
         if (bd.data.hasOwnProperty('switch')) {
             const s = bd.data.switch;
             s.join_vip_intercept_dialog_banner.switch = 0; // 关闭banner
             s.music_download.switch = 1; // 开启音乐下载
             s.vip_sub_config_register.switch = 0;
+            s.cloud_introduction_video.switch=0;
+            s.formula_apply_report.switch=0;
+            s.cia_memory.switch=1;
             s.live_wallpaper_tip_h5.switch = 0; // 关闭动态壁纸设置提示
             s.hide_share_and_save_product_when_no_free_trail.switch = 0;
             s.video_edit_scene_recognition_threshold.switch = 1;
             s.video_edit_hevc.switch = 1;
             s.app_icon_switch.switch = 1; // app图标切换
         }
-        bd.data.subscribe_rich_tip ??= {};
-        bd.data.subscribe_text ??= {};
-        bd.data.home_banner ??= [];
-        bd.data.popup ??= {};
-        bd.data.new_release_popup ??= {};
+        if(bd.data.subscribe_rich_tip){
+            delete bd.data.subscribe_rich_tip;
+        }
+        if(bd.data.subscribe_text){
+            delete bd.data.subscribe_text;
+        }
+        if(bd.data.home_banner){
+            delete bd.data.home_banner;
+        }
+        if(bd.data.popup){
+            delete bd.data.popup;
+        }
+        if(bd.data.new_release_popup){
+            delete bd.data.new_release_popup;
+        }
     } 
 
     $done({ body: JSON.stringify(bd) });
