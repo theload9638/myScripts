@@ -1,7 +1,7 @@
 #block antiAd-others ad/track/log/httpdns
 
-ip-cidr,117.161.142.50,reject
-ip-cidr,111.19.230.32,reject
+ip-cidr,117.161.142.50/32,reject
+ip-cidr,111.19.230.32/32,reject
 host-suffix,djvod.ndcimgs.com,reject
 host,pcdn-pxy-tracker.xxpkg.com,reject
 host-wildcard,frontier*-toutiao-lf.fqnovel.com,reject
