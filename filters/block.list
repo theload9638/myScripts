@@ -22,7 +22,6 @@ host-wildcard,isaas*-normal-lf.ecombdapi.com,reject
 host,monitor.geetest.com,reject
 host,log.geetest.com,reject
 host,push-ads-cn.heytapmobi.com,reject
-host,static.ads-twitter.com,reject
 host,ads-bidder-api.twitter.com,reject
 host,ads-api.x.com,reject
 host,ads.x.com,reject
@@ -144,19 +143,15 @@ ip-cidr,117.71.105.23/32,reject
 host,errlog.umeng.com,reject
 host,empire-night.com,reject
 host,sp0.baidu.com,reject
-host,s.opoxv.com,reject
-host,29782a430255d79f2wap.jigool.org,reject
 host,fonts.googleapis.com,reject
 host,safebrowsing.googleapis.com,reject
 host-suffix,byteorge.com,reject
-host,go.reebr.com,reject
 host,85117.net,reject
 host-wildcard,rtlog*-applog-lf.fqnovel.com,reject
 host,cdn-api-auth.zztfly.com,reject
 ip-cidr,172.66.153.106/32,reject
 host,t.ssp.hinet.net,reject
 host,imasdk.googleapis.com,reject
-host,dig.bdurl.net,reject
 host-suffix,txmz0y.com,reject
 host-wildcard,webcast*-open-lf.douyin.com,reject
 host-wildcard,p*-ad-sign.byteimg.com,reject
@@ -165,13 +160,11 @@ host,ogads-pa.clients6.google.com,reject
 host,ads-video-qc.xhscdn.com,reject
 host,ad2.apx.appier.net,reject
 host,jl00.jkugbfvh.icu,reject
-host,mobads.baidu.com,reject
 host,chaseherbalpasty.com,reject
 host,star.xfztgxt.com,reject
 host,game.weixin.qq.com,reject
 host,p.s.360.cn,reject
 host,api.popin.cc,reject
-host,poweredby.jads.co,reject
 host,mime.baidu.com,reject
 host,log-sdk.gifshow.com,reject
 host,log-auth.flysleep.cn,reject
@@ -179,7 +172,6 @@ host-wildcard,*novelapp.ixigua.com,reject
 host,resolver.dingtalk.com,reject
 host,api.iegadp.qq.com,reject
 ip-cidr,64.120.116.148/32,reject
-host,ads.juicyads.com,reject
 host,18e87c0802f91cf8cgc.0jphhh.com,reject
 host,ads.cup.com.cn,reject
 host-wildcard,*default.ixigua.com,reject
@@ -196,7 +188,6 @@ host-suffix,8tlzg5.com,reject
 host,bcp.crwdcntrl.net,reject
 host,sf1-scmcdn-tos.pstatp.com,reject
 host,l.erodalabs.com,reject
-host,demandingoverdriveunthread.com,reject
 host,msync-im1-vip6-std.easemob.com,reject
 host,ads-img-qc.xhscdn.com,reject
 host-suffix,adukwai.com,reject
@@ -206,7 +197,6 @@ ip-cidr,101.36.166.16/32,reject
 host-wildcard,p*-ad.adkwai.com,reject
 host,jashd.zentaryovorvrybhstazvran.com,reject
 host,usug.baidu.com,reject
-host,mcs.snssdk.com,reject
 host,dig.zjurl.cn,reject
 host,fundingchoicesmessages.google.com,reject
 host-suffix,bytegoofy.com,reject
@@ -218,7 +208,6 @@ host,img.doppiocdn.com,reject
 host,ejiwvof.icu,reject
 host,ogads-pa.googleapis.com,reject
 host,game.str.mdt.qq.com,reject
-host,gdfp.gifshow.com,reject
 host,bartererfaxtingling.com,reject
 host,assets.mintegral.com,reject
 host,bundlemoviepumice.com,reject
@@ -231,7 +220,6 @@ host-wildcard,api-*.dutils.com,reject
 host,entry.baidu.com,reject
 host-suffix,oceanengine.com,reject
 host,extlog.snssdk.com,reject
-host,ad.partner.gifshow.com,reject
 host,loggw.alipay.com.cn,reject
 host,log1.cmpassport.com,reject
 host,53zbv723.com,reject
@@ -245,9 +233,8 @@ host,ads-video-al.xhscdn.com,reject
 host-suffix,bdstatic.com,reject
 host,yfihpfqfwa2.com,reject
 host,a2put.chinaz.com,reject
-host,s.click.aliexpress.co,reject
+host-suffix,click.aliexpress.co,reject
 host-keyword,pangolin-sdk-toutiao,reject
-host,hm.baidu.com,reject
 host,resource.ad-scope.com.cn,reject
 host,adsmind.ugdtimg.com,reject
 host,ads.vamaker.com,reject
@@ -255,7 +242,6 @@ host,sf3-ttcdn-tos.pstatp.com,reject
 host,ad.alimama.com,reject
 host,log-global.aliyuncs.com,reject
 host,wxc70.cc,reject
-host,cr.adsappier.com,reject
 host-suffix,zijieapi.com,reject
 host,tutu.ta76h13tz091bpcr.com,reject
 host,29628odxjccp.nszzkeh.com,reject
@@ -268,16 +254,12 @@ host,ecs.tagtoo.co,reject
 host,devs-data.dutils.com,reject
 host,hongniu.ewytek.com,reject
 host,waust.at,reject
-host,s.click.aliexpress.com,reject
 host,game.eve.mdt.qq.com,reject
 host,cdn.holmesmind.com,reject
 host-suffix,etoolads.cn,reject
-host,union.baidu.cn,reject
 host,diagramjawlineunhappy.com,reject
-host,go.rmhfrtnd.com,reject
 host,ss-jp2.appiersig.com,reject
 host-suffix,safebrowsing.apple,reject
-host,mssdk.volces.com,reject
 host,loggw.alipay.com,reject
 host-wildcard,webcast*-open.douyin.com,reject
 host-suffix,aads.com,reject
@@ -291,13 +273,9 @@ host,pgdt.gtimg.com,reject
 host-suffix,advlion.com,reject
 host,v6-novelapp.ixigua.com,reject
 host,js.accucdp.net,reject
-host,adserver.juicyads.com,reject
-host,ad-specs.guoshipartners.com,reject
-host,creative.xxxvjmp.com,reject
 host-suffix,ra12.xyz,reject
 host,cb.baidu.com,reject
 host,log-auth.zztfly.com,reject
-host,go.bluetrafficstream.com,reject
 host,s.dszjza.com,reject
 host,1820gc.sbbm8y.com,reject
 host,mobads-pre-config.cdn.bcebos.com,reject
@@ -308,7 +286,6 @@ host,mmgame.qpic.cn,reject
 host,guidepaparazzisurface.com,reject
 host,cm.masky.biddingx.com,reject
 host,stat.gn01.top,reject
-host,applog.ucdns.uc.cn,reject
 host-suffix,bytedance.com,reject
 host,unitelogreport.reader.qq.com,reject
 host,dy.qtorvreotxvaxuimbatromdal.com,reject
@@ -316,7 +293,6 @@ host,pimg.pichost.top,reject
 host-suffix,oth.eve.mdt.qq.com,reject
 host,analytics.126.net,reject
 host,18e87c0802f91cf8cgg.dpscx6.com,reject
-host,analytics.google.com,reject
 host,i.snssdk.com,reject
 host,t1t1.com,reject
 host,strip.taobaocdn.com,reject
@@ -325,9 +301,7 @@ host,u3y8v8u4.aucdn.net,reject
 host,jo.cashooshut.com,reject
 host,cfgc.zztfly.com,reject
 host-keyword,pglstatp-toutiao,reject
-host,app-analytics-services.com,reject
 host,xbbb.org,reject
-host,jcdn.tsyndicate.com,reject
 host,apd-pcdnwxlogin.teg.tencent-cloud.net,reject
 host,monkey.cszpra.com,reject
 host,holahupa.com,reject
@@ -338,7 +312,6 @@ host,ey43.com,reject
 host,aplsof2fd.flirnapolfwemvrybhszorex.com,reject
 host,frozenpayerpregnant.com,reject
 host,3e87c0802f91cf8cgg.lzicw0.com,reject
-host,a.opoxv.com,reject
 host,static-proxy.strpst.com,reject
 host,cdnpf.com,reject
 host,ulog-sdk.gifshow.com,reject
@@ -352,7 +325,6 @@ host,is.snssdk.com,reject
 host,growth-pa.googleapis.com,reject
 host,s3t3d2y1.afcdn.net,reject
 host,tracelog-debug.aiclk.com,reject
-host,open.kwaizt.com,reject
 host,union.baidu.com,reject
 host,mc.yandex.ru,reject
 host-wildcard,log*-applog-lf.fqnovel.com,reject
@@ -369,7 +341,6 @@ host-suffix,adtrafficquality.google,reject
 host,pgdt.gtimg.cn,reject
 host,loggw-ex.alipay.com,reject
 host,advmonitor.tantanapp.com,reject
-host,creative.bluetrafficstream.com,reject
 host,attractivereception.com,reject
 host,alog.umeng.com,reject
 host,umami.diveng.xyz,reject
@@ -387,9 +358,6 @@ host,adc.tamedia.com.tw,reject
 host,haoma.baidu.com,reject
 host,pl28813130.effectivegatecpm.com,reject
 host,loggw.alipaydns.com,reject
-host,ad.parkvv.com,reject
-host,applog.uc.cn,reject
-host,rmonitor.qq.com,reject
 
 
 host-suffix,chylespastoseobclude.cfd,reject
@@ -835,7 +803,6 @@ host-suffix,attalpirene.cfd,reject
 host-suffix,portapostil.help,reject
 host-suffix,malaccaamebas.cyou,reject
 host-suffix,didalpollex.cyou,reject
-host-suffix,crmpt.livejasmin.com,reject
 host-suffix,escapeogle.help,reject
 host-suffix,dfemmoon.in,reject
 host-suffix,jurallylepta.qpon,reject
@@ -4044,7 +4011,6 @@ host-suffix,phaseunfabularhefting.cfd,reject
 host-suffix,li.pmc.com,reject
 host-suffix,shingonpuggry.cyou,reject
 host-suffix,pphueejbqppjnfxe9pi.cfd,reject
-host-suffix,go.xlirdr.com,reject
 host-suffix,wlv2copkrkiq8qw9tb3j.cfd,reject
 host-suffix,fataltalcky.cfd,reject
 host-suffix,ifuqkhrbh5xzqu78k.cfd,reject
@@ -6082,7 +6048,6 @@ host-suffix,gospelsdirects.qpon,reject
 host-suffix,uresismucor.cfd,reject
 host-suffix,marmionfas.qpon,reject
 host-suffix,typinglindy.com,reject
-host-suffix,xapi.juicyads.com,reject
 host-suffix,culponkinema.cfd,reject
 host-suffix,malismfil.cyou,reject
 host-suffix,versteether.cfd,reject
@@ -9010,7 +8975,6 @@ host-suffix,feetagechoomloopist.cfd,reject
 host-suffix,tugboatrother.cfd,reject
 host-suffix,flingerforzatohidel.cyou,reject
 host-suffix,kelpieearthen.cyou,reject
-host-suffix,creatives.livejasmin.com,reject
 host-suffix,remarkablebottom.com,reject
 host-suffix,er9585w5njh5zr41u23o.cfd,reject
 host-suffix,gemutihairse.qpon,reject
