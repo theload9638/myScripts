@@ -1,3 +1,4 @@
+#block antiAd-others ad/track/log/httpdns
 
 host-wildcard,frontier*-toutiao-lf.fqnovel.com,reject
 host-suffix,tuvhcf.com,reject
