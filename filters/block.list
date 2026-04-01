@@ -1,5 +1,6 @@
 #block antiAd-others ad/track/log/httpdns
 
+host,pcdn-pxy-tracker.xxpkg.com,reject
 host-wildcard,frontier*-toutiao-lf.fqnovel.com,reject
 host-suffix,tuvhcf.com,reject
 host, effect.snssdk.com, reject
@@ -42,6 +43,7 @@ host,stat.meitudata.com,reject
 host-suffix,pangle.io,reject
 host-wildcard,sf*-static.i18n-pglstatp.com,reject
 host,apm-collector-uc.intsig.net,reject
+host-suffix,traffic-monitor.yximgs.com,reject
 
 # httpdns
 host-keyword,httpdns,reject
@@ -151,7 +153,6 @@ host-wildcard,rtlog*-applog-lf.fqnovel.com,reject
 host,cdn-api-auth.zztfly.com,reject
 ip-cidr,172.66.153.106/32,reject
 host,t.ssp.hinet.net,reject
-host,imasdk.googleapis.com,reject
 host-suffix,txmz0y.com,reject
 host-wildcard,webcast*-open-lf.douyin.com,reject
 host-wildcard,p*-ad-sign.byteimg.com,reject
@@ -160,13 +161,11 @@ host,ogads-pa.clients6.google.com,reject
 host,ads-video-qc.xhscdn.com,reject
 host,ad2.apx.appier.net,reject
 host,jl00.jkugbfvh.icu,reject
-host,chaseherbalpasty.com,reject
 host,star.xfztgxt.com,reject
 host,game.weixin.qq.com,reject
 host,p.s.360.cn,reject
 host,api.popin.cc,reject
 host,mime.baidu.com,reject
-host,log-sdk.gifshow.com,reject
 host,log-auth.flysleep.cn,reject
 host-wildcard,*novelapp.ixigua.com,reject
 host,resolver.dingtalk.com,reject
@@ -183,7 +182,6 @@ host,aplsof2fd.kyrvrybhsovashordoblarmek.com,reject
 host,ext.baidu.com,reject
 ip-cidr,218.94.207.205/32,reject
 host,ys.yuewen.com,reject
-host,bds.snssdk.com,reject
 host-suffix,8tlzg5.com,reject
 host,bcp.crwdcntrl.net,reject
 host,sf1-scmcdn-tos.pstatp.com,reject
