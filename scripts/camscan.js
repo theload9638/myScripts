@@ -10,7 +10,7 @@ hostname = api-cs-us.intsig.net,cs8.intsig.net,open*.camscanner.com
 [rewrite_local]
 
 ^https?:\/\/(open|open-bak)\.camscanner\.com\/sync\/(get_ad_data|get_ad_cfg|upload_ad_record) url reject-200
-^https?:\/\/(open|open-bak)\.camscanner\.com\/sync\/get_ad_control url jsonjq-response-body '.key_free_ad=1|.sdk_init_opt=1.ios_hot_start_show_ad_plan=0|.touch_forbid_launch_ad=0|.android_hot_start_pull_ad_plan=0|.is_show_personalized_ad=0|walk(if type == "object" and has("source_info") then .source_info=[] else . end)'
+^https?:\/\/(open|open-bak)\.camscanner\.com\/sync\/get_ad_control url jsonjq-response-body '.key_free_ad=1|.sdk_init_opt=1|.ios_hot_start_show_ad_plan=0|.touch_forbid_launch_ad=0|.android_hot_start_pull_ad_plan=0|.is_show_personalized_ad=0|walk(if type == "object" and has("source_info") then .source_info=[] else . end)'
 
 ^https?:\/\/cs8\.intsig\.net\/ad\/cn\/property\/query url jsonjq-response-body '.data.remove_ad.property_status=1|.data.remove_ad.expire_time=253404825935739|.data.remove_ad.first_ad_free_status=1'
 
