@@ -39,7 +39,7 @@ host-suffix,meitustat.com,reject
 host,push.meitu.com,reject
 host,wink-material.meitudata.com,reject
 host,stat.meitudata.com,reject
-host-suffix,pangle.io.reject
+host-suffix,pangle.io,reject
 host-wildcard,sf*-static.i18n-pglstatp.com,reject
 host,apm-collector-uc.intsig.net,reject
 
