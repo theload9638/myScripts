@@ -8,7 +8,7 @@
 hostname = api-wink.meitumv.com,api-sub.meitu.com,h5api-winkcut.meitu.com,api.account.meitu.com,titan-h5.meitu.com
 
 [rewrite_local]
-# wink
+
 ^https?:\/\/api-sub\.meitu\.com\/v2\/user\/vip_info_by_group\.json url jsonjq-response-body '.data.account_type=1|walk(if type == "boolean" then true else . end)'
 ^https?:\/\/api-sub\.meitu\.com\/v2\/entrance\/marketing\/get_marketing_module\.json url jsonjq-response-body 'walk(if type == "object" and has("banner_nav_switch") then .banner_nav_switch=0 else . end)'
 ^https?:\/\/api-sub\.meitu\.com\/v2\/user\/info_by_entrance\.json url jsonjq-response-body '.data.vip_info.account_type=1|.data.account_type=1|walk(if type == "boolean" then true else . end)'

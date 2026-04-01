@@ -17,8 +17,11 @@ hostname = api-cs-us.intsig.net,cs8.intsig.net,open*.camscanner.com
 ^https:\/\/api-cs-us\.intsig\.net\/user\/cs\/account_bind_find url jsonjq-response-body '.data.had_low_purchase=true|.data.is_bound=true'
 ^https:\/\/api-cs-us\.intsig\.net\/user\/cs\/reward\/reward_handle\? url jsonjq-response-body '.data.is_lifelong_vip=1|.data.value=1'
 ^https:\/\/api-cs-us\.intsig\.net\/user\/cs\/operating\/app\/get_forceupdate\? url jsonjq-response-body '{"ret":"1","data":{},"err":""}'
+^https:\/\/api-cs-us\.intsig\.net\/user\/cs\/get_user_info\? url jsonjq-response-body '.display_name="theload9638"'
+
 ^https:\/\/api-cs-us\.intsig\.net\/purchase\/cs\/query_property\? url script-response-body https://raw.githubusercontent.com/theload9638/myScripts/main/scripts/camscan.js
-^https:\/\/api-cs-us\.intsig\.net\/purchase\/cs\/verify_products_ios\?  url script-response-body https://raw.githubusercontent.com/theload9638/myScripts/main/scripts/camscan.js
+^https:\/\/api-cs-us\.intsig\.net\/purchase\/cs\/verify_products_ios\? url script-response-body https://raw.githubusercontent.com/theload9638/myScripts/main/scripts/camscan.js
+^https:\/\/api-cs-us\.intsig\.net\/purchase\/cs\/ios_customer_consent\? url jsonjq-response-body '.data.customer_consented=true'
 
 */
 const url = $request.url;
