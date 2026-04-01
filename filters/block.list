@@ -39,6 +39,9 @@ host-suffix,meitustat.com,reject
 host,push.meitu.com,reject
 host,wink-material.meitudata.com,reject
 host,stat.meitudata.com,reject
+host-suffix,pangle.io.reject
+host-wildcard,sf*-static.i18n-pglstatp.com,reject
+host,apm-collector-uc.intsig.net,reject
 
 # httpdns
 host-keyword,httpdns,reject
@@ -254,7 +257,6 @@ host,wxc70.cc,reject
 host,cr.adsappier.com,reject
 host-suffix,zijieapi.com,reject
 host,tutu.ta76h13tz091bpcr.com,reject
-host,ad.doubleclick.net,reject
 host,29628odxjccp.nszzkeh.com,reject
 host,notes-analytics-events.apple.com,reject
 host,security-lq.snssdk.com,reject
@@ -9762,7 +9764,6 @@ host-suffix,gangaarrieroxerox.cfd,reject
 host-suffix,mengpandora.cfd,reject
 ip-cidr,167.99.31.227/32,reject
 host-suffix,leadingedgecash.com,reject
-host-suffix,fls.doubleclick.net,reject
 host-suffix,tentersforesay.qpon,reject
 host-suffix,azbtyfvqjuiyc.store,reject
 host-suffix,gleneskipple.cfd,reject
