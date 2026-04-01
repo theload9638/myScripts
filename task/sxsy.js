@@ -93,22 +93,58 @@ function post(req, opts = null, timeout = 5000, type = '请求') {
     })])
 }
 function mergeCk(oldCk, newCk) {
-    if (!newCk) {
-        return oldCk;
+    if (!newCk) return oldCk || "";
+    const cookieObj = {};
+    if (oldCk) {
+        oldCk.split(";").forEach(item => {
+            if (!item) return;
+            let idx = item.indexOf("=");
+            if (idx < 0) return;
+            let k = item.slice(0, idx).trim();
+            let v = item.slice(idx + 1).trim();
+            if (k) cookieObj[k] = v;
+        });
     }
-    if (newCk) {
-        newCk = newCk.replace(/path=\/(,)?\s?/gi, '').
-            replace(/expires=[^;]+?;\s?/gi, '').trim()
+    function splitSetCookie(str) {
+        let res = [];
+        let i = 0, start = 0, inExpires = false;
+
+        while (i < str.length) {
+            if (!inExpires && str.slice(i, i + 8).toLowerCase() === "expires=") {
+                inExpires = true;
+                i += 8;
+                continue;
+            }
+            if (inExpires && str[i] === ";") {
+                inExpires = false;
+            }
+            if (!inExpires && str[i] === ",") {
+                let rest = str.slice(i + 1);
+                if (/^\s*[^=;,\s]+=/.test(rest)) {
+                    res.push(str.slice(start, i));
+                    start = i + 1;
+                }
+            }
+            i++;
+        }
+
+        res.push(str.slice(start));
+        return res;
     }
-    let cookieObj = {};
-    oldCk.split(";").forEach(item => {
-        let [k, v] = item.trim().split("=");
-        cookieObj[k] = v;
-    });
-    newCk.forEach(sc => {
-        let pair = sc.split(";")[0];
-        let [k, v] = pair.split("=");
-        cookieObj[k] = v;
+    let list = Array.isArray(newCk) ? newCk : splitSetCookie(newCk);
+    list.forEach(sc => {
+        if (!sc) return;
+        let first = sc.split(";")[0];
+        let idx = first.indexOf("=");
+        if (idx < 0) return;
+        let k = first.slice(0, idx).trim();
+        let v = first.slice(idx + 1).trim();
+        if (!k) return;
+        if (v === "" || /^deleted$/i.test(v)) {
+            delete cookieObj[k];
+        } else {
+            cookieObj[k] = v;
+        }
     });
     return Object.entries(cookieObj)
         .map(([k, v]) => `${k}=${v}`)
