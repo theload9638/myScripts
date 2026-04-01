@@ -1,10 +1,15 @@
 #block antiAd-others ad/track/log/httpdns
 
+# kaishou-live-tracker
 ip-cidr,117.161.142.50/32,reject
 ip-cidr,111.19.230.32/32,reject
+ip-cidr,120.201.48.48/32,reject
+
 host-suffix,djvod.ndcimgs.com,reject
+host-suffix,djlive.ndcimgs.com,reject
 host,pcdn-pxy-tracker.xxpkg.com,reject
 host-wildcard,frontier*-toutiao-lf.fqnovel.com,reject
+host-suffix,firsecuckoo.com,reject
 host-suffix,tuvhcf.com,reject
 host, effect.snssdk.com, reject
 host, ichannel.snssdk.com, reject
@@ -47,6 +52,7 @@ host-suffix,pangle.io,reject
 host-wildcard,sf*-static.i18n-pglstatp.com,reject
 host,apm-collector-uc.intsig.net,reject
 host-suffix,traffic-monitor.yximgs.com,reject
+host,lcsdk.3g.qq.com,reject
 
 # httpdns
 host-keyword,httpdns,reject
@@ -55,12 +61,18 @@ USER-AGENT,"httpdns*",reject
 USER-AGENT,"httpsdns*",reject
 USER-AGENT,"Httpdns*",reject
 USER-AGENT,"Httpsdns*",reject
+host,dns2.q2cdn.com,reject
+host,aedns.weixin.qq.com,reject
+host,paydns.wechatpay.cn,reject
 host,resolver.mi.xiaomi.com,reject
 host,apidns.kwd.inkuai.com,reject
+host,apidns-js.kwd.inkuai.com,reject
 host,httpdns.browser.miui.com,reject
+host,hd.xiaojukeji.com,reject
 host,resolver.msg.xiaomi.net,reject
 host,httpdnsmultiapi.meituan.com,reject
 host,dotserver.douyucdn.cn,reject
+host,dns.qiyipic.iqiyi.com,reject
 host,httpdnsmultiapivip.meituan.com,reject
 host-suffix,httpdns.qcloud.com,reject
 host-suffix,httpdns.aliyuncs.com,reject
@@ -73,6 +85,8 @@ ip-cidr,203.119.238.194/32,reject
 ip-cidr,203.119.204.80/32,reject
 ip-cidr,203.119.238.240/32,reject
 host,dns.jd.com,reject
+host,dns.qq.com,reject
+host,doh.dns.apple.com,reject
 host,dns.weibo.cn,reject
 host,dns.weixin.qq.com,reject
 host,dns.weixin.qq.com.cn,reject
