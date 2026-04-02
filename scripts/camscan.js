@@ -1,6 +1,6 @@
 /*
 #!name=cs全能王解锁
-#!desc=解锁会员+去广告
+#!desc=解锁会员plus+去广告
 #!author=theload9638
 #!version=7.12.0
 

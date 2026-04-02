@@ -13,6 +13,7 @@ ip-cidr,117.161.142.50/32,reject
 ip-cidr,111.19.230.32/32,reject
 ip-cidr,120.201.48.48/32,reject
 
+host,log-report.rtplus.com,reject
 host-suffix,djvod.ndcimgs.com,reject
 host-suffix,djlive.ndcimgs.com,reject
 host,pcdn-pxy-tracker.xxpkg.com,reject
