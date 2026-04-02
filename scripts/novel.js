@@ -1,5 +1,5 @@
 /**
- * version fsd57.19
+ * version fsd57.20
  * createBy： theload9638
  * 配合使用 https://raw.githubusercontent.com/theload9638/myScripts/main/filters/block.list
  * Quantumultx|网页去广告,支持部分小说/漫画
@@ -36,7 +36,8 @@ let defaultSetting = {
     'debug': false,
     'preBlock': 350,
     'enable_proxy': true,
-    'enable_floatyW': true
+    'enable_floatyW': true,
+    'ignore':false
 };
 var settingCfg = {};
 if ($response.statusCode === 200 && (url.includes('html') || (type && type.includes("text")))) {
@@ -73,7 +74,7 @@ if ($response.statusCode === 200 && (url.includes('html') || (type && type.inclu
         domains = domains.concat(settingCfg.domains);
     }
     const escapeRegExp = (str) => str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-    let styleStr = ['ins,iframe,frame,[style*="background-image"],.wwads-cn,.comic-detail-ad-desktop-wrapper,.comic-detail-ad-desktop-container,.comic-detail-page-ad,.comic-detail-ad-mobile-content,.slideshow-section,.ad-media,.ad-image,.ad-item,.ads-container,.responsive-figure,a[title*="Ad"],#balaoAd,#floating-ad,.floating-ad,[rel*="noopener"],*[data-show],.div-bf-pv, .a_d_sidebar,#a_d_sidebar,#popadv_popmenu,.popadv_popmenu,#popadv_code,.popadv_code,#billboard-modal,#onclickshowdiv,.adv-6park,.view_ad_incontent,#smx_wrap,#aswift_9,#aswift_9_host,.modal-backdrop,.place_holder_box,.dmca_box,a:has(img[src*="gif"]),#guide-modal,#ad_iframe,.c835e-33_e,.float-right-daily,.exo_wrapper_show,.web-right-float-button,#exo-native-widget-5098390-adX3C,.float-right-image,.tui,.exo-native-widget,.exo-native-widget-outer-container,.group-notice,.bYtYBpFi,.tmwac,#announceinfo,.slide-ad,#slide-ad,.recoBox2,.tuijian,.btnErrorW,.pHS5vbgQ_main_outstream,.vote-section,.root--26nWL,.bottomRight--h0VsQ,.slideAnimation--2ih2G,#comments,#comment_list,video,.comment-section,.banner_box,#opSOzAp,audio,#__copy,.subtitle-container,.ai-detection-feedback,.ad_float,.ad_list_top,#infoad,div[data-ad],.banner,.ad-body,.logo_box,.ad_encode,#ad_encode,#ad-body,#banner,.ad-video,#video-ad-ui,.copyright,.GoogleActiveViewInnerContainer,.adsbygoogle,.adsbygoogle-noablate,.google-auto-placed,#ad-video,#ad-container,.adBlock,#adBlock,.ad-mob,#ad-mob,.mobile-ad,#mobile-ad,.m-ad,#m-ad,.popup,.ads,#ads,.advertisement,#advertisement,embed,object,.ad,.ad-container,.ad-wrap,#ad-wrap,.ad-box,#ad-box,#ad,.footer,#footer{display:none !important;pointer-events: none !important;}'];
+    let styleStr = ['ins,iframe,frame,[style*="background-image"],#balaoAd,#floating-ad,.floating-ad,[rel*="noopener"],*[data-show],.div-bf-pv, .a_d_sidebar,#a_d_sidebar,#popadv_popmenu,.popadv_popmenu,#popadv_code,.popadv_code,#billboard-modal,#onclickshowdiv,.adv-6park,.view_ad_incontent,#smx_wrap,#aswift_9,#aswift_9_host,.modal-backdrop,.place_holder_box,.dmca_box,a:has(img[src*="gif"]),#guide-modal,#ad_iframe,.c835e-33_e,.float-right-daily,.exo_wrapper_show,.web-right-float-button,#exo-native-widget-5098390-adX3C,.float-right-image,.tui,.exo-native-widget,.exo-native-widget-outer-container,.group-notice,.bYtYBpFi,.tmwac,#announceinfo,.slide-ad,#slide-ad,.recoBox2,.tuijian,.btnErrorW,.pHS5vbgQ_main_outstream,.vote-section,.root--26nWL,.bottomRight--h0VsQ,.slideAnimation--2ih2G,#comments,#comment_list,video,.comment-section,.banner_box,#opSOzAp,audio,#__copy,.subtitle-container,.ai-detection-feedback,.ad_float,.ad_list_top,#infoad,div[data-ad],.banner,.ad-body,.logo_box,.ad_encode,#ad_encode,#ad-body,#banner,.ad-video,#video-ad-ui,.copyright,.GoogleActiveViewInnerContainer,.adsbygoogle,.adsbygoogle-noablate,.google-auto-placed,#ad-video,#ad-container,.adBlock,#adBlock,.ad-mob,#ad-mob,.mobile-ad,#mobile-ad,.m-ad,#m-ad,.popup,.ads,#ads,.advertisement,#advertisement,embed,object,.ad,.ad-container,.ad-wrap,#ad-wrap,.ad-box,#ad-box,#ad,.footer,#footer{display:none !important;pointer-events: none !important;}'];
     let bodyStr = '';
     try {
         let charsetRes = /<meta[^>]*?charset\s*=\s*(['"]?)([^>'"]+)\1?/i.exec(html);
@@ -93,6 +94,10 @@ if ($response.statusCode === 200 && (url.includes('html') || (type && type.inclu
         html = html.replace(new RegExp(`<([a-zA-Z0-9]+)\\s+[^>]*?(src|href|class|id)\\s*=\\s*(['"])[^'"]*?(?:${(domains.map(escapeRegExp).join('|'))})[^'"]*?\\3[^>]*?>`, 'gi'), '<$1 style="display:none !important;pointer-events: none !important;">');
         if (settingCfg.enable_proxy) {
             configProxy(url);
+            if(settingCfg.ignore){
+                $done({});
+                return;
+            }
         }
         if (settingCfg.enable_floatyW) {
             try {
