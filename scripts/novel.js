@@ -117,10 +117,6 @@ if ($response.statusCode === 200 && (url.includes('html') || (type && type.inclu
             if (settingCfg.styleStr) { styleStr.push(settingCfg.styleStr); }
             html = html.replace(/<\/head>/, '<style>' + (styleStr.join('')) + '</style></head>');
         }
-        newHeaders["Cross-Origin-Embedder-Policy"] = "unsafe-none";
-        newHeaders["Cross-Origin-Opener-Policy"] = "unsafe-none";
-        newHeaders["Cross-Origin-Resource-Policy"] = "cross-origin";
-        newHeaders["X-Frame-Options"] = "DENY";
         if (settingCfg.debug) {
             console.log(`\ncharset: ${charset} \n headers: \n${JSON.stringify(newHeaders)}\n`);
         }
