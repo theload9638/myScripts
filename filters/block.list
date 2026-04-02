@@ -1,5 +1,13 @@
 #block antiAd-others ad/track/log/httpdns
 
+#jd log/report/monitor
+host, perf.m.jd.com, reject
+host, ex.m.jd.com, reject
+host, waapdg.jd.com, reject
+host, cactus.jd.com, reject
+host, mllog.jd.com, reject
+host, anti-sdk-report.m.jd.com, reject
+
 # kaishou-live-tracker
 ip-cidr,117.161.142.50/32,reject
 ip-cidr,111.19.230.32/32,reject
