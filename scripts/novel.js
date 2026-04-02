@@ -1,5 +1,5 @@
 /**
- * version fsd57.21
+ * version fsd57.16
  * createBy： theload9638
  * 配合使用 https://raw.githubusercontent.com/theload9638/myScripts/main/filters/block.list
  * Quantumultx|网页去广告,支持部分小说/漫画
@@ -10,7 +10,6 @@
  *   - 未来计划：webStoragePreviewUI / webDebugUI /...
  */
 const url = $request.url;
-const cfg_key = 'qx-fw-dfs_';
 let type = $response.headers['Content-Type'];
 const stf_special_key = 'special';
 let defaultSetting = {
@@ -21,7 +20,7 @@ let defaultSetting = {
     'scroll_delay': 2000,
     'block_times': 50,
     'block_target': ['IMG', 'VIDEO', 'IFRAME', 'OBJECT', 'EMBED', 'AUDIO', 'PICTURE', 'SOURCE', 'SVG', 'IMAGE', 'FRAME', 'INS'],
-    'block_selectors': ['*[style*="background"]', '*[style*="display"]', '*[style*="opacity"]', '*[style*="margin: 0"]', '*[style*="z-index"]', '*[style*="padding: 0"]', 'a[href]:not([href^="/"])'],
+    'block_selectors': ['*[style*="background"]', '*[style*="display"]','*[style*="opacity"]','*[style*="margin: 0"]', '*[style*="z-index"]','*[style*="padding: 0"]','a[href]:not([href^="/"])'],
     'prev_texts': ['上一章', '上一页', '上一章节', '上一话', '上一篇'],
     'next_texts': ['下一章', '下一页', '下一章节', '下一话', '下一篇'],
     'dir_texts': ['目录', '全部章节', '章节目录'],
@@ -34,12 +33,10 @@ let defaultSetting = {
     'styleStr': '',
     'bodyStr': '',
     'debug': false,
-    'preBlock': 350,
-    'enable_proxy': true,
-    'enable_floatyW': true,
-    'ignore':false
+    'preBlock': 400,
+    'enable_proxy': true
 };
-var settingCfg = {};
+var settingCfg={};
 if ($response.statusCode === 200 && (url.includes('html') || (type && type.includes("text")))) {
     let html = $response.body;
     if (!html) {
@@ -47,17 +44,17 @@ if ($response.statusCode === 200 && (url.includes('html') || (type && type.inclu
         $done({});
         return;
     }
-    let dsJson = $prefs.valueForKey(cfg_key);
+    let dsJson = $prefs.valueForKey('qx-fw-dfs_');
     if (dsJson) {
-        try {
-            let _sobj1 = JSON.parse(dsJson);
-            settingCfg = { ...defaultSetting, ..._sobj1 };
-        } catch (e) {
-            console.log('merge conf err: ' + e.message);
-            settingCfg = { ...defaultSetting };
+        try{
+            let _sobj1=JSON.parse(dsJson);
+            settingCfg ={...defaultSetting,..._sobj1};
+        }catch(e){
+            console.log('parse config error and now use default config : '+ e.message);
+            settingCfg={...defaultSetting};
         }
-    } else {
-        settingCfg = { ...defaultSetting };
+    }else{
+        settingCfg={...defaultSetting};
     }
     let htmLen = html.length;
     if (htmLen < settingCfg.preBlock) {
@@ -67,58 +64,73 @@ if ($response.statusCode === 200 && (url.includes('html') || (type && type.inclu
     }
     const newHeaders = { ...$response.headers };
     let domains = [
-        'banner', 'textad', 'javlib', '_ad', 'ads', '/ad', 'ad_', 'adv_',
-        'ad-', '-ad', 'javascript:void(0)', 'popup'
+        'banner','textad','adBlock','javlib','_ad','ads','/ad','logo','ad_','adv_',
+        'ad-','-ad','javascript:void(0)','popup','collect','analysis','analytics','tracker'
     ];
     if (Array.isArray(settingCfg.domains) && settingCfg.domains.length > 0) {
         domains = domains.concat(settingCfg.domains);
     }
     const escapeRegExp = (str) => str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-    let styleStr = ['ins,iframe,frame,[style*="background-image"],#balaoAd,#floating-ad,.floating-ad,[rel*="noopener"],*[data-show],.div-bf-pv, .a_d_sidebar,#a_d_sidebar,#popadv_popmenu,.popadv_popmenu,#popadv_code,.popadv_code,#billboard-modal,#onclickshowdiv,.adv-6park,.view_ad_incontent,#smx_wrap,#aswift_9,#aswift_9_host,.modal-backdrop,.place_holder_box,.dmca_box,a:has(img[src*="gif"]),#guide-modal,#ad_iframe,.c835e-33_e,.float-right-daily,.exo_wrapper_show,.web-right-float-button,#exo-native-widget-5098390-adX3C,.float-right-image,.tui,.exo-native-widget,.exo-native-widget-outer-container,.group-notice,.bYtYBpFi,.tmwac,#announceinfo,.slide-ad,#slide-ad,.recoBox2,.tuijian,.btnErrorW,.pHS5vbgQ_main_outstream,.vote-section,.root--26nWL,.bottomRight--h0VsQ,.slideAnimation--2ih2G,#comments,#comment_list,video,.comment-section,.banner_box,#opSOzAp,audio,#__copy,.subtitle-container,.ai-detection-feedback,.ad_float,.ad_list_top,#infoad,div[data-ad],.banner,.ad-body,.logo_box,.ad_encode,#ad_encode,#ad-body,#banner,.ad-video,#video-ad-ui,.copyright,.GoogleActiveViewInnerContainer,.adsbygoogle,.adsbygoogle-noablate,.google-auto-placed,#ad-video,#ad-container,.adBlock,#adBlock,.ad-mob,#ad-mob,.mobile-ad,#mobile-ad,.m-ad,#m-ad,.popup,.ads,#ads,.advertisement,#advertisement,embed,object,.ad,.ad-container,.ad-wrap,#ad-wrap,.ad-box,#ad-box,#ad,.footer,#footer{display:none !important;pointer-events: none !important;}'];
+    let styleStr = ['ins,iframe,frame,[style*="background-image"],.wwads-cn,.comic-detail-ad-desktop-wrapper,.comic-detail-ad-desktop-container,.comic-detail-page-ad,.comic-detail-ad-mobile-content,.slideshow-section,.ad-media,.ad-image,.ad-item,.ads-container,.responsive-figure,a[title*="Ad"],#balaoAd,#floating-ad,.floating-ad,[rel*="noopener"],*[data-show],.div-bf-pv, .a_d_sidebar,#a_d_sidebar,#popadv_popmenu,.popadv_popmenu,#popadv_code,.popadv_code,#billboard-modal,#onclickshowdiv,.adv-6park,.view_ad_incontent,#smx_wrap,#aswift_9,#aswift_9_host,.modal-backdrop,.place_holder_box,.dmca_box,a:has(img[src*="gif"]),#guide-modal,#ad_iframe,.c835e-33_e,.float-right-daily,.exo_wrapper_show,.web-right-float-button,#exo-native-widget-5098390-adX3C,.float-right-image,.tui,.exo-native-widget,.exo-native-widget-outer-container,.group-notice,.bYtYBpFi,.tmwac,#announceinfo,.slide-ad,#slide-ad,.recoBox2,.tuijian,.btnErrorW,.pHS5vbgQ_main_outstream,.vote-section,.root--26nWL,.bottomRight--h0VsQ,.slideAnimation--2ih2G,#comments,#comment_list,video,.comment-section,.banner_box,#opSOzAp,audio,#__copy,.subtitle-container,.ai-detection-feedback,.ad_float,.ad_list_top,#infoad,div[data-ad],.banner,.ad-body,.logo_box,.ad_encode,#ad_encode,#ad-body,#banner,.ad-video,#video-ad-ui,.copyright,.GoogleActiveViewInnerContainer,.adsbygoogle,.adsbygoogle-noablate,.google-auto-placed,#ad-video,#ad-container,.adBlock,#adBlock,.ad-mob,#ad-mob,.mobile-ad,#mobile-ad,.m-ad,#m-ad,.popup,.ads,#ads,.advertisement,#advertisement,embed,object,.ad,.ad-container,.ad-wrap,#ad-wrap,.ad-box,#ad-box,#ad,.footer,#footer{display:none !important;pointer-events: none !important;}'];
     let bodyStr = '';
     try {
         let charsetRes = /<meta[^>]*?charset\s*=\s*(['"]?)([^>'"]+)\1?/i.exec(html);
-        let charset = charsetRes?.[2]?.trim() || 'utf8';
-        let utf8Flag = /^utf/i.test(charset);
-        if (!utf8Flag) {
+        let charset = charsetRes ? ((charsetRes[2] || 'utf8').trim()) : 'utf8';
+        let utf8Flag = true;
+        if (/utf-?8/i.test(charset) || charset.toLowerCase().startsWith('utf')) {
+            if (url.includes('m.diyibanzhu')) {
+                settingCfg.auto_block_ad = true;
+            } 
+        } else {
+            utf8Flag = false;
             html = new TextDecoder(charset, { fatal: false, ignoreBOM: true }).decode(new Uint8Array($response.bodyBytes));
             html = html.replace(charset, 'utf-8');
-            if (type.includes(charset)) { newHeaders['Content-Type'] = type.replace(charset, 'utf-8'); }
-            bodyStr += `<script>for(let i of document.forms){if(!i.acceptCharset){i.acceptCharset='${charset}'}}</script>`;
+            if(type.includes(charset)){
+                newHeaders['Content-Type']=type.replace(charset,'utf-8');
+            }
+            bodyStr+=`<script>for(let i of document.forms){if(!i.acceptCharset){i.acceptCharset='${charset}'}}</script>`;
         }
         if (html.includes('<iframe') || html.includes('<ins') || html.includes('<embed') || html.includes('<object')) {
             html = html.replace(/<(ins|object|embed|iframe|frame)[^>]*?>[\s\S]*?<\/\1>/gi, '');
         }
-        if (html.includes("<noscript")) { html = html.replace(/<noscript[^>]*?>[\s\S]*?<\/noscript>/g, ''); }
+        if (html.includes("<noscript")) {
+            html = html.replace(/<noscript[^>]*?>[\s\S]*?<\/noscript>/g, '');
+        }
         html = html.replace(/\balert\s*\([^)]*\)/g, "(void 0)");
         html = html.replace(new RegExp(`<([a-zA-Z0-9]+)\\s+[^>]*?(src|href|class|id)\\s*=\\s*(['"])[^'"]*?(?:${(domains.map(escapeRegExp).join('|'))})[^'"]*?\\3[^>]*?>`, 'gi'), '<$1 style="display:none !important;pointer-events: none !important;">');
+        html = html.replace(/<([a-zA-Z0-9]+)\s+[^>]*?(src|href)\s*=\s*(['"])[^'"]*?\/\/\d+[a-z]+\.[a-z]+(\.(cc|com|xyz|net|org):?)?[^'"]*?\3[^>]*?>/gi, '<$1 style="display:none !important;pointer-events: none !important;">');
+
         if (settingCfg.enable_proxy) {
-            configProxy(url);
-            if(settingCfg.ignore){
-                $done({});
-                return;
-            }
+            configProxy();
         }
-        if (settingCfg.enable_floatyW) {
-            try {
-                let fyobj = applyFloatyW(html);
-                bodyStr += fyobj.bodyStr;
-                styleStr.push(fyobj.styleStr);
-            } catch (e) {
-                console.log('fail apply floatyWindow : ' + e.message);
-            }
+        try {
+            let fyobj = applyFloatyW(html);
+            bodyStr += fyobj.bodyStr;
+            styleStr.push(fyobj.styleStr);
+        } catch (e) {
+            console.log('fail apply floaty window : ' + e.message);
         }
-        if (settingCfg.bodyStr) { bodyStr += settingCfg.bodyStr; }
-        if (bodyStr) { html = html.replace(/<\/body>/, bodyStr + '</body>'); }
+        if (settingCfg.bodyStr) {
+            bodyStr += settingCfg.bodyStr;
+        }
+        if (bodyStr) {
+            html = html.replace(/<\/body>/, bodyStr + '</body>');
+        }
         if (styleStr && styleStr.length > 0) {
             if (settingCfg.enableBgColor) {
                 styleStr.push('*{background-color: ' + settingCfg.bgColor + ' !important;background-image: none !important;color: ' + settingCfg.baseColor + ' !important; font-size: ' + settingCfg.fontSize + 'px !important;}');
             }
-            if (settingCfg.styleStr) { styleStr.push(settingCfg.styleStr); }
+            if (settingCfg.styleStr) {
+                styleStr.push(settingCfg.styleStr);
+            }
             html = html.replace(/<\/head>/, '<style>' + (styleStr.join('')) + '</style></head>');
         }
+        newHeaders["Cross-Origin-Embedder-Policy"] = "unsafe-none";
+        newHeaders["Cross-Origin-Opener-Policy"] = "unsafe-none";
+        newHeaders["Cross-Origin-Resource-Policy"] = "cross-origin";
+        newHeaders["X-Frame-Options"] = "DENY";
         if (settingCfg.debug) {
-            console.log(`\ncharset: ${charset} \n headers: \n${JSON.stringify(newHeaders)}\n`);
+            console.log(`\ncharset: ${charset} \n headers: ${JSON.stringify(newHeaders)}\n`);
         }
         if (!utf8Flag) {
             $done({ headers: newHeaders, bodyBytes: (new TextEncoder().encode(html)).buffer });
@@ -126,67 +138,34 @@ if ($response.statusCode === 200 && (url.includes('html') || (type && type.inclu
             $done({ headers: newHeaders, body: html });
         }
     } catch (e) {
-        console.log(`err : ${e.message}`);
+        console.log(`error: ${e.message}`);
         $done({});
     }
 } else {
     console.log(`ignored= ${type} ${$response.statusCode}`);
     $done({});
+    return;
 }
-function configProxy(url) {
-    let compiledSpecialRules = [];
-    function initSpecialRules() {
-        let sp = settingCfg[stf_special_key];
-        if (!sp) return;
-        if (!Array.isArray(sp)) {
-            sp = Object.keys(sp).map(k => ({
-                match: k,
-                config: sp[k]
-            }));
-        }
-        compiledSpecialRules = sp.map(rule => {
-            let matcher = rule.match;
-            let type = 'includes';
-            if (matcher instanceof RegExp) {
-                type = 'regex';
-            } else if (typeof matcher === 'string') {
-                if (matcher.startsWith('regex:')) {
-                    type = 'regex';
-                    matcher = new RegExp(matcher.slice(6));
-                } else if (matcher.includes('*')) {
-                    type = 'wildcard';
-                    matcher = new RegExp('^' + matcher.replace(/\./g, '\\.').replace(/\*/g, '.*') + '$');
+function configProxy() {
+    let spObj = settingCfg[stf_special_key];
+    if (spObj && typeof spObj === 'object' && Object.keys(spObj).length > 0) {
+        let ul = new URL($request.url);
+        let host = ul.host || ul.hostname;
+        let curHost_obj = spObj[host];
+        if (curHost_obj && typeof curHost_obj === 'object' && Object.keys(curHost_obj).length > 0) {
+            let cfg_ks = Object.keys(defaultSetting);
+            let px_cgd = false;
+            for (let nm of cfg_ks) {
+                let vl = curHost_obj[nm];
+                if (vl) {
+                    px_cgd = true;
+                    settingCfg[nm] = vl;
                 }
             }
-            return {
-                type,
-                matcher,
-                config: rule.config
-            };
-        });
-    }
-    initSpecialRules();
-    function matchSpecialConfig(url) {
-        for (let rule of compiledSpecialRules) {
-            let hit = false;
-            if (rule.type === 'includes') {
-                hit = url.includes(rule.matcher);
-            } else {
-                hit = rule.matcher.test(url);
+            if (settingCfg.debug && px_cgd) {
+                console.log(`config is changed by ${host}`);
             }
-            if (hit) return rule.config;
         }
-        return null;
-    }
-    let cfg = matchSpecialConfig(url);
-    if (!cfg) return;
-    let changed = false;
-    for (let k in cfg) {
-        settingCfg[k] = cfg[k];
-        changed = true;
-    }
-    if (settingCfg.debug && changed) {
-        console.log(`config matched: ${url}`);
     }
 }
 function applyFloatyW(html) {
@@ -196,7 +175,7 @@ function applyFloatyW(html) {
     cn += `<div class="qx-qw-setting-box"><div class="qx-qw-setting-layout"><div class="qx-qw-setting-head"><h3>设置</h3><button type="button"class="qx-fw-setting-close">×</button></div><div class="qx-qw-sl-box"><div class="qx-qw-setting-line"><span>自动下一章</span><input type="checkbox"${settingCfg.auto_nxt ? ' checked="1" ' : ' '}id="qxSetCkIP"><label for="qxSetCkIP"class="qxSetingtoggleSwitch"></label></div><div class="qx-qw-setting-line"><span>强力拦截广告</span><input type="checkbox"${settingCfg.auto_block_ad ? ' checked="1" ' : ' '}id="qxSetCkIP1"><label for="qxSetCkIP1"class="qxSetingtoggleSwitch"></label></div><div class="qx-qw-setting-line"><span>自动滚动</span><input type="checkbox"${settingCfg.auto_scroll ? 'checked="1"' : ''}id="qxSetCkIP2"><label for="qxSetCkIP2"class="qxSetingtoggleSwitch"></label></div><div class="qx-qw-setting-line"><button class="qx-qw-st-copy">复制源码</button></div></div><div class="qx-qw-setting-line"><span class="qx-qw-btn-close">关闭</span></div></div></div>`;
     let scp = '<script>(function(){';
     scp += `let container=document.querySelector('.qx-qw');let settingContainer=document.querySelector('.qx-qw-setting-box');let ctCls=document.querySelector('.qx-qw-btn-close');ctCls.addEventListener('click',function(e){window.confirm("确定要关闭悬浮窗吗?")&&(container.style.display="none")});let settingCfg={'auto_nxt':${settingCfg.auto_nxt},'auto_block_ad':${settingCfg.auto_block_ad},'auto_scroll':${settingCfg.auto_scroll}};let nxt_timerId=null;let obv_nxt=null;const AutoScroller={speed:${settingCfg.scroll_speed},interval:16,delay:${settingCfg.scroll_delay},delayTimer:null,running:false,rafId:null,lastTime:0,start(options={}){if(this.running||this.delayTimer){return}if(options.speed){this.speed=options.speed}if(options.interval){this.interval=options.interval}if(options.delay!==undefined){this.delay=options.delay}this.delayTimer=setTimeout(()=>{this.running=true;this.lastTime=performance.now();this.loop()},this.delay)},stop(){this.running=false;if(this.rafId){cancelAnimationFrame(this.rafId);this.rafId=null}if(this.delayTimer){clearTimeout(this.delayTimer);this.delayTimer=null}},toggle(){(this.running||this.delayTimer)?this.stop():this.start()},setSpeed(newSpeed){this.speed=newSpeed},loop(){if(!this.running)return;const now=performance.now();const delta=now-this.lastTime;if(delta>=this.interval){this.lastTime=now;const scrollTop=window.scrollY;const maxScroll=document.documentElement.scrollHeight-window.innerHeight;if(scrollTop>=maxScroll){this.stop();return}window.scrollBy(0,this.speed)}this.rafId=requestAnimationFrame(()=>this.loop())}};if(settingCfg.auto_nxt){let cs='${pnObj.next}';if(typeof cs!="string"||cs==='undefined'||cs==='null'){}else{let nxt_btn=document.querySelector(cs);obv_nxt=new IntersectionObserver(changes=>{if(changes&&changes.length>0&&!nxt_timerId){let changeEntry=changes[0];if(changeEntry.isIntersecting){nxt_timerId=setTimeout(()=>{clearTimeout(nxt_timerId);nxt_btn&&nxt_btn.click()},500)}}},{threshold:1});if(nxt_btn){obv_nxt.observe(nxt_btn)}}}if(settingCfg.auto_scroll){AutoScroller.start()}`;
-    scp += `const KillRender={initialize:false,running:false,rafId:null,count:0,times:${settingCfg.block_times},observer:null,TAGS:new Set(${JSON.stringify(settingCfg.block_target)}),SELECTORS:${JSON.stringify(settingCfg.block_selectors)},ALL_SELECTORS:[...${JSON.stringify(settingCfg.block_target)},...${JSON.stringify(settingCfg.block_selectors)}].join(','),removeIfTarget(node){if(node.nodeType!==1)return;if(this.TAGS.has(node.tagName)){node.remove();return}if(node.matches&&this.SELECTORS.some(sel=>node.matches(sel))){node.remove();return}if(node.querySelectorAll){node.querySelectorAll(this.ALL_SELECTORS).forEach(el=>el.remove())}},cleanStyleSheets(){for(const sheet of document.styleSheets){let rules;try{rules=sheet.cssRules}catch(e){continue}if(!rules)continue;for(let i=rules.length-1;i>=0;i--){const rule=rules[i];if(rule.style&&rule.style.backgroundImage&&rule.style.backgroundImage.includes('url')){rule.style.backgroundImage='none'}}}},sweep(){document.querySelectorAll(this.ALL_SELECTORS).forEach(el=>el.remove());this.cleanStyleSheets()},loop(){if(!this.running)return;this.sweep();this.count++;if(this.count>=this.times){this.stop();return}this.rafId=requestAnimationFrame(()=>this.loop())},initObserver(){this.observer=new MutationObserver(mutations=>{for(const m of mutations){for(const node of m.addedNodes){this.removeIfTarget(node)}}});this.observer.observe(document.documentElement,{childList:true,subtree:true})},hookDOMInsert(){const methods=['appendChild','insertBefore','replaceChild'];const elementMethods=['append','prepend','before','after','replaceWith'];const makeNativeLike=(name,fn)=>{Object.defineProperty(fn,'name',{value:name});fn.toString=function(){return'function '+name+'() { [native code] }'};return fn};methods.forEach(method=>{const fake=makeNativeLike(method,function(){return null});Object.defineProperty(Node.prototype,method,{value:fake,writable:false,enumerable:false,configurable:false})});elementMethods.forEach(method=>{if(!Element.prototype[method])return;const fake=makeNativeLike(method,function(){return null});Object.defineProperty(Element.prototype,method,{value:fake,writable:false,enumerable:false,configurable:false})});const innerDesc=Object.getOwnPropertyDescriptor(Element.prototype,'innerHTML');Object.defineProperty(Element.prototype,'innerHTML',{get:makeNativeLike('get innerHTML',function(){return''}),set:makeNativeLike('set innerHTML',function(){}),enumerable:innerDesc?innerDesc.enumerable:true,configurable:false});if(Element.prototype.insertAdjacentHTML){const fake=makeNativeLike('insertAdjacentHTML',function(){return null});Object.defineProperty(Element.prototype,'insertAdjacentHTML',{value:fake,writable:false,enumerable:false,configurable:false})}try{Object.freeze(Node.prototype)}catch(e){}try{Object.freeze(Element.prototype)}catch(e){}},hookCanvas(){const originalGetContext=HTMLCanvasElement.prototype.getContext;HTMLCanvasElement.prototype.getContext=new Proxy(originalGetContext,{apply(target,thisArg,args){const type=args[0];if(type==='2d'||type==='webgl'||type==='webgl2'||type==='experimental-webgl'){return null}return Reflect.apply(target,thisArg,args)}})},hookDark(){const isAllowed=(url)=>{const targetUrl=new URL(url,window.location.href);const targetDomain=targetUrl.hostname;return window.location.hostname===targetDomain||targetDomain.endsWith('.'+window.location.hostname)};const originalOpen=window.open;window.open=function(url,...args){if(url&&isAllowed(url)){return originalOpen.call(window,url,...args)}return false};document.addEventListener('click',function(e){if(e.target.nodeName==='A'&&e.target.href){if(!isAllowed(e.target.href)){e.preventDefault();e.stopPropagation();e.target.remove()}}},true)},start(){if(this.running){return}if(!this.initialize){this.hookDark();this.hookDOMInsert();this.hookCanvas();this.initialize=true}this.running=true;this.initObserver();this.count=0;this.loop()},stop(){this.running=false;if(this.rafId){cancelAnimationFrame(this.rafId);this.rafId=null}if(this.observer){this.observer.disconnect();this.observer=null}}};`;
+    scp += `const KillRender={initialize:false,running:false,rafId:null,count:0,times:${settingCfg.block_times},observer:null,TAGS:new Set(${JSON.stringify(settingCfg.block_target)}),SELECTORS:${JSON.stringify(settingCfg.block_selectors)},ALL_SELECTORS: [...${JSON.stringify(settingCfg.block_target)}, ...${JSON.stringify(settingCfg.block_selectors)}].join(','),removeIfTarget(node){if(node.nodeType!==1)return;if(this.TAGS.has(node.tagName)){node.remove();return}if(node.matches&&this.SELECTORS.some(sel=>node.matches(sel))){node.remove();return}if(node.querySelectorAll){node.querySelectorAll(this.ALL_SELECTORS).forEach(el=>el.remove())}},cleanStyleSheets(){for(const sheet of document.styleSheets){let rules;try{rules=sheet.cssRules}catch(e){continue}if(!rules)continue;for(let i=rules.length-1;i>=0;i--){const rule=rules[i];if(rule.style&&rule.style.backgroundImage&&rule.style.backgroundImage.includes('url')){rule.style.backgroundImage='none'}}}},sweep(){document.querySelectorAll(this.ALL_SELECTORS).forEach(el=>el.remove());this.cleanStyleSheets()},loop(){if(!this.running)return;this.sweep();this.count++;if(this.count>=this.times){this.stop();return}this.rafId=requestAnimationFrame(()=>this.loop())},initObserver(){this.observer=new MutationObserver(mutations=>{for(const m of mutations){for(const node of m.addedNodes){this.removeIfTarget(node)}}});this.observer.observe(document.documentElement,{childList:true,subtree:true})},hookDOMInsert(){const methods=['appendChild','insertBefore','replaceChild'];methods.forEach(method=>{const original=Node.prototype[method];Node.prototype[method]=function(...args){const node=args[0];if(node&&node.tagName&&KillRender.TAGS.has(node.tagName)){return node}return original.apply(this,args)}})},hookCanvas(){const originalGetContext=HTMLCanvasElement.prototype.getContext;HTMLCanvasElement.prototype.getContext=new Proxy(originalGetContext,{apply(target,thisArg,args){const type=args[0];if(type==='2d'||type==='webgl'||type==='webgl2'||type==='experimental-webgl'){return null}return Reflect.apply(target,thisArg,args)}})},hookDark(){const isAllowed=(url)=>{const targetUrl=new URL(url,window.location.href);const targetDomain=targetUrl.hostname;return window.location.hostname===targetDomain||targetDomain.endsWith('.'+window.location.hostname)};const originalOpen=window.open;window.open=function(url,...args){if(url&&isAllowed(url)){return originalOpen.call(window,url,...args)}return false};document.addEventListener('click',function(e){if(e.target.nodeName==='A'&&e.target.href){if(!isAllowed(e.target.href)){e.preventDefault();e.stopPropagation();e.target.remove()}}},true)},start(){if(this.running){return}if(!this.initialize){this.hookDark();this.hookDOMInsert();this.hookCanvas();this.initialize=true}this.running=true;this.initObserver();this.count=0;this.loop()},stop(){this.running=false;if(this.rafId){cancelAnimationFrame(this.rafId);this.rafId=null}if(this.observer){this.observer.disconnect();this.observer=null}}};`;
     scp += `if(settingCfg.auto_block_ad){KillRender.start()}let settingCtCls=document.querySelector('.qx-fw-setting-close');`;
     scp += `settingCtCls.addEventListener('click',function(e){if(true){let stChanged=false;let autoNxtbtn=document.querySelector('#qxSetCkIP');let old=Object.assign({},settingCfg);if(autoNxtbtn.checked!==settingCfg.auto_nxt){stChanged=true;settingCfg.auto_nxt=autoNxtbtn.checked;if(settingCfg.auto_nxt){if(obv_nxt!=null){obv_nxt.observe(document.querySelector('${pnObj.next}'))}}else{if(obv_nxt!=null){obv_nxt.unobserve(document.querySelector('${pnObj.next}'))}}}let autoClrbtn=document.querySelector('#qxSetCkIP1');if(autoClrbtn.checked!==settingCfg.auto_block_ad){stChanged=true;settingCfg.auto_block_ad=autoClrbtn.checked;if(settingCfg.auto_block_ad){KillRender.start()}else{KillRender.stop()}}let autoScrollbtn=document.querySelector('#qxSetCkIP2');if(autoScrollbtn.checked!==settingCfg.auto_scroll){stChanged=true;settingCfg.auto_scroll=autoScrollbtn.checked;AutoScroller.toggle()}if(stChanged){document.addEventListener('click',function(e){if(e.target.nodeName==='A'){e.preventDefault();let am=new URL(e.target.href,window.location.origin);if(autoNxtbtn.checked!==old.auto_nxt){am.searchParams.set('auto_nxt',autoNxtbtn.checked)}if(autoClrbtn.checked!==old.auto_block_ad){am.searchParams.set('auto_block_ad',autoClrbtn.checked)}if(autoScrollbtn.checked!==old.auto_scroll){am.searchParams.set('auto_scroll',autoScrollbtn.checked)}window.location.href=am.toString()}})}}settingContainer.classList.remove('qx-fw-setting--show')});`;
     scp += `let stcpbtn=document.querySelector('.qx-qw-st-copy');stcpbtn.addEventListener('click',async(e)=>{await navigator.clipboard.writeText(document.documentElement.outerHTML)});`;
@@ -208,8 +187,8 @@ function applyFloatyW(html) {
     };
 }
 function calcFwSearchParam() {
-    if (url.includes('?')) {
-        let am = new URL(url);
+    if ($request.url.includes('?')) {
+        let am = new URL($request.url);
         if (am.searchParams.size > 0) {
             let sfchanged = false;
             const flagCkS = (str) => str === 'true';
@@ -225,9 +204,9 @@ function calcFwSearchParam() {
                 sfchanged = true;
                 settingCfg.auto_scroll = flagCkS(am.searchParams.get('auto_scroll'));
             }
-            if (settingCfg.debug && sfchanged) {
+            if (sfchanged) {
                 console.log('change setting');
-                $prefs.setValueForKey(JSON.stringify(settingCfg), cfg_key);
+                $prefs.setValueForKey(JSON.stringify(settingCfg), 'qx-fw-dfs_');
             }
         }
     }
@@ -283,6 +262,7 @@ function calcPrvANex(html) {
         dir: dirSelector
     }
 }
+
 function calcQWStyle() {
     let size = 4;
     let tmpStr = ".qx-qw{all:initial;--size:48px;--itemSize:36px;background:transparent !important;border-radius:50%;position:fixed;z-index:9999;top:50%;transform:translateY(-50%);width:var(--size);height:var(--size);display:flex;justify-content:center;align-items:center}.qx-qw-left{left:3px;right:'auto'}.qx-qw-right{right:3px;left:'auto'}";
