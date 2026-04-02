@@ -1,12 +1,12 @@
 /**
- * version fsd57.14
+ * version fsd57.5
  * createBy： theload9638
  * 配合使用 https://raw.githubusercontent.com/theload9638/myScripts/main/filters/block.list
  * Quantumultx|网页去广告,支持部分小说/漫画
  * 配合settingCfg自定义页面去广告规则
  * 内置悬浮窗(残血版)
  *   - 上页/目录/下页/设置
- *   - 支持自动向下滚动/自动下一页(部分页面)/强力杀广告(1.0)
+ *   - 支持自动向下滚动/自动下一页(部分页面)/强力杀广告
  *   - 未来计划：webStoragePreviewUI / webDebugUI /...
  */
 const url = $request.url;
@@ -20,7 +20,7 @@ let defaultSetting = {
     'scroll_delay': 2000,
     'block_times': 50,
     'block_target': ['IMG', 'VIDEO', 'IFRAME', 'OBJECT', 'EMBED', 'AUDIO', 'PICTURE', 'SOURCE', 'SVG', 'IMAGE', 'FRAME', 'INS'],
-    'block_selectors': ['*[style*="background"]', '*[style*="display"]','*[style*="opacity"]','*[style*="margin: 0"]', '*[style*="z-index"]','*[style*="padding: 0"]'],
+    'block_selectors': ['*[style*="opacity"]', '*[style*="background"]', '*[style*="z-index"]', '*[style*="display"]', '*[style*="margin: 0px"]', '*[style*="padding: 0px"]'],
     'prev_texts': ['上一章', '上一页', '上一章节', '上一话', '上一篇'],
     'next_texts': ['下一章', '下一页', '下一章节', '下一话', '下一篇'],
     'dir_texts': ['目录', '全部章节', '章节目录'],
@@ -64,14 +64,17 @@ if ($response.statusCode === 200 && (url.includes('html') || (type && type.inclu
     }
     const newHeaders = { ...$response.headers };
     let domains = [
-        'banner','textad','adBlock','javlib','_ad','ads','/ad','logo',
-        'ad-body','-ad','javascript:void(0)','popup','collect','analysis'
+        'banner','ad-provider','textad','adBlock',
+        'javlib','_ad','ads','/ad','logo',
+        'ad-body','-ad','javascript:void(0)',
+        'popup',
+        'collect','analysis'
     ];
     if (Array.isArray(settingCfg.domains) && settingCfg.domains.length > 0) {
         domains = domains.concat(settingCfg.domains);
     }
     const escapeRegExp = (str) => str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-    let styleStr = ['ins,iframe,frame,[rel*="noopener"],*[data-show],.div-bf-pv, .a_d_sidebar,#a_d_sidebar,#popadv_popmenu,.popadv_popmenu,#popadv_code,.popadv_code,#billboard-modal,#onclickshowdiv,.adv-6park,.view_ad_incontent,#smx_wrap,#aswift_9,#aswift_9_host,.modal-backdrop,.place_holder_box,.dmca_box,a:has(img[src*="gif"]),#guide-modal,#ad_iframe,.c835e-33_e,.float-right-daily,.exo_wrapper_show,.web-right-float-button,#exo-native-widget-5098390-adX3C,.float-right-image,.tui,.exo-native-widget,.exo-native-widget-outer-container,.group-notice,.bYtYBpFi,.tmwac,#announceinfo,.slide-ad,#slide-ad,.recoBox2,.tuijian,.btnErrorW,.pHS5vbgQ_main_outstream,.vote-section,.root--26nWL,.bottomRight--h0VsQ,.slideAnimation--2ih2G,#comments,#comment_list,video,.comment-section,.banner_box,#opSOzAp,audio,#__copy,.subtitle-container,.ai-detection-feedback,.ad_float,.ad_list_top,#infoad,div[data-ad],.banner,.ad-body,.logo_box,.ad_encode,#ad_encode,#ad-body,#banner,.ad-video,#video-ad-ui,.copyright,.GoogleActiveViewInnerContainer,.adsbygoogle,.adsbygoogle-noablate,.google-auto-placed,#ad-video,#ad-container,.adBlock,#adBlock,.ad-mob,#ad-mob,.mobile-ad,#mobile-ad,.m-ad,#m-ad,.popup,.ads,#ads,.advertisement,#advertisement,embed,object,.ad,.ad-container,.ad-wrap,#ad-wrap,.ad-box,#ad-box,#ad,.footer,#footer{display:none !important;pointer-events: none !important;}'];
+    let styleStr = ['ins,iframe,frame,#popadv_popmenu,.popadv_popmenu,#popadv_code,.popadv_code,#billboard-modal,#onclickshowdiv,.adv-6park,.view_ad_incontent,#smx_wrap,#aswift_9,#aswift_9_host,.modal-backdrop,.place_holder_box,.dmca_box,a:has(img[src*="gif"]),#guide-modal,#ad_iframe,.c835e-33_e,.float-right-daily,.exo_wrapper_show,.web-right-float-button,#exo-native-widget-5098390-adX3C,.float-right-image,.tui,.exo-native-widget,.exo-native-widget-outer-container,.group-notice,.bYtYBpFi,.tmwac,#announceinfo,.slide-ad,#slide-ad,.recoBox2,.tuijian,.btnErrorW,.pHS5vbgQ_main_outstream,.vote-section,.root--26nWL,.bottomRight--h0VsQ,.slideAnimation--2ih2G,#comments,#comment_list,video,.comment-section,.banner_box,#opSOzAp,audio,#__copy,.subtitle-container,.ai-detection-feedback,.ad_float,.ad_list_top,#infoad,div[data-ad],.banner,.ad-body,.logo_box,.ad_encode,#ad_encode,#ad-body,#banner,.ad-video,#video-ad-ui,.copyright,.GoogleActiveViewInnerContainer,.adsbygoogle,.adsbygoogle-noablate,.google-auto-placed,#ad-video,#ad-container,.adBlock,#adBlock,.ad-mob,#ad-mob,.mobile-ad,#mobile-ad,.m-ad,#m-ad,.popup,.ads,#ads,.advertisement,#advertisement,embed,object,.ad,.ad-container,.ad-wrap,#ad-wrap,.ad-box,#ad-box,#ad,.footer,#footer{display:none !important;pointer-events: none !important;}'];
     let bodyStr = '';
     try {
         let charsetRes = /<meta[^>]*?charset\s*=\s*(['"]?)([^>'"]+)\1?/i.exec(html);
@@ -80,7 +83,11 @@ if ($response.statusCode === 200 && (url.includes('html') || (type && type.inclu
         if (/utf-?8/i.test(charset) || charset.toLowerCase().startsWith('utf')) {
             if (url.includes('m.diyibanzhu')) {
                 settingCfg.auto_block_ad = true;
-            } 
+            } else if (url.includes('www.tongrenxsw.com')) {
+                domains.splice(domains.indexOf('popup'), 1);
+            } else if (/https?:\/\/(18comic|jmcomic-zzz)\.(vip|ink|one|org)/.test(url)) {
+                styleStr.push('.thewayhome,.top-nav,.div-bf-pv{display:none !important;pointer-events: none !important;}');
+            }
         } else {
             utf8Flag = false;
             html = new TextDecoder(charset, { fatal: false, ignoreBOM: true }).decode(new Uint8Array($response.bodyBytes));
@@ -88,7 +95,7 @@ if ($response.statusCode === 200 && (url.includes('html') || (type && type.inclu
             if(type.includes(charset)){
                 newHeaders['Content-Type']=type.replace(charset,'utf-8');
             }
-            bodyStr+=`<script>for(let i of document.forms){if(!i.acceptCharset){i.acceptCharset='${charset}'}}</script>`;
+            bodyStr+=`<script>for(let i of document.forms){i.acceptCharset='${charset}';}</script>`;
         }
         if (html.includes('<iframe') || html.includes('<ins') || html.includes('<embed') || html.includes('<object')) {
             html = html.replace(/<(ins|object|embed|iframe|frame)[^>]*?>[\s\S]*?<\/\1>/gi, '');
@@ -138,11 +145,11 @@ if ($response.statusCode === 200 && (url.includes('html') || (type && type.inclu
             $done({ headers: newHeaders, body: html });
         }
     } catch (e) {
-        console.log(`error: ${e.message}`);
+        console.log(`Run Error: ${e.message}`);
         $done({});
     }
 } else {
-    console.log(`ignored= ${type} ${$response.statusCode}`);
+    console.log(`ignored,type=${type},code=${$response.statusCode}`);
     $done({});
     return;
 }
