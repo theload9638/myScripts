@@ -10,7 +10,7 @@
  *   - 未来计划：webStoragePreviewUI / webDebugUI /...
  */
 const url = $request.url;
-const cfg_key='qx-fw-dfs_';
+const cfg_key = 'qx-fw-dfs_';
 let type = $response.headers['Content-Type'];
 const stf_special_key = 'special';
 let defaultSetting = {
@@ -35,7 +35,8 @@ let defaultSetting = {
     'bodyStr': '',
     'debug': false,
     'preBlock': 350,
-    'enable_proxy': true
+    'enable_proxy': true,
+    'enable_floatyW': true
 };
 var settingCfg = {};
 if ($response.statusCode === 200 && (url.includes('html') || (type && type.includes("text")))) {
@@ -81,7 +82,7 @@ if ($response.statusCode === 200 && (url.includes('html') || (type && type.inclu
         if (!utf8Flag) {
             html = new TextDecoder(charset, { fatal: false, ignoreBOM: true }).decode(new Uint8Array($response.bodyBytes));
             html = html.replace(charset, 'utf-8');
-            if (type.includes(charset)) { newHeaders['Content-Type']=type.replace(charset, 'utf-8'); }
+            if (type.includes(charset)) { newHeaders['Content-Type'] = type.replace(charset, 'utf-8'); }
             bodyStr += `<script>for(let i of document.forms){if(!i.acceptCharset){i.acceptCharset='${charset}'}}</script>`;
         }
         if (html.includes('<iframe') || html.includes('<ins') || html.includes('<embed') || html.includes('<object')) {
@@ -93,15 +94,17 @@ if ($response.statusCode === 200 && (url.includes('html') || (type && type.inclu
         if (settingCfg.enable_proxy) {
             configProxy(url);
         }
-        try {
-            let fyobj = applyFloatyW(html);
-            bodyStr += fyobj.bodyStr;
-            styleStr.push(fyobj.styleStr);
-        } catch (e) {
-            console.log('fail apply floatyWindow : ' + e.message);
+        if (settingCfg.enable_floatyW) {
+            try {
+                let fyobj = applyFloatyW(html);
+                bodyStr += fyobj.bodyStr;
+                styleStr.push(fyobj.styleStr);
+            } catch (e) {
+                console.log('fail apply floatyWindow : ' + e.message);
+            }
         }
-        if (settingCfg.bodyStr){bodyStr +=settingCfg.bodyStr;}
-        if (bodyStr) {html=html.replace(/<\/body>/, bodyStr + '</body>');}
+        if (settingCfg.bodyStr) { bodyStr += settingCfg.bodyStr; }
+        if (bodyStr) { html = html.replace(/<\/body>/, bodyStr + '</body>'); }
         if (styleStr && styleStr.length > 0) {
             if (settingCfg.enableBgColor) {
                 styleStr.push('*{background-color: ' + settingCfg.bgColor + ' !important;background-image: none !important;color: ' + settingCfg.baseColor + ' !important; font-size: ' + settingCfg.fontSize + 'px !important;}');
@@ -223,7 +226,7 @@ function calcFwSearchParam() {
             }
             if (settingCfg.debug && sfchanged) {
                 console.log('change setting');
-                $prefs.setValueForKey(JSON.stringify(settingCfg),cfg_key);
+                $prefs.setValueForKey(JSON.stringify(settingCfg), cfg_key);
             }
         }
     }
