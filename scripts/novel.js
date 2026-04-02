@@ -1,5 +1,5 @@
 /**
- * version fsd57.5
+ * version fsd57.22-fix
  * createBy： theload9638
  * 配合使用 https://raw.githubusercontent.com/theload9638/myScripts/main/filters/block.list
  * Quantumultx|网页去广告,支持部分小说/漫画
@@ -67,9 +67,7 @@ if ($response.statusCode === 200 && (url.includes('html') || (type && type.inclu
     }
     const newHeaders = { ...$response.headers };
     let domains = [
-        'banner','ad-provider','textad',
-        'javlib','_ad','ads','/ad','ad-body','-ad','javascript:void(0)',
-        'popup','collect','analysis'
+        'banner','textad','javlib','_ad','ads','/ad','ad-body','-ad','javascript:void(0)','popup'
     ];
     if (Array.isArray(settingCfg.domains) && settingCfg.domains.length > 0) {
         domains = domains.concat(settingCfg.domains);
@@ -80,7 +78,7 @@ if ($response.statusCode === 200 && (url.includes('html') || (type && type.inclu
     try {
         let charsetRes = /<meta[^>]*?charset\s*=\s*(['"]?)([^>'"]+)\1?/i.exec(html);
         let charset = charsetRes?.[2]?.trim() || 'utf8';
-        const utf8Flag = /^utf-?8/i.test(charset);
+        const utf8Flag = /utf-?8/i.test(charset);
         if (!utf8Flag) {
             html = new TextDecoder(charset, { fatal: false, ignoreBOM: true }).decode(new Uint8Array($response.bodyBytes));
             html = html.replace(charset, 'utf-8');
@@ -97,7 +95,7 @@ if ($response.statusCode === 200 && (url.includes('html') || (type && type.inclu
         html = html.replace(new RegExp(`<([a-zA-Z0-9]+)\\s+[^>]*?(src|href|class|id)\\s*=\\s*(['"])[^'"]*?(?:${(domains.map(escapeRegExp).join('|'))})[^'"]*?\\3[^>]*?>`, 'gi'), '<$1 style="display:none !important;pointer-events: none !important;">');
 
         if (settingCfg.enable_proxy) {
-            configProxy();
+            configProxy($request.url);
             if(settingCfg.ignore){
                 $done({});
                 return;
