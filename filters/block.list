@@ -1,5 +1,19 @@
 #block antiAd-others ad/track/log/httpdns
 
+
+host-suffix, qkpyqx.com, reject
+host,ulogjs.ksapisrv.com,reject
+host,ad-collect.hzyoka.com,reject
+host,applog-perf.lc.quark.cn,reject
+host,loggw-exsdk.alipay.com,reject
+host,testapp.clientaccess.10086.cn,reject
+host,dnlog.cmpassport.com,reject
+host,uem.migu.cn,reject
+host,qpic.ws,reject
+host,analytics.googlie.vip,reject
+host,tu.ymawv.la,reject
+host,pics.dmm.co.jp,reject
+
 #jd log/report/monitor
 host, perf.m.jd.com, reject
 host, ex.m.jd.com, reject
