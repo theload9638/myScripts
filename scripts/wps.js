@@ -44,8 +44,8 @@ try {
             bd.vips = [
                 {
                     "sku_key": "12",
-                    "expire_time": 9176639469,
-                    "effect_time": 9176639469,
+                    "expire_time": 4092599349,
+                    "effect_time": 4092599349,
                     "name": "稻壳会员",
                     "enable": null,
                     "memberid": '12',
@@ -54,8 +54,8 @@ try {
                 },
                 {
                     "sku_key": "20",
-                    "expire_time": 9176639469,
-                    "effect_time": 9176639469,
+                    "expire_time": 4092599349,
+                    "effect_time": 4092599349,
                     "name": "WPS会员",
                     "memberid": '20',
                    "enable": null,
@@ -65,8 +65,8 @@ try {
                 {
                     "sku_key": "40",
                     "memberid": '40',
-                    "expire_time": 9176639469,
-                    "effect_time": 9176639469,
+                    "expire_time": 4092599349,
+                    "effect_time": 4092599349,
                     "name": "超级会员",
                     "enable": null,
                     "has_ad": 0,
@@ -74,8 +74,8 @@ try {
                 },
                 {
                     "sku_key": "vip_pro_plus",
-                    "expire_time": 9176639469,
-                    "effect_time": 9176639469,
+                    "expire_time": 4092599349,
+                    "effect_time": 4092599349,
                     "name": "WPS超级会员Pro套餐",
                     "enable": null,
                     "has_ad": 0,
@@ -110,8 +110,8 @@ try {
                 },
                 {
                     "sku_key": "cloud_space",
-                    "expire_time": 9176639469,
-                    "effect_time": 9176639469,
+                    "expire_time": 4092599349,
+                    "effect_time": 4092599349,
                     "name": "个人空间（赠送）",
                     "type": "privilege"
                 }
@@ -138,42 +138,42 @@ try {
     } else if (url.includes('/list_purchase_info')) {
         bd.data.merchandises = [
             {
+                "sku_key": "vip_pro",
+                'memberid': '40',
+                "expire_time": 4092599349,
+                "effect_time": 4092599349,
+                "name": "超级会员",
+                "type": "vip"
+            },
+            {
+                "sku_key": "vip_pro_plus",
+                "expire_time": 4092599349,
+                "effect_time": 4092599349,
+                "name": "WPS超级会员Pro套餐",
+                "type": "vip"
+            },
+            {
+                "sku_key": "cloud_space",
+                "expire_time": 4092599349,
+                "effect_time": 4092599349,
+                "name": "个人空间（赠送）",
+                "type": "privilege"
+            },
+               {
                 "sku_key": "12",
                 'memberid': '12',
-                "expire_time": 9176639469,
-                "effect_time": 9176639469,
+                "expire_time": 4092599349,
+                "effect_time": 4092599349,
                 "name": "稻壳会员",
                 "type": "vip"
             },
             {
                 "sku_key": "vip",
                 'memberid': '20',
-                "expire_time": 9176639469,
-                "effect_time": 9176639469,
+                "expire_time": 4092599349,
+                "effect_time": 4092599349,
                 "name": "WPS会员",
                 "type": "vip"
-            },
-            {
-                "sku_key": "vip_pro",
-                'memberid': '40',
-                "expire_time": 9176639469,
-                "effect_time": 9176639469,
-                "name": "超级会员",
-                "type": "vip"
-            },
-            {
-                "sku_key": "vip_pro_plus",
-                "expire_time": 9176639469,
-                "effect_time": 9176639469,
-                "name": "WPS超级会员Pro套餐",
-                "type": "vip"
-            },
-            {
-                "sku_key": "cloud_space",
-                "expire_time": 9176639469,
-                "effect_time": 9176639469,
-                "name": "个人空间（赠送）",
-                "type": "privilege"
             }
         ];
     }else if(url.includes('/mp/subscribe/wps_vip')){
