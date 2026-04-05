@@ -1,6 +1,9 @@
 /*
 
-
+ #!name=wps 增强
+ #!author=theload9638
+ #!desc=本地解锁+功能增强
+ #!version=12.42.0
 
 [mitm]
 hostname = vas.wps.cn,www.kdocs.cn,moapi.wps.cn,clouddoc.wps.cn,account.wps.cn,vasclt.wps.cn，docer-api.wps.cn,drive.wps.cn,vip.wps.cn
