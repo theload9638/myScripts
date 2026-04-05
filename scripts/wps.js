@@ -182,7 +182,7 @@ try {
             bd.result='ok';
         }
     }else if(url.includes('/v3/spaces')){
-        i.total=1100585369600;
+        bd.total=1100585369600;
     }
     $done({ body: JSON.stringify(bd) });
 } catch (e) {
