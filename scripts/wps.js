@@ -20,10 +20,11 @@ hostname = vas.wps.cn,www.kdocs.cn,moapi.wps.cn,clouddoc.wps.cn,account.wps.cn,v
 ^https?:\/\/vasclt\.wps\.cn\/csp-report url reject-200
 #vip
 ^https?:\/\/account\.wps\.cn\/api\/v3\/mine\/vips\? url script-response-body https://raw.githubusercontent.com/theload9638/myScripts/main/scripts/wps.js
-^https?:\/\/account\.wps\.cn\/p\/auth\/check url jsonjq-response-body '.is_plus=true'
+^https?:\/\/account\.wps\.cn\/p\/auth\/check url jsonjq-response-body '.is_plus=true|.account_num=1'
 ^https?:\/\/docer-api\.wps\.cn\/proxy\/userinfo\/user\/v1\/vip_dl_times\?rmsp= url script-response-body https://raw.githubusercontent.com/theload9638/myScripts/main/scripts/wps.js
 ^https?:\/\/drive\.wps\.cn\/api\/v3\/userinfo url script-response-body https://raw.githubusercontent.com/theload9638/myScripts/main/scripts/wps.js
 ^https?:\/\/vip\.wps\.cn\/partner\/invoke\/usable url script-response-body https://raw.githubusercontent.com/theload9638/myScripts/main/scripts/wps.js
+^https?:\/\/vip\.wps\.cn\/vip_pay\/v1\/contract\/expire_data url script-response-body https://raw.githubusercontent.com/theload9638/myScripts/main/scripts/wps.js
 ^https?:\/\/vas\.wps\.cn\/query\/api\/v1\/list_purchase_info\? url script-response-body https://raw.githubusercontent.com/theload9638/myScripts/main/scripts/wps.js
 ^https?:\/\/vas\.wps\.cn\/wx_adapter\/v1\/mp\/subscribe\/wps_vip url script-response-body https://raw.githubusercontent.com/theload9638/myScripts/main/scripts/wps.js
 #空间
@@ -47,7 +48,6 @@ try {
                     "expire_time": 4092599349,
                     "effect_time": 4092599349,
                     "name": "稻壳会员",
-                    "enable": null,
                     "memberid": '12',
                     "has_ad": 0,
                     "type": "vip"
@@ -58,7 +58,15 @@ try {
                     "effect_time": 4092599349,
                     "name": "WPS会员",
                     "memberid": '20',
-                   "enable": null,
+                    "has_ad": 0,
+                    "type": "vip"
+                },
+                {
+                    "sku_key": "14",
+                    "expire_time": 4092599349,
+                    "effect_time": 4092599349,
+                    "name": "团队会员",
+                    "memberid": '14',
                     "has_ad": 0,
                     "type": "vip"
                 },
@@ -68,7 +76,6 @@ try {
                     "expire_time": 4092599349,
                     "effect_time": 4092599349,
                     "name": "超级会员",
-                    "enable": null,
                     "has_ad": 0,
                     "type": "vip"
                 },
@@ -77,7 +84,6 @@ try {
                     "expire_time": 4092599349,
                     "effect_time": 4092599349,
                     "name": "WPS超级会员Pro套餐",
-                    "enable": null,
                     "has_ad": 0,
                     "type": "vip"
                 }
@@ -130,7 +136,7 @@ try {
         bd = {
             result: 'ok',
             data: {
-                'now': (new Date()).getTime(),
+                'now': bd?.data?.now|(new URL(url).searchParams.get('_iostime'))|(new Date()).getTime(),
                 'times': 'infinite',
                 'expire_time': 91766394691823
             }
@@ -176,6 +182,7 @@ try {
                 "type": "vip"
             }
         ];
+        bd.code=0;
     }else if(url.includes('/mp/subscribe/wps_vip')){
         if(bd.result.includes('error')){
             bd.msg='ok';
@@ -183,6 +190,16 @@ try {
         }
     }else if(url.includes('/v3/spaces')){
         bd.total=1100585369600;
+    }else if(url.includes('/vip_pay/v1/contract')){
+        bd={
+            'result':'ok',
+            'data':{
+                'server_time':(new Date()).getTime(),
+                'contract_data':[]
+            },
+            'traceid':bd.traceid,
+            'msg':''
+        };
     }
     $done({ body: JSON.stringify(bd) });
 } catch (e) {
