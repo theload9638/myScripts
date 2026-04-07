@@ -35,6 +35,8 @@ if (flag && url) {
             } else {
                 console.log('签到失败')
             }
+        }).catch(e=>{
+            console.log(`签到异常：`+e);
         }).finally(() => {
             $done({});
         });
