@@ -2,6 +2,7 @@
 
 let key = 'shoushuba'
 let url = undefined;
+let host = 'vfd3.vdf5ge5a.com';
 
 let flag = globalThis.hasOwnProperty('$request');
 if (flag) {
@@ -21,13 +22,13 @@ if (flag && url) {
     let ck = $prefs.valueForKey(key);
     if (ck) {
         post({
-            url: 'https://b2kk.brs5d7fw.com/home.php?mod=spacecp&ac=pm&op=checknewpm&rand=' + rand,
+            url: 'https://'+host+'/home.php?mod=spacecp&ac=pm&op=checknewpm&rand=' + rand,
             method: 'GET',
             headers: {
-                'Host': 'b2kk.brs5d7fw.com',
+                'Host': host,
                 'User-Agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 18_5 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/18.5 Mobile/15E148 Safari/604.1 Edg/146.0.0.0',
                 'Cookie': ck,
-                'Referer': 'https://b2kk.brs5d7fw.com/home.php?mod=space&do=profile&mycenter=1&mobile=2',
+                'Referer': 'https://'+host+'/home.php?mod=space&do=profile&mycenter=1&mobile=2',
                 'Sec-Fetch-Dest': 'script',
                 'Sec-Fetch-Mode': 'no-cors'
             }
