@@ -1,6 +1,9 @@
 # fix rule
 # 规则修正
 
+host, uc.cmd, direct
+host-suffix,keeprisk.com,direct
+
 host-suffix,ynuf.aliapp.org,direct
 
 host-wildcard,tnc*-alisc*.zijieapi.com,direct
