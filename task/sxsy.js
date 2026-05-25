@@ -1,6 +1,6 @@
 //尚香书苑签到 >> Qx脚本
-let key = 'sxsy18'
-let web = 'sxsy18.com';
+let key = 'sxsy13'
+let web = 'sxsy13.com';
 let baseUrl = 'https://' + web + '/';
 let url = undefined;
 
