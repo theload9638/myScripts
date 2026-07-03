@@ -2,7 +2,7 @@
 
 let key = 'shoushuba'
 let url = undefined;
-let host = 'mu3h.vr6erw5d.com';
+let host = 'vv9b.vbrwd4qd356.com';
 
 let flag = globalThis.hasOwnProperty('$request');
 if (flag) {

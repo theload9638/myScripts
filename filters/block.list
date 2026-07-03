@@ -1,5 +1,6 @@
 #block antiAd-others ad/track/log/httpdns
 
+host-suffix,campfirecroutondecorator.com,reject
 
 host-suffix, qkpyqx.com, reject
 host,ulogjs.ksapisrv.com,reject
